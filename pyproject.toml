@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "devflow-ai"
+version = "0.1.0"
+description = "DevFlow AI workflow engine core"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+devflow = "devflow.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["devflow*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
