@@ -1,0 +1,30 @@
+rc=0
+stdout={
+  "id": "dec-8133342325b9",
+  "workflow_id": "wf-c8027ec483db",
+  "node_id": "handoff",
+  "decision_type": "approval",
+  "question": "Approve the handoff?",
+  "status": "RESOLVED",
+  "context": {
+    "reason": "Human approval is required",
+    "recommended": "approve",
+    "risk": "low",
+    "summary": "Node 'handoff' is ready to proceed to 'finalize'. Research node completed with verification_passed=true."
+  },
+  "options": [
+    {
+      "id": "approve",
+      "label": "Approve"
+    }
+  ],
+  "selected_option": "approve",
+  "decision_payload": {},
+  "created_at": "2026-11-21T09:21:07+00:00",
+  "resolved_at": "2026-11-21T09:21:08+00:00",
+  "resolved_by": "cli",
+  "expires_at": null,
+  "note": null
+}
+
+stderr=

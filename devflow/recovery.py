@@ -127,6 +127,13 @@ class RecoveryManager:
                     run = self.store.update_agent_run(
                         run.id, AgentRunStatus.INTERRUPTED, error=reason
                     )
+                    self.store.append_event(
+                        workflow_id,
+                        "node.interrupted",
+                        {"agent_run_id": run.id, "reason": reason},
+                        node_id=node.id,
+                        actor="recovery",
+                    )
                 except InvalidTransition:
                     # The manager committed a terminal result between our read
                     # and this write; use the authoritative row.

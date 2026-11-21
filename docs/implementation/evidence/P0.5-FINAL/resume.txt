@@ -1,0 +1,1413 @@
+rc=0
+stdout={
+  "workflow": {
+    "id": "wf-c8027ec483db",
+    "name": "P0.5 final E2E",
+    "goal": "Real Claude DAG with crash recovery, handoff and dynamic human decision.",
+    "status": "COMPLETED",
+    "context": {},
+    "error": null,
+    "created_at": "2026-11-21T09:20:27+00:00",
+    "updated_at": "2026-11-21T09:21:37+00:00",
+    "started_at": "2026-11-21T09:20:27+00:00",
+    "finished_at": "2026-11-21T09:21:37+00:00"
+  },
+  "node_counts": {
+    "SUCCEEDED": 3
+  },
+  "pending_decisions": [],
+  "latest_checkpoint": {
+    "id": "ckpt-30a070d13ec2",
+    "workflow_id": "wf-c8027ec483db",
+    "node_id": null,
+    "reason": "completed",
+    "sequence": 9,
+    "state_snapshot": {
+      "agent_runs": [
+        {
+          "adapter": "claude-code",
+          "attempt": 1,
+          "error": "agent process exited or pid was reused",
+          "exit_code": null,
+          "finished_at": "2026-11-21T09:20:30+00:00",
+          "heartbeat_at": "2026-11-21T09:20:30+00:00",
+          "id": "run-5b814679511f",
+          "metadata": {
+            "node_name": "research"
+          },
+          "node_id": "research",
+          "output": "",
+          "pid": 33272,
+          "process_start_time": "win:134397264274192897",
+          "prompt": "Reply with exactly the token FINAL-5F50EAFD5A and nothing else. Do not create files. Do not use tools.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace\\.devflow\\decisions\\research.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-c8027ec483db\",\n  \"goal\": \"Real Claude DAG with crash recovery, handoff and dynamic human decision.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"research\",\n  \"progress\": {\n    \"total\": 3,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 2,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"research\",\n      \"name\": \"research\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [\n    {\n      \"id\": \"finalize\",\n      \"name\": \"finalize\"\n    },\n    {\n      \"id\": \"handoff\",\n      \"name\": \"handoff\"\n    }\n  ],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node research\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 8,\n    \"workflow_id\": \"wf-c8027ec483db\",\n    \"node_id\": \"research\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:20:27+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-220\\\\test_p05_final_real_e2e0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+          "started_at": "2026-11-21T09:20:27+00:00",
+          "status": "INTERRUPTED",
+          "timeout_seconds": 240.0,
+          "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace",
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "adapter": "claude-code",
+          "attempt": 2,
+          "error": null,
+          "exit_code": 0,
+          "finished_at": "2026-11-21T09:20:45+00:00",
+          "heartbeat_at": "2026-11-21T09:20:45+00:00",
+          "id": "run-86973f2f8f90",
+          "metadata": {
+            "parsed": {
+              "api_error_status": null,
+              "duration_api_ms": 11181,
+              "duration_ms": 11383,
+              "fast_mode_disabled_reason": "sdk_opt_in_required",
+              "fast_mode_state": "off",
+              "first_content_frame_ms": 10218,
+              "is_error": false,
+              "modelUsage": {
+                "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                  "cacheCreationInputTokens": 0,
+                  "cacheReadInputTokens": 256,
+                  "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                  "contextWindow": 1000000,
+                  "costBasis": "unknown",
+                  "costUSD": 0.217638,
+                  "inputTokens": 42797,
+                  "maxOutputTokens": 32000,
+                  "outputTokens": 141,
+                  "provider": "firstParty",
+                  "thinkingTokens": 0,
+                  "webSearchRequests": 0
+                }
+              },
+              "num_turns": 1,
+              "permission_denials": [],
+              "queued_turn_count": 0,
+              "result": "FINAL-5F50EAFD5A",
+              "result_index": 0,
+              "safety_stops": 0,
+              "session_id": "1e7653ea-57f7-42a8-84f9-a59cd1c59cc4",
+              "stop_reason": "end_turn",
+              "subagent_stats": {
+                "by_type": {},
+                "completed": 0,
+                "failed": 0,
+                "killed": {
+                  "parent": 0,
+                  "system": 0,
+                  "user": 0
+                },
+                "max_depth": 0,
+                "refused": {
+                  "budget": 0,
+                  "concurrency_limit": 0,
+                  "depth_limit": 0
+                },
+                "requested": {
+                  "background": 0,
+                  "foreground": 0,
+                  "unset": 0
+                },
+                "spawned": 0,
+                "spawned_by_subagents": 0,
+                "started_in_background": 0
+              },
+              "subtype": "success",
+              "terminal_reason": "completed",
+              "time_to_request_ms": 215,
+              "total_cost_usd": 0.217638,
+              "ttft_ms": 11284,
+              "ttft_stream_ms": 10216,
+              "type": "result",
+              "usage": {
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 256,
+                "fallback_credit": null,
+                "inference_geo": "",
+                "input_tokens": 42797,
+                "iterations": [],
+                "output_tokens": 141,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_fetch_requests": 0,
+                  "web_search_requests": 0
+                },
+                "service_tier": "standard",
+                "speed": "standard"
+              },
+              "uuid": "aae774ad-d1ec-43fb-8565-8ecca294fbe3"
+            },
+            "pid": 28444,
+            "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+          },
+          "node_id": "research",
+          "output": "{\"duration_api_ms\":11181,\"stop_reason\":\"end_turn\",\"session_id\":\"1e7653ea-57f7-42a8-84f9-a59cd1c59cc4\",\"total_cost_usd\":0.217638,\"usage\":{\"input_tokens\":42797,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":256,\"output_tokens\":141,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":42797,\"outputTokens\":141,\"cacheReadInputTokens\":256,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.217638,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":1,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"FINAL-5F50EAFD5A\",\"ttft_ms\":11284,\"type\":\"result\",\"duration_ms\":11383,\"uuid\":\"aae774ad-d1ec-43fb-8565-8ecca294fbe3\",\"ttft_stream_ms\":10216,\"time_to_request_ms\":215,\"first_content_frame_ms\":10218,\"queued_turn_count\":0,\"result_index\":0}",
+          "pid": 28444,
+          "process_start_time": "win:134397264310726557",
+          "prompt": "Reply with exactly the token FINAL-5F50EAFD5A and nothing else. Do not create files. Do not use tools.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace\\.devflow\\decisions\\research.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-c8027ec483db\",\n  \"goal\": \"Real Claude DAG with crash recovery, handoff and dynamic human decision.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"research\",\n  \"progress\": {\n    \"total\": 3,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 2,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"research\",\n      \"name\": \"research\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [\n    {\n      \"id\": \"finalize\",\n      \"name\": \"finalize\"\n    },\n    {\n      \"id\": \"handoff\",\n      \"name\": \"handoff\"\n    }\n  ],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node research\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 18,\n    \"workflow_id\": \"wf-c8027ec483db\",\n    \"node_id\": \"research\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:20:31+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-220\\\\test_p05_final_real_e2e0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+          "started_at": "2026-11-21T09:20:31+00:00",
+          "status": "SUCCEEDED",
+          "timeout_seconds": 240.0,
+          "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace",
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "adapter": "claude-code",
+          "attempt": 1,
+          "error": null,
+          "exit_code": 0,
+          "finished_at": "2026-11-21T09:21:07+00:00",
+          "heartbeat_at": "2026-11-21T09:21:07+00:00",
+          "id": "run-ced2f64c3954",
+          "metadata": {
+            "parsed": {
+              "api_error_status": null,
+              "duration_api_ms": 19134,
+              "duration_ms": 19433,
+              "fast_mode_disabled_reason": "sdk_opt_in_required",
+              "fast_mode_state": "off",
+              "first_content_frame_ms": 12327,
+              "is_error": false,
+              "modelUsage": {
+                "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                  "cacheCreationInputTokens": 0,
+                  "cacheReadInputTokens": 43392,
+                  "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                  "contextWindow": 1000000,
+                  "costBasis": "unknown",
+                  "costUSD": 0.249746,
+                  "inputTokens": 43470,
+                  "maxOutputTokens": 32000,
+                  "outputTokens": 428,
+                  "provider": "firstParty",
+                  "thinkingTokens": 0,
+                  "webSearchRequests": 0
+                }
+              },
+              "num_turns": 2,
+              "permission_denials": [],
+              "queued_turn_count": 0,
+              "result": "Phase 1 applied — the continuation context contains no `approved_decision`.\n\nWrote the approval request to `.devflow/decisions/handoff.json` (question \"Approve the handoff?\", `decision_type: approval`, option `approve`, recommended `approve`, risk `low`). I did **not** create `handoff.txt`, and I'm stopping here so the engine can persist the decision and resume the node.\n\nSkipped: Phase 2 token extraction (pending approval). Risk: none to the repo — the only artifact is the decision JSON.",
+              "result_index": 0,
+              "safety_stops": 0,
+              "session_id": "815e163d-e7bc-4629-8c34-d1e95f4b9bb4",
+              "stop_reason": "end_turn",
+              "subagent_stats": {
+                "by_type": {},
+                "completed": 0,
+                "failed": 0,
+                "killed": {
+                  "parent": 0,
+                  "system": 0,
+                  "user": 0
+                },
+                "max_depth": 0,
+                "refused": {
+                  "budget": 0,
+                  "concurrency_limit": 0,
+                  "depth_limit": 0
+                },
+                "requested": {
+                  "background": 0,
+                  "foreground": 0,
+                  "unset": 0
+                },
+                "spawned": 0,
+                "spawned_by_subagents": 0,
+                "started_in_background": 0
+              },
+              "subtype": "success",
+              "terminal_reason": "completed",
+              "time_to_request_ms": 217,
+              "total_cost_usd": 0.249746,
+              "ttft_ms": 13049,
+              "ttft_stream_ms": 12301,
+              "type": "result",
+              "usage": {
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 43392,
+                "fallback_credit": null,
+                "inference_geo": "",
+                "input_tokens": 43470,
+                "iterations": [],
+                "output_tokens": 428,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_fetch_requests": 0,
+                  "web_search_requests": 0
+                },
+                "service_tier": "standard",
+                "speed": "standard"
+              },
+              "uuid": "5a4c33c3-f702-4426-9498-60d26253020f"
+            },
+            "pid": 29688,
+            "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+          },
+          "node_id": "handoff",
+          "output": "{\"duration_api_ms\":19134,\"stop_reason\":\"end_turn\",\"session_id\":\"815e163d-e7bc-4629-8c34-d1e95f4b9bb4\",\"total_cost_usd\":0.249746,\"usage\":{\"input_tokens\":43470,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":428,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43470,\"outputTokens\":428,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.249746,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Phase 1 applied — the continuation context contains no `approved_decision`.\\n\\nWrote the approval request to `.devflow/decisions/handoff.json` (question \\\"Approve the handoff?\\\", `decision_type: approval`, option `approve`, recommended `approve`, risk `low`). I did **not** create `handoff.txt`, and I'm stopping here so the engine can persist the decision and resume the node.\\n\\nSkipped: Phase 2 token extraction (pending approval). Risk: none to the repo — the only artifact is the decision JSON.\",\"ttft_ms\":13049,\"type\":\"result\",\"duration_ms\":19433,\"uuid\":\"5a4c33c3-f702-4426-9498-60d26253020f\",\"ttft_stream_ms\":12301,\"time_to_request_ms\":217,\"first_content_frame_ms\":12327,\"queued_turn_count\":0,\"result_index\":0}",
+          "pid": 29688,
+          "process_start_time": "win:134397264452523162",
+          "prompt": "Two phases. Inspect the continuation context.\nPhase 1: if it does NOT contain approved_decision, you MUST NOT create handoff.txt. Write the human decision request JSON to the path in the Human decision protocol section, with question 'Approve the handoff?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if it contains approved_decision with selected_option approve, find the token starting with FINAL- in the completed research output and write exactly that token to handoff.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace\\.devflow\\decisions\\handoff.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-c8027ec483db\",\n  \"goal\": \"Real Claude DAG with crash recovery, handoff and dynamic human decision.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"handoff\",\n  \"progress\": {\n    \"total\": 3,\n    \"completed\": 1,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 1,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [\n    {\n      \"id\": \"research\",\n      \"name\": \"research\",\n      \"summary\": \"all acceptance conditions passed\",\n      \"verification_passed\": true,\n      \"artifacts\": [],\n      \"output\": \"FINAL-5F50EAFD5A\",\n      \"idempotency_key\": null\n    }\n  ],\n  \"running_nodes\": [\n    {\n      \"id\": \"handoff\",\n      \"name\": \"handoff\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [\n    {\n      \"id\": \"finalize\",\n      \"name\": \"finalize\"\n    }\n  ],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node handoff\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 25,\n    \"workflow_id\": \"wf-c8027ec483db\",\n    \"node_id\": \"handoff\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:20:45+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-220\\\\test_p05_final_real_e2e0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+          "started_at": "2026-11-21T09:20:45+00:00",
+          "status": "SUCCEEDED",
+          "timeout_seconds": 240.0,
+          "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace",
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "adapter": "claude-code",
+          "attempt": 2,
+          "error": null,
+          "exit_code": 0,
+          "finished_at": "2026-11-21T09:21:19+00:00",
+          "heartbeat_at": "2026-11-21T09:21:19+00:00",
+          "id": "run-0189171d2a6d",
+          "metadata": {
+            "parsed": {
+              "api_error_status": null,
+              "duration_api_ms": 8202,
+              "duration_ms": 8532,
+              "fast_mode_disabled_reason": "sdk_opt_in_required",
+              "fast_mode_state": "off",
+              "first_content_frame_ms": 3433,
+              "is_error": false,
+              "modelUsage": {
+                "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                  "cacheCreationInputTokens": 0,
+                  "cacheReadInputTokens": 71040,
+                  "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                  "contextWindow": 1000000,
+                  "costBasis": "unknown",
+                  "costUSD": 0.12432499999999999,
+                  "inputTokens": 15876,
+                  "maxOutputTokens": 32000,
+                  "outputTokens": 377,
+                  "provider": "firstParty",
+                  "thinkingTokens": 0,
+                  "webSearchRequests": 0
+                }
+              },
+              "num_turns": 2,
+              "permission_denials": [],
+              "queued_turn_count": 0,
+              "result": "Phase 2 executed: `approved_decision.selected_option == \"approve\"`, so handoff.txt was written at the workspace root containing the token extracted from the completed `research` node output:\n\n```\nFINAL-5F50EAFD5A\n```\n\nNo decision JSON was written (approval already resolved, decision_id `dec-8133342325b9`). Workflow left RUNNING; engine decides completion of `finalize`.\n\nSkipped: no verification of downstream `finalize` node. Risk: if the engine expects a trailing newline in handoff.txt, exact-token write could need adjustment.",
+              "result_index": 0,
+              "safety_stops": 0,
+              "session_id": "3de57131-7037-4d67-93c6-74225a713519",
+              "stop_reason": "end_turn",
+              "subagent_stats": {
+                "by_type": {},
+                "completed": 0,
+                "failed": 0,
+                "killed": {
+                  "parent": 0,
+                  "system": 0,
+                  "user": 0
+                },
+                "max_depth": 0,
+                "refused": {
+                  "budget": 0,
+                  "concurrency_limit": 0,
+                  "depth_limit": 0
+                },
+                "requested": {
+                  "background": 0,
+                  "foreground": 0,
+                  "unset": 0
+                },
+                "spawned": 0,
+                "spawned_by_subagents": 0,
+                "started_in_background": 0
+              },
+              "subtype": "success",
+              "terminal_reason": "completed",
+              "time_to_request_ms": 221,
+              "total_cost_usd": 0.12432499999999999,
+              "ttft_ms": 4864,
+              "ttft_stream_ms": 3424,
+              "type": "result",
+              "usage": {
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 71040,
+                "fallback_credit": null,
+                "inference_geo": "",
+                "input_tokens": 15876,
+                "iterations": [],
+                "output_tokens": 377,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_fetch_requests": 0,
+                  "web_search_requests": 0
+                },
+                "service_tier": "standard",
+                "speed": "standard"
+              },
+              "uuid": "4e94c34e-283d-4a4d-9570-a67a1bc973b1"
+            },
+            "pid": 13204,
+            "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+          },
+          "node_id": "handoff",
+          "output": "{\"duration_api_ms\":8202,\"stop_reason\":\"end_turn\",\"session_id\":\"3de57131-7037-4d67-93c6-74225a713519\",\"total_cost_usd\":0.12432499999999999,\"usage\":{\"input_tokens\":15876,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":71040,\"output_tokens\":377,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":15876,\"outputTokens\":377,\"cacheReadInputTokens\":71040,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.12432499999999999,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Phase 2 executed: `approved_decision.selected_option == \\\"approve\\\"`, so handoff.txt was written at the workspace root containing the token extracted from the completed `research` node output:\\n\\n```\\nFINAL-5F50EAFD5A\\n```\\n\\nNo decision JSON was written (approval already resolved, decision_id `dec-8133342325b9`). Workflow left RUNNING; engine decides completion of `finalize`.\\n\\nSkipped: no verification of downstream `finalize` node. Risk: if the engine expects a trailing newline in handoff.txt, exact-token write could need adjustment.\",\"ttft_ms\":4864,\"type\":\"result\",\"duration_ms\":8532,\"uuid\":\"4e94c34e-283d-4a4d-9570-a67a1bc973b1\",\"ttft_stream_ms\":3424,\"time_to_request_ms\":221,\"first_content_frame_ms\":3433,\"queued_turn_count\":0,\"result_index\":0}",
+          "pid": 13204,
+          "process_start_time": "win:134397264683435937",
+          "prompt": "Two phases. Inspect the continuation context.\nPhase 1: if it does NOT contain approved_decision, you MUST NOT create handoff.txt. Write the human decision request JSON to the path in the Human decision protocol section, with question 'Approve the handoff?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if it contains approved_decision with selected_option approve, find the token starting with FINAL- in the completed research output and write exactly that token to handoff.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace\\.devflow\\decisions\\handoff.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-c8027ec483db\",\n  \"goal\": \"Real Claude DAG with crash recovery, handoff and dynamic human decision.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"handoff\",\n  \"progress\": {\n    \"total\": 3,\n    \"completed\": 1,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 1,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [\n    {\n      \"id\": \"research\",\n      \"name\": \"research\",\n      \"summary\": \"all acceptance conditions passed\",\n      \"verification_passed\": true,\n      \"artifacts\": [],\n      \"output\": \"FINAL-5F50EAFD5A\",\n      \"idempotency_key\": null\n    }\n  ],\n  \"running_nodes\": [\n    {\n      \"id\": \"handoff\",\n      \"name\": \"handoff\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [\n    {\n      \"id\": \"finalize\",\n      \"name\": \"finalize\"\n    }\n  ],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node handoff\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 44,\n    \"workflow_id\": \"wf-c8027ec483db\",\n    \"node_id\": \"handoff\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:21:08+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-220\\\\test_p05_final_real_e2e0\\\\workspace\",\n  \"approved_decision\": {\n    \"decision_id\": \"dec-8133342325b9\",\n    \"selected_option\": \"approve\",\n    \"payload\": {},\n    \"resolved_by\": \"cli\"\n  }\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+          "started_at": "2026-11-21T09:21:08+00:00",
+          "status": "SUCCEEDED",
+          "timeout_seconds": 240.0,
+          "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace",
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "adapter": "claude-code",
+          "attempt": 1,
+          "error": null,
+          "exit_code": 0,
+          "finished_at": "2026-11-21T09:21:37+00:00",
+          "heartbeat_at": "2026-11-21T09:21:37+00:00",
+          "id": "run-2a1a04ee766b",
+          "metadata": {
+            "parsed": {
+              "api_error_status": null,
+              "duration_api_ms": 14451,
+              "duration_ms": 14807,
+              "fast_mode_disabled_reason": "sdk_opt_in_required",
+              "fast_mode_state": "off",
+              "first_content_frame_ms": 9703,
+              "is_error": false,
+              "modelUsage": {
+                "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                  "cacheCreationInputTokens": 0,
+                  "cacheReadInputTokens": 43520,
+                  "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                  "contextWindow": 1000000,
+                  "costBasis": "unknown",
+                  "costUSD": 0.246125,
+                  "inputTokens": 43348,
+                  "maxOutputTokens": 32000,
+                  "outputTokens": 305,
+                  "provider": "firstParty",
+                  "thinkingTokens": 0,
+                  "webSearchRequests": 0
+                }
+              },
+              "num_turns": 2,
+              "permission_denials": [],
+              "queued_turn_count": 0,
+              "result": "Wrote `final.txt` at the workspace root with exact content `FINAL-OK`. No decision file needed — the node's instruction was fully executable without human input, so `finalize.json` was not written.\n\nSkipped: re-reading the file back (Write confirmed creation). Risk: none — plain one-line write, no trailing newline added.",
+              "result_index": 0,
+              "safety_stops": 0,
+              "session_id": "0575a971-6b4d-46b0-b76c-02e96fa9f54f",
+              "stop_reason": "end_turn",
+              "subagent_stats": {
+                "by_type": {},
+                "completed": 0,
+                "failed": 0,
+                "killed": {
+                  "parent": 0,
+                  "system": 0,
+                  "user": 0
+                },
+                "max_depth": 0,
+                "refused": {
+                  "budget": 0,
+                  "concurrency_limit": 0,
+                  "depth_limit": 0
+                },
+                "requested": {
+                  "background": 0,
+                  "foreground": 0,
+                  "unset": 0
+                },
+                "spawned": 0,
+                "spawned_by_subagents": 0,
+                "started_in_background": 0
+              },
+              "subtype": "success",
+              "terminal_reason": "completed",
+              "time_to_request_ms": 236,
+              "total_cost_usd": 0.246125,
+              "ttft_ms": 10868,
+              "ttft_stream_ms": 9703,
+              "type": "result",
+              "usage": {
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 43520,
+                "fallback_credit": null,
+                "inference_geo": "",
+                "input_tokens": 43348,
+                "iterations": [],
+                "output_tokens": 305,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_fetch_requests": 0,
+                  "web_search_requests": 0
+                },
+                "service_tier": "standard",
+                "speed": "standard"
+              },
+              "uuid": "297d6a9e-b059-4c65-a1a5-259a61b66fd0"
+            },
+            "pid": 28120,
+            "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+          },
+          "node_id": "finalize",
+          "output": "{\"duration_api_ms\":14451,\"stop_reason\":\"end_turn\",\"session_id\":\"0575a971-6b4d-46b0-b76c-02e96fa9f54f\",\"total_cost_usd\":0.246125,\"usage\":{\"input_tokens\":43348,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43520,\"output_tokens\":305,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43348,\"outputTokens\":305,\"cacheReadInputTokens\":43520,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.246125,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Wrote `final.txt` at the workspace root with exact content `FINAL-OK`. No decision file needed — the node's instruction was fully executable without human input, so `finalize.json` was not written.\\n\\nSkipped: re-reading the file back (Write confirmed creation). Risk: none — plain one-line write, no trailing newline added.\",\"ttft_ms\":10868,\"type\":\"result\",\"duration_ms\":14807,\"uuid\":\"297d6a9e-b059-4c65-a1a5-259a61b66fd0\",\"ttft_stream_ms\":9703,\"time_to_request_ms\":236,\"first_content_frame_ms\":9703,\"queued_turn_count\":0,\"result_index\":0}",
+          "pid": 28120,
+          "process_start_time": "win:134397264799112545",
+          "prompt": "Write exactly the text FINAL-OK to final.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace\\.devflow\\decisions\\finalize.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-c8027ec483db\",\n  \"goal\": \"Real Claude DAG with crash recovery, handoff and dynamic human decision.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"finalize\",\n  \"progress\": {\n    \"total\": 3,\n    \"completed\": 2,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 0,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [\n    {\n      \"id\": \"handoff\",\n      \"name\": \"handoff\",\n      \"summary\": \"all acceptance conditions passed\",\n      \"verification_passed\": true,\n      \"artifacts\": [],\n      \"output\": \"Phase 2 executed: `approved_decision.selected_option == \\\"approve\\\"`, so handoff.txt was written at the workspace root containing the token extracted from the completed `research` node output:\\n\\n```\\nFINAL-5F50EAFD5A\\n```\\n\\nNo decision JSON was written (approval already resolved, decision_id `dec-8133342325b9`). Workflow left RUNNING; engine decides completion of `finalize`.\\n\\nSkipped: no verification of downstream `finalize` node. Risk: if the engine expects a trailing newline in handoff.txt, exact-token write could need adjustment.\",\n      \"idempotency_key\": null\n    },\n    {\n      \"id\": \"research\",\n      \"name\": \"research\",\n      \"summary\": \"all acceptance conditions passed\",\n      \"verification_passed\": true,\n      \"artifacts\": [],\n      \"output\": \"FINAL-5F50EAFD5A\",\n      \"idempotency_key\": null\n    }\n  ],\n  \"running_nodes\": [\n    {\n      \"id\": \"finalize\",\n      \"name\": \"finalize\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node finalize\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 51,\n    \"workflow_id\": \"wf-c8027ec483db\",\n    \"node_id\": \"finalize\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:21:19+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-220\\\\test_p05_final_real_e2e0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+          "started_at": "2026-11-21T09:21:19+00:00",
+          "status": "SUCCEEDED",
+          "timeout_seconds": 240.0,
+          "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace",
+          "workflow_id": "wf-c8027ec483db"
+        }
+      ],
+      "decisions": [
+        {
+          "context": {
+            "reason": "Human approval is required",
+            "recommended": "approve",
+            "risk": "low",
+            "summary": "Node 'handoff' is ready to proceed to 'finalize'. Research node completed with verification_passed=true."
+          },
+          "created_at": "2026-11-21T09:21:07+00:00",
+          "decision_payload": {},
+          "decision_type": "approval",
+          "expires_at": null,
+          "id": "dec-8133342325b9",
+          "node_id": "handoff",
+          "note": null,
+          "options": [
+            {
+              "id": "approve",
+              "label": "Approve"
+            }
+          ],
+          "question": "Approve the handoff?",
+          "resolved_at": "2026-11-21T09:21:08+00:00",
+          "resolved_by": "cli",
+          "selected_option": "approve",
+          "status": "RESOLVED",
+          "workflow_id": "wf-c8027ec483db"
+        }
+      ],
+      "nodes": [
+        {
+          "attempts": 1,
+          "created_at": "2026-11-21T09:20:27+00:00",
+          "dependencies": [
+            "handoff"
+          ],
+          "error": null,
+          "execution_config": {
+            "acceptance": [
+              {
+                "path": "final.txt",
+                "type": "artifact_contains",
+                "value": "FINAL-OK"
+              }
+            ],
+            "prompt": "Write exactly the text FINAL-OK to final.txt using the Write tool, then stop.",
+            "timeout_seconds": 240
+          },
+          "finished_at": "2026-11-21T09:21:37+00:00",
+          "id": "finalize",
+          "idempotency_key": null,
+          "input": {},
+          "name": "finalize",
+          "output": {
+            "agent_run_id": "run-2a1a04ee766b",
+            "attempt": 1,
+            "exit_code": 0,
+            "output": "{\"duration_api_ms\":14451,\"stop_reason\":\"end_turn\",\"session_id\":\"0575a971-6b4d-46b0-b76c-02e96fa9f54f\",\"total_cost_usd\":0.246125,\"usage\":{\"input_tokens\":43348,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43520,\"output_tokens\":305,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43348,\"outputTokens\":305,\"cacheReadInputTokens\":43520,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.246125,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Wrote `final.txt` at the workspace root with exact content `FINAL-OK`. No decision file needed — the node's instruction was fully executable without human input, so `finalize.json` was not written.\\n\\nSkipped: re-reading the file back (Write confirmed creation). Risk: none — plain one-line write, no trailing newline added.\",\"ttft_ms\":10868,\"type\":\"result\",\"duration_ms\":14807,\"uuid\":\"297d6a9e-b059-4c65-a1a5-259a61b66fd0\",\"ttft_stream_ms\":9703,\"time_to_request_ms\":236,\"first_content_frame_ms\":9703,\"queued_turn_count\":0,\"result_index\":0}",
+            "summary": "all acceptance conditions passed",
+            "verification": {
+              "evidence": [
+                {
+                  "condition": "artifact_contains",
+                  "config": {
+                    "path": "final.txt",
+                    "type": "artifact_contains",
+                    "value": "FINAL-OK"
+                  },
+                  "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace\\final.txt contains 'FINAL-OK': True",
+                  "passed": true
+                }
+              ],
+              "failed_conditions": [],
+              "passed": true,
+              "summary": "all acceptance conditions passed",
+              "verified_at": "2026-11-21T09:21:37+00:00"
+            }
+          },
+          "required": true,
+          "retry_policy": {},
+          "stage_id": "stg-40c5fd70c250",
+          "started_at": "2026-11-21T09:21:19+00:00",
+          "status": "SUCCEEDED",
+          "updated_at": "2026-11-21T09:21:37+00:00",
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "attempts": 2,
+          "created_at": "2026-11-21T09:20:27+00:00",
+          "dependencies": [
+            "research"
+          ],
+          "error": null,
+          "execution_config": {
+            "acceptance": [
+              {
+                "equals": 0,
+                "type": "exit_code"
+              },
+              {
+                "path": "handoff.txt",
+                "type": "artifact_contains",
+                "value": "FINAL-5F50EAFD5A"
+              }
+            ],
+            "prompt": "Two phases. Inspect the continuation context.\nPhase 1: if it does NOT contain approved_decision, you MUST NOT create handoff.txt. Write the human decision request JSON to the path in the Human decision protocol section, with question 'Approve the handoff?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if it contains approved_decision with selected_option approve, find the token starting with FINAL- in the completed research output and write exactly that token to handoff.txt using the Write tool, then stop.",
+            "timeout_seconds": 240
+          },
+          "finished_at": "2026-11-21T09:21:19+00:00",
+          "id": "handoff",
+          "idempotency_key": null,
+          "input": {},
+          "name": "handoff",
+          "output": {
+            "agent_run_id": "run-0189171d2a6d",
+            "attempt": 2,
+            "exit_code": 0,
+            "output": "{\"duration_api_ms\":8202,\"stop_reason\":\"end_turn\",\"session_id\":\"3de57131-7037-4d67-93c6-74225a713519\",\"total_cost_usd\":0.12432499999999999,\"usage\":{\"input_tokens\":15876,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":71040,\"output_tokens\":377,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":15876,\"outputTokens\":377,\"cacheReadInputTokens\":71040,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.12432499999999999,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Phase 2 executed: `approved_decision.selected_option == \\\"approve\\\"`, so handoff.txt was written at the workspace root containing the token extracted from the completed `research` node output:\\n\\n```\\nFINAL-5F50EAFD5A\\n```\\n\\nNo decision JSON was written (approval already resolved, decision_id `dec-8133342325b9`). Workflow left RUNNING; engine decides completion of `finalize`.\\n\\nSkipped: no verification of downstream `finalize` node. Risk: if the engine expects a trailing newline in handoff.txt, exact-token write could need adjustment.\",\"ttft_ms\":4864,\"type\":\"result\",\"duration_ms\":8532,\"uuid\":\"4e94c34e-283d-4a4d-9570-a67a1bc973b1\",\"ttft_stream_ms\":3424,\"time_to_request_ms\":221,\"first_content_frame_ms\":3433,\"queued_turn_count\":0,\"result_index\":0}",
+            "summary": "all acceptance conditions passed",
+            "verification": {
+              "evidence": [
+                {
+                  "condition": "exit_code",
+                  "config": {
+                    "equals": 0,
+                    "type": "exit_code"
+                  },
+                  "detail": "exit_code=0, expected=0",
+                  "passed": true
+                },
+                {
+                  "condition": "artifact_contains",
+                  "config": {
+                    "path": "handoff.txt",
+                    "type": "artifact_contains",
+                    "value": "FINAL-5F50EAFD5A"
+                  },
+                  "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace\\handoff.txt contains 'FINAL-5F50EAFD5A': True",
+                  "passed": true
+                }
+              ],
+              "failed_conditions": [],
+              "passed": true,
+              "summary": "all acceptance conditions passed",
+              "verified_at": "2026-11-21T09:21:19+00:00"
+            }
+          },
+          "required": true,
+          "retry_policy": {},
+          "stage_id": "stg-40c5fd70c250",
+          "started_at": "2026-11-21T09:20:45+00:00",
+          "status": "SUCCEEDED",
+          "updated_at": "2026-11-21T09:21:19+00:00",
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "attempts": 2,
+          "created_at": "2026-11-21T09:20:27+00:00",
+          "dependencies": [],
+          "error": null,
+          "execution_config": {
+            "acceptance": [
+              {
+                "type": "output_contains",
+                "value": "FINAL-5F50EAFD5A"
+              }
+            ],
+            "prompt": "Reply with exactly the token FINAL-5F50EAFD5A and nothing else. Do not create files. Do not use tools.",
+            "timeout_seconds": 240
+          },
+          "finished_at": "2026-11-21T09:20:45+00:00",
+          "id": "research",
+          "idempotency_key": null,
+          "input": {},
+          "name": "research",
+          "output": {
+            "agent_run_id": "run-86973f2f8f90",
+            "attempt": 2,
+            "exit_code": 0,
+            "output": "{\"duration_api_ms\":11181,\"stop_reason\":\"end_turn\",\"session_id\":\"1e7653ea-57f7-42a8-84f9-a59cd1c59cc4\",\"total_cost_usd\":0.217638,\"usage\":{\"input_tokens\":42797,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":256,\"output_tokens\":141,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":42797,\"outputTokens\":141,\"cacheReadInputTokens\":256,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.217638,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":1,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"FINAL-5F50EAFD5A\",\"ttft_ms\":11284,\"type\":\"result\",\"duration_ms\":11383,\"uuid\":\"aae774ad-d1ec-43fb-8565-8ecca294fbe3\",\"ttft_stream_ms\":10216,\"time_to_request_ms\":215,\"first_content_frame_ms\":10218,\"queued_turn_count\":0,\"result_index\":0}",
+            "summary": "all acceptance conditions passed",
+            "verification": {
+              "evidence": [
+                {
+                  "condition": "output_contains",
+                  "config": {
+                    "type": "output_contains",
+                    "value": "FINAL-5F50EAFD5A"
+                  },
+                  "detail": "output contains 'FINAL-5F50EAFD5A': True",
+                  "passed": true
+                }
+              ],
+              "failed_conditions": [],
+              "passed": true,
+              "summary": "all acceptance conditions passed",
+              "verified_at": "2026-11-21T09:20:45+00:00"
+            }
+          },
+          "required": true,
+          "retry_policy": {},
+          "stage_id": "stg-40c5fd70c250",
+          "started_at": "2026-11-21T09:20:27+00:00",
+          "status": "SUCCEEDED",
+          "updated_at": "2026-11-21T09:20:45+00:00",
+          "workflow_id": "wf-c8027ec483db"
+        }
+      ],
+      "recent_events": [
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:27+00:00",
+          "event_type": "node.claimed",
+          "id": 8,
+          "node_id": "research",
+          "payload": {},
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:27+00:00",
+          "event_type": "agent.started",
+          "id": 9,
+          "node_id": "research",
+          "payload": {
+            "attempt": 1,
+            "run_id": "run-5b814679511f"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:27+00:00",
+          "event_type": "agent.process_started",
+          "id": 10,
+          "node_id": "research",
+          "payload": {
+            "pid": 33272,
+            "process_start_time": "win:134397264274192897",
+            "run_id": "run-5b814679511f"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:20:30+00:00",
+          "event_type": "recovery.scan",
+          "id": 11,
+          "node_id": null,
+          "payload": {},
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:30+00:00",
+          "event_type": "agent.status_changed",
+          "id": 12,
+          "node_id": "research",
+          "payload": {
+            "from": "RUNNING",
+            "run_id": "run-5b814679511f",
+            "to": "INTERRUPTED"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:20:30+00:00",
+          "event_type": "node.interrupted",
+          "id": 13,
+          "node_id": "research",
+          "payload": {
+            "agent_run_id": "run-5b814679511f",
+            "reason": "agent process exited or pid was reused"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:20:30+00:00",
+          "event_type": "node.retry_scheduled",
+          "id": 14,
+          "node_id": "research",
+          "payload": {
+            "from": "RUNNING",
+            "reason": "recovery retry (agent run interrupted)",
+            "to": "READY"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:20:30+00:00",
+          "event_type": "workflow.recovery_started",
+          "id": 15,
+          "node_id": null,
+          "payload": {
+            "from": "RUNNING",
+            "reason": "recovery scan",
+            "to": "RECOVERING"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:20:30+00:00",
+          "event_type": "workflow.recovered",
+          "id": 16,
+          "node_id": null,
+          "payload": {
+            "from": "RECOVERING",
+            "reason": "recovery complete",
+            "to": "RUNNING"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:30+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 17,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-e06c2328127e",
+            "reason": "recovery",
+            "sequence": 2
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:31+00:00",
+          "event_type": "node.claimed",
+          "id": 18,
+          "node_id": "research",
+          "payload": {},
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:31+00:00",
+          "event_type": "agent.started",
+          "id": 19,
+          "node_id": "research",
+          "payload": {
+            "attempt": 2,
+            "run_id": "run-86973f2f8f90"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:31+00:00",
+          "event_type": "agent.process_started",
+          "id": 20,
+          "node_id": "research",
+          "payload": {
+            "pid": 28444,
+            "process_start_time": "win:134397264310726557",
+            "run_id": "run-86973f2f8f90"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:45+00:00",
+          "event_type": "agent.status_changed",
+          "id": 21,
+          "node_id": "research",
+          "payload": {
+            "from": "RUNNING",
+            "run_id": "run-86973f2f8f90",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:45+00:00",
+          "event_type": "node.succeeded",
+          "id": 22,
+          "node_id": "research",
+          "payload": {
+            "from": "RUNNING",
+            "reason": "verification passed",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:45+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 23,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-4b7d92355ecf",
+            "reason": "batch_completed",
+            "sequence": 3
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:45+00:00",
+          "event_type": "node.status_changed",
+          "id": 24,
+          "node_id": "handoff",
+          "payload": {
+            "from": "PENDING",
+            "reason": "scheduler",
+            "to": "READY"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:45+00:00",
+          "event_type": "node.claimed",
+          "id": 25,
+          "node_id": "handoff",
+          "payload": {},
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:45+00:00",
+          "event_type": "agent.started",
+          "id": 26,
+          "node_id": "handoff",
+          "payload": {
+            "attempt": 1,
+            "run_id": "run-ced2f64c3954"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:45+00:00",
+          "event_type": "agent.process_started",
+          "id": 27,
+          "node_id": "handoff",
+          "payload": {
+            "pid": 29688,
+            "process_start_time": "win:134397264452523162",
+            "run_id": "run-ced2f64c3954"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:07+00:00",
+          "event_type": "agent.status_changed",
+          "id": 28,
+          "node_id": "handoff",
+          "payload": {
+            "from": "RUNNING",
+            "run_id": "run-ced2f64c3954",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:07+00:00",
+          "event_type": "human_decision.requested",
+          "id": 29,
+          "node_id": "handoff",
+          "payload": {
+            "decision_id": "dec-8133342325b9",
+            "question": "Approve the handoff?"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:07+00:00",
+          "event_type": "node.waiting_human",
+          "id": 30,
+          "node_id": "handoff",
+          "payload": {
+            "from": "RUNNING",
+            "reason": "waiting for human decision",
+            "to": "WAITING_HUMAN"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:07+00:00",
+          "event_type": "human_decision.agent_requested",
+          "id": 31,
+          "node_id": "handoff",
+          "payload": {
+            "agent_run_id": "run-ced2f64c3954",
+            "decision_id": "dec-8133342325b9"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:07+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 32,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-42ca902fafec",
+            "reason": "batch_completed",
+            "sequence": 4
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:07+00:00",
+          "event_type": "node.status_changed",
+          "id": 33,
+          "node_id": "finalize",
+          "payload": {
+            "from": "PENDING",
+            "reason": "scheduler",
+            "to": "BLOCKED"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:07+00:00",
+          "event_type": "workflow.waiting_human",
+          "id": 34,
+          "node_id": null,
+          "payload": {
+            "from": "RUNNING",
+            "reason": "awaiting human decision",
+            "to": "WAITING_HUMAN"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:07+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 35,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-46ec3beaa5d7",
+            "reason": "waiting_human",
+            "sequence": 5
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:08+00:00",
+          "event_type": "human_decision.resolved",
+          "id": 36,
+          "node_id": "handoff",
+          "payload": {
+            "decision_id": "dec-8133342325b9",
+            "resolved_by": "cli",
+            "selected_option": "approve"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:08+00:00",
+          "event_type": "node.decision_resolved",
+          "id": 37,
+          "node_id": "handoff",
+          "payload": {
+            "from": "WAITING_HUMAN",
+            "reason": "decision resolved",
+            "to": "READY"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:08+00:00",
+          "event_type": "workflow.resumed",
+          "id": 38,
+          "node_id": null,
+          "payload": {
+            "from": "WAITING_HUMAN",
+            "reason": "all pending decisions resolved",
+            "to": "RUNNING"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:21:08+00:00",
+          "event_type": "recovery.scan",
+          "id": 39,
+          "node_id": null,
+          "payload": {},
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:21:08+00:00",
+          "event_type": "workflow.recovery_started",
+          "id": 40,
+          "node_id": null,
+          "payload": {
+            "from": "RUNNING",
+            "reason": "recovery scan",
+            "to": "RECOVERING"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:21:08+00:00",
+          "event_type": "workflow.recovered",
+          "id": 41,
+          "node_id": null,
+          "payload": {
+            "from": "RECOVERING",
+            "reason": "recovery complete",
+            "to": "RUNNING"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:08+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 42,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-475a1619b0f6",
+            "reason": "recovery",
+            "sequence": 6
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:08+00:00",
+          "event_type": "node.status_changed",
+          "id": 43,
+          "node_id": "finalize",
+          "payload": {
+            "from": "BLOCKED",
+            "reason": "scheduler",
+            "to": "PENDING"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:08+00:00",
+          "event_type": "node.claimed",
+          "id": 44,
+          "node_id": "handoff",
+          "payload": {},
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:08+00:00",
+          "event_type": "agent.started",
+          "id": 45,
+          "node_id": "handoff",
+          "payload": {
+            "attempt": 2,
+            "run_id": "run-0189171d2a6d"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:08+00:00",
+          "event_type": "agent.process_started",
+          "id": 46,
+          "node_id": "handoff",
+          "payload": {
+            "pid": 13204,
+            "process_start_time": "win:134397264683435937",
+            "run_id": "run-0189171d2a6d"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:19+00:00",
+          "event_type": "agent.status_changed",
+          "id": 47,
+          "node_id": "handoff",
+          "payload": {
+            "from": "RUNNING",
+            "run_id": "run-0189171d2a6d",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:19+00:00",
+          "event_type": "node.succeeded",
+          "id": 48,
+          "node_id": "handoff",
+          "payload": {
+            "from": "RUNNING",
+            "reason": "verification passed",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:19+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 49,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-c5f72a487a34",
+            "reason": "batch_completed",
+            "sequence": 7
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:19+00:00",
+          "event_type": "node.status_changed",
+          "id": 50,
+          "node_id": "finalize",
+          "payload": {
+            "from": "PENDING",
+            "reason": "scheduler",
+            "to": "READY"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:19+00:00",
+          "event_type": "node.claimed",
+          "id": 51,
+          "node_id": "finalize",
+          "payload": {},
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:19+00:00",
+          "event_type": "agent.started",
+          "id": 52,
+          "node_id": "finalize",
+          "payload": {
+            "attempt": 1,
+            "run_id": "run-2a1a04ee766b"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:19+00:00",
+          "event_type": "agent.process_started",
+          "id": 53,
+          "node_id": "finalize",
+          "payload": {
+            "pid": 28120,
+            "process_start_time": "win:134397264799112545",
+            "run_id": "run-2a1a04ee766b"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:37+00:00",
+          "event_type": "agent.status_changed",
+          "id": 54,
+          "node_id": "finalize",
+          "payload": {
+            "from": "RUNNING",
+            "run_id": "run-2a1a04ee766b",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:37+00:00",
+          "event_type": "node.succeeded",
+          "id": 55,
+          "node_id": "finalize",
+          "payload": {
+            "from": "RUNNING",
+            "reason": "verification passed",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:37+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 56,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-75e4bf3555e2",
+            "reason": "batch_completed",
+            "sequence": 8
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:21:37+00:00",
+          "event_type": "workflow.completed",
+          "id": 57,
+          "node_id": null,
+          "payload": {
+            "from": "RUNNING",
+            "reason": "workflow complete",
+            "to": "COMPLETED"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        }
+      ],
+      "stages": [
+        {
+          "created_at": "2026-11-21T09:20:27+00:00",
+          "id": "stg-40c5fd70c250",
+          "name": "main",
+          "sequence": 0,
+          "status": "PENDING",
+          "workflow_id": "wf-c8027ec483db"
+        }
+      ],
+      "workflow": {
+        "context": {},
+        "created_at": "2026-11-21T09:20:27+00:00",
+        "error": null,
+        "finished_at": "2026-11-21T09:21:37+00:00",
+        "goal": "Real Claude DAG with crash recovery, handoff and dynamic human decision.",
+        "id": "wf-c8027ec483db",
+        "name": "P0.5 final E2E",
+        "started_at": "2026-11-21T09:20:27+00:00",
+        "status": "COMPLETED",
+        "updated_at": "2026-11-21T09:21:37+00:00"
+      }
+    },
+    "context": {
+      "blocked_nodes": [],
+      "checkpoint_source": "sqlite",
+      "completed_nodes": [
+        {
+          "artifacts": [],
+          "id": "finalize",
+          "idempotency_key": null,
+          "name": "finalize",
+          "output": "Wrote `final.txt` at the workspace root with exact content `FINAL-OK`. No decision file needed — the node's instruction was fully executable without human input, so `finalize.json` was not written.\n\nSkipped: re-reading the file back (Write confirmed creation). Risk: none — plain one-line write, no trailing newline added.",
+          "summary": "all acceptance conditions passed",
+          "verification_passed": true
+        },
+        {
+          "artifacts": [],
+          "id": "handoff",
+          "idempotency_key": null,
+          "name": "handoff",
+          "output": "Phase 2 executed: `approved_decision.selected_option == \"approve\"`, so handoff.txt was written at the workspace root containing the token extracted from the completed `research` node output:\n\n```\nFINAL-5F50EAFD5A\n```\n\nNo decision JSON was written (approval already resolved, decision_id `dec-8133342325b9`). Workflow left RUNNING; engine decides completion of `finalize`.\n\nSkipped: no verification of downstream `finalize` node. Risk: if the engine expects a trailing newline in handoff.txt, exact-token write could need adjustment.",
+          "summary": "all acceptance conditions passed",
+          "verification_passed": true
+        },
+        {
+          "artifacts": [],
+          "id": "research",
+          "idempotency_key": null,
+          "name": "research",
+          "output": "FINAL-5F50EAFD5A",
+          "summary": "all acceptance conditions passed",
+          "verification_passed": true
+        }
+      ],
+      "current_node": null,
+      "current_stage": null,
+      "deliverables": [],
+      "goal": "Real Claude DAG with crash recovery, handoff and dynamic human decision.",
+      "last_event": {
+        "actor": "core",
+        "created_at": "2026-11-21T09:21:37+00:00",
+        "event_type": "workflow.completed",
+        "id": 57,
+        "node_id": null,
+        "payload": {
+          "from": "RUNNING",
+          "reason": "workflow complete",
+          "to": "COMPLETED"
+        },
+        "workflow_id": "wf-c8027ec483db"
+      },
+      "next_actions": [
+        "workflow terminal"
+      ],
+      "open_decisions": [],
+      "pending_nodes": [],
+      "progress": {
+        "blocked": 0,
+        "completed": 3,
+        "failed": 0,
+        "pending": 0,
+        "ready": 0,
+        "running": 0,
+        "total": 3,
+        "waiting_human": 0
+      },
+      "ready_nodes": [],
+      "running_nodes": [],
+      "side_effects_completed": [],
+      "unresolved_issues": [],
+      "workflow_context": {},
+      "workflow_id": "wf-c8027ec483db",
+      "workflow_status": "COMPLETED"
+    },
+    "created_at": "2026-11-21T09:21:37+00:00"
+  }
+}
+
+stderr=

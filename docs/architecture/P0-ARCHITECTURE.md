@@ -53,6 +53,9 @@
 | 生命周期 | `lifecycle.py` | 四套状态机的合法转换表 |
 | 调度 | `scheduler.py` | DAG 校验、环检测、READY/BLOCKED 重算、原子 claim |
 | Agent 执行 | `agents/` | Adapter 契约、Claude Code 实现、Agent Run 管理 |
+| 进程身份 | `platform_proc.py` | PID + 创建时间身份、存活判断、进程树终止 |
+| 引擎租约 | `lease.py` | SQLite CAS 单 Engine 运行权、续租、过期接管 |
+| Agent 协议 | `agent_protocol.py` | 运行中人工决策请求文件 |
 | 验收 | `verifier.py` | 节点验收条件、Workflow 完成判定 |
 | WCP | `continuation.py` | Checkpoint、Continuation Context |
 | 恢复 | `recovery.py` | 中断识别、重试/退避、状态对账 |
@@ -106,11 +109,12 @@ Agent 进程退出码只影响 Agent Run，不能直接决定 Node 或 Workflow 
 | `workflows` | Workflow 权威状态 | status 索引 |
 | `workflow_stages` | 阶段分组 | 外键 workflow |
 | `workflow_nodes` | DAG 节点 | `(workflow_id,status)` 索引、FK |
-| `agent_runs` | 每次 Agent 调用 | 记录 attempt/exit_code/output/心跳 |
+| `agent_runs` | 每次 Agent 调用 | 记录 attempt/exit_code/output/心跳/PID/进程创建时间 |
 | `execution_events` | 完整执行历史 | 追加写，不覆盖 |
 | `checkpoints` | WCP 检查点 | `UNIQUE(workflow_id, sequence)` |
 | `human_decisions` | 人工决策 | 每个节点最多一个 PENDING（部分唯一索引） |
 | `retry_records` | 重试审计 | `UNIQUE(node_id, attempt)` |
+| `engine_locks` | 单 Engine 调度租约 | 单行 `id=1`，owner + expires_at |
 
 一致性规则：
 
@@ -137,8 +141,10 @@ Agent 进程退出码只影响 Agent Run，不能直接决定 Node 或 Workflow 
   - `AgentTimeout` → `TIMEOUT`
   - `AgentInterrupted` → `INTERRUPTED`
   - 其他异常 → `FAILED`
-- Claude Code Adapter 使用 `subprocess.run(..., shell=False)`，超时可配置。
+- Claude Code Adapter 使用 `subprocess.Popen(..., shell=False)`，Prompt 通过 stdin 传入（规避 Windows 命令行长度限制）。
+- 启动后立即持久化 PID 与平台创建时间身份；超时先优雅终止进程树，再强制终止。
 - Engine 不拼装 Claude Code 命令，只调用 Adapter。
+- Agent 输入输出、退出码、进程身份和 session_id 全部落库。
 
 ## 7. Verifier
 
@@ -168,7 +174,8 @@ Checkpoint 内容：
 识别：
 
 - Agent Run `INTERRUPTED`
-- `RUNNING` 但心跳超时（`timeout + grace`）；运行期间由 AgentExecutionManager 的后台线程持续刷新心跳
+- 有 PID + 创建时间身份：进程不存活或 PID 被复用
+- 无进程身份：心跳超时（`timeout + grace`）；运行期间由 AgentExecutionManager 的后台线程持续刷新心跳
 - 无界 Run（`timeout_seconds <= 0`）使用 `grace` 作为心跳存活窗口，心跳停止即视为中断
 - 节点 `RUNNING` 但没有 Agent Run
 - Agent 成功但节点未推进
@@ -187,9 +194,10 @@ Checkpoint 内容：
 ## 10. HITL
 
 - 决策是 Core 原生数据，不依赖消息平台。
-- 节点 `execution_config.human_decision` 触发决策，节点进入 `WAITING_HUMAN`。
-- 决策选项在创建时规范化；解析时校验选项。
-- `WAITING_HUMAN` 节点不阻塞无依赖节点。
+- 节点 `execution_config.human_decision` 触发前置决策，节点进入 `WAITING_HUMAN`。
+- Agent 运行中可写 `<workdir>/.devflow/decisions/<node_id>.json` 主动请求决策；Core 校验、持久化并暂停节点，文件归档。
+- 决策选项在创建时规范化；解析时校验选项；`recommended` 必须属于选项。
+- `WAITING_HUMAN` 节点不阻塞无依赖节点；依赖它的下游节点为 `BLOCKED`。
 - 决策入库即完成；通知成功不等于决策完成。
 - 决策结果、解决人、时间、payload 全部持久化并写审计事件。
 - 超时/取消会使节点失败，由 Workflow 统一收敛。
@@ -201,7 +209,16 @@ Checkpoint 内容：
 - 状态中不保存盘符相关假设；`workdir` 由配置传入。
 - `subprocess.run` 使用参数列表和 `shell=False`。
 
-## 12. P1 扩展点
+## 12. 单 Engine 运行租约
+
+- `engine_locks` 单行记录当前调度主控：owner、host、pid、acquired/heartbeat/expires、released。
+- `EngineLease.acquire` 在 `BEGIN IMMEDIATE` 事务中做 CAS；有效租约被其他 owner 持有时抛 `EngineLocked`。
+- 后台线程按 TTL/3 续租；每个调度轮次也调用 `ensure_held`。
+- 正常结束释放；异常退出后租约到期，其他 Engine 可安全接管。
+- `start/resume/recover` 需要租约；`status/inspect/events/decisions/list` 只读不获取；`resolve/cancel` 是控制操作，不获取调度租约。
+- 不依赖 lock 文件，不引入 Redis/额外依赖。
+
+## 13. P1 扩展点
 
 - 多 Agent：注册更多 `AgentAdapter`，用 `capabilities` 声明能力。
 - Provider：独立包实现 `ProjectManagement/Notification/Git/CI`，由 Engine 记录结果。

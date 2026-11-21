@@ -1,0 +1,1 @@
+DEVFLOW_REAL_CLAUDE=1 DEVFLOW_EVIDENCE_DIR=docs/implementation/evidence/P0.5-FINAL python -m pytest -q tests/integration/test_p05_final_e2e.py -s

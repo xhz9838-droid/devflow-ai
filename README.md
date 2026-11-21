@@ -5,11 +5,13 @@ DevFlow AI
 
 ## 当前状态
 
-P0 核心引擎已完成：生命周期、SQLite 权威状态、DAG 调度、Agent 执行、Verifier、WCP、恢复、HITL 和端到端闭环。不依赖禅道、钉钉或 Jenkins 即可独立运行。
+P0.5 已完成：在 P0 核心引擎之上增加了真实 Claude Code 执行、Agent 进程生命周期、SQLite 单 Engine 租约、WCP 真实交接、运行中动态人工决策和多进程故障恢复，并通过真实 E2E。
 
 - 架构：[docs/architecture/P0-ARCHITECTURE.md](docs/architecture/P0-ARCHITECTURE.md)
 - 决策：[docs/decisions/ADR-001-P0-CORE.md](docs/decisions/ADR-001-P0-CORE.md)
-- 实施报告：[docs/implementation/P0-REPORT.md](docs/implementation/P0-REPORT.md)
+- P0 报告：[docs/implementation/P0-REPORT.md](docs/implementation/P0-REPORT.md)
+- P0.5 验收：[docs/implementation/P0.5-ACCEPTANCE-REPORT.md](docs/implementation/P0.5-ACCEPTANCE-REPORT.md)
+- 分阶段报告：[docs/implementation/](docs/implementation/)
 - 基线盘点：[docs/baseline/](docs/baseline/)
 
 ## 快速开始
@@ -45,6 +47,23 @@ python -m devflow --db devflow.db resume <workflow-id>
 python -m pytest -q
 ```
 
+真实 Claude 测试默认跳过，需要本机已登录 Claude CLI：
+
+```bash
+DEVFLOW_REAL_CLAUDE=1 python -m pytest -q -m real_agent
+```
+
+关键环境变量：
+
+| 变量 | 默认 | 作用 |
+|------|------|------|
+| `DEVFLOW_DB` | `devflow.db` | SQLite 路径 |
+| `DEVFLOW_MAX_PARALLEL` | `4` | 并行节点数 |
+| `DEVFLOW_AGENT_TIMEOUT` | `1800` | Agent 默认超时（秒） |
+| `DEVFLOW_RECOVERY_GRACE` | `30` | 心跳/无界 Run 的存活窗口（秒） |
+| `DEVFLOW_ENGINE_LEASE_SECONDS` | `300` | 单 Engine 调度租约 TTL |
+| `DEVFLOW_CLAUDE_EXTRA_ARGS` | 空 | 传给 Claude CLI 的额外参数 |
+
 ## 代码结构
 
 ```
@@ -59,6 +78,9 @@ devflow/
 ├── continuation.py     WCP
 ├── recovery.py         中断恢复
 ├── hitl.py             人工决策
+├── agent_protocol.py   运行中决策请求协议
+├── lease.py            单 Engine 租约
+├── platform_proc.py    跨平台进程身份/终止
 ├── cli.py              控制入口
 └── agents/             Agent Adapter + Claude Code 实现
 ```

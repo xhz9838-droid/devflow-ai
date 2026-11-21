@@ -1,0 +1,557 @@
+{
+  "workflow": {
+    "id": "wf-c8027ec483db",
+    "name": "P0.5 final E2E",
+    "goal": "Real Claude DAG with crash recovery, handoff and dynamic human decision.",
+    "status": "RUNNING",
+    "context": {},
+    "error": null,
+    "created_at": "2026-11-21T09:20:27+00:00",
+    "updated_at": "2026-11-21T09:20:27+00:00",
+    "started_at": "2026-11-21T09:20:27+00:00",
+    "finished_at": null
+  },
+  "stages": [
+    {
+      "id": "stg-40c5fd70c250",
+      "workflow_id": "wf-c8027ec483db",
+      "name": "main",
+      "sequence": 0,
+      "status": "PENDING",
+      "created_at": "2026-11-21T09:20:27+00:00"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "finalize",
+      "workflow_id": "wf-c8027ec483db",
+      "name": "finalize",
+      "status": "PENDING",
+      "dependencies": [
+        "handoff"
+      ],
+      "stage_id": "stg-40c5fd70c250",
+      "execution_config": {
+        "acceptance": [
+          {
+            "path": "final.txt",
+            "type": "artifact_contains",
+            "value": "FINAL-OK"
+          }
+        ],
+        "prompt": "Write exactly the text FINAL-OK to final.txt using the Write tool, then stop.",
+        "timeout_seconds": 240
+      },
+      "retry_policy": {},
+      "input": {},
+      "output": null,
+      "error": null,
+      "attempts": 0,
+      "required": true,
+      "idempotency_key": null,
+      "created_at": "2026-11-21T09:20:27+00:00",
+      "updated_at": "2026-11-21T09:20:27+00:00",
+      "started_at": null,
+      "finished_at": null
+    },
+    {
+      "id": "handoff",
+      "workflow_id": "wf-c8027ec483db",
+      "name": "handoff",
+      "status": "PENDING",
+      "dependencies": [
+        "research"
+      ],
+      "stage_id": "stg-40c5fd70c250",
+      "execution_config": {
+        "acceptance": [
+          {
+            "equals": 0,
+            "type": "exit_code"
+          },
+          {
+            "path": "handoff.txt",
+            "type": "artifact_contains",
+            "value": "FINAL-5F50EAFD5A"
+          }
+        ],
+        "prompt": "Two phases. Inspect the continuation context.\nPhase 1: if it does NOT contain approved_decision, you MUST NOT create handoff.txt. Write the human decision request JSON to the path in the Human decision protocol section, with question 'Approve the handoff?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if it contains approved_decision with selected_option approve, find the token starting with FINAL- in the completed research output and write exactly that token to handoff.txt using the Write tool, then stop.",
+        "timeout_seconds": 240
+      },
+      "retry_policy": {},
+      "input": {},
+      "output": null,
+      "error": null,
+      "attempts": 0,
+      "required": true,
+      "idempotency_key": null,
+      "created_at": "2026-11-21T09:20:27+00:00",
+      "updated_at": "2026-11-21T09:20:27+00:00",
+      "started_at": null,
+      "finished_at": null
+    },
+    {
+      "id": "research",
+      "workflow_id": "wf-c8027ec483db",
+      "name": "research",
+      "status": "RUNNING",
+      "dependencies": [],
+      "stage_id": "stg-40c5fd70c250",
+      "execution_config": {
+        "acceptance": [
+          {
+            "type": "output_contains",
+            "value": "FINAL-5F50EAFD5A"
+          }
+        ],
+        "prompt": "Reply with exactly the token FINAL-5F50EAFD5A and nothing else. Do not create files. Do not use tools.",
+        "timeout_seconds": 240
+      },
+      "retry_policy": {},
+      "input": {},
+      "output": null,
+      "error": null,
+      "attempts": 1,
+      "required": true,
+      "idempotency_key": null,
+      "created_at": "2026-11-21T09:20:27+00:00",
+      "updated_at": "2026-11-21T09:20:27+00:00",
+      "started_at": "2026-11-21T09:20:27+00:00",
+      "finished_at": null
+    }
+  ],
+  "agent_runs": [
+    {
+      "id": "run-5b814679511f",
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": "research",
+      "adapter": "claude-code",
+      "status": "RUNNING",
+      "attempt": 1,
+      "prompt": "Reply with exactly the token FINAL-5F50EAFD5A and nothing else. Do not create files. Do not use tools.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace\\.devflow\\decisions\\research.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-c8027ec483db\",\n  \"goal\": \"Real Claude DAG with crash recovery, handoff and dynamic human decision.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"research\",\n  \"progress\": {\n    \"total\": 3,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 2,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"research\",\n      \"name\": \"research\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [\n    {\n      \"id\": \"finalize\",\n      \"name\": \"finalize\"\n    },\n    {\n      \"id\": \"handoff\",\n      \"name\": \"handoff\"\n    }\n  ],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node research\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 8,\n    \"workflow_id\": \"wf-c8027ec483db\",\n    \"node_id\": \"research\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:20:27+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-220\\\\test_p05_final_real_e2e0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+      "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace",
+      "pid": 33272,
+      "process_start_time": "win:134397264274192897",
+      "exit_code": null,
+      "output": "",
+      "error": null,
+      "timeout_seconds": 240.0,
+      "started_at": "2026-11-21T09:20:27+00:00",
+      "finished_at": null,
+      "heartbeat_at": "2026-11-21T09:20:27+00:00",
+      "metadata": {
+        "node_name": "research"
+      }
+    }
+  ],
+  "decisions": [],
+  "retries": [],
+  "orphans": [
+    {
+      "id": "run-5b814679511f",
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": "research",
+      "adapter": "claude-code",
+      "status": "RUNNING",
+      "attempt": 1,
+      "prompt": "Reply with exactly the token FINAL-5F50EAFD5A and nothing else. Do not create files. Do not use tools.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace\\.devflow\\decisions\\research.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-c8027ec483db\",\n  \"goal\": \"Real Claude DAG with crash recovery, handoff and dynamic human decision.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"research\",\n  \"progress\": {\n    \"total\": 3,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 2,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"research\",\n      \"name\": \"research\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [\n    {\n      \"id\": \"finalize\",\n      \"name\": \"finalize\"\n    },\n    {\n      \"id\": \"handoff\",\n      \"name\": \"handoff\"\n    }\n  ],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node research\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 8,\n    \"workflow_id\": \"wf-c8027ec483db\",\n    \"node_id\": \"research\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:20:27+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-220\\\\test_p05_final_real_e2e0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+      "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-220\\test_p05_final_real_e2e0\\workspace",
+      "pid": 33272,
+      "process_start_time": "win:134397264274192897",
+      "exit_code": null,
+      "output": "",
+      "error": null,
+      "timeout_seconds": 240.0,
+      "started_at": "2026-11-21T09:20:27+00:00",
+      "finished_at": null,
+      "heartbeat_at": "2026-11-21T09:20:27+00:00",
+      "metadata": {
+        "node_name": "research"
+      }
+    }
+  ],
+  "checkpoints": [
+    {
+      "id": "ckpt-a232058af6d0",
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": null,
+      "reason": "started",
+      "sequence": 1,
+      "state_snapshot": {
+        "agent_runs": [],
+        "decisions": [],
+        "nodes": [
+          {
+            "attempts": 0,
+            "created_at": "2026-11-21T09:20:27+00:00",
+            "dependencies": [
+              "handoff"
+            ],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "path": "final.txt",
+                  "type": "artifact_contains",
+                  "value": "FINAL-OK"
+                }
+              ],
+              "prompt": "Write exactly the text FINAL-OK to final.txt using the Write tool, then stop.",
+              "timeout_seconds": 240
+            },
+            "finished_at": null,
+            "id": "finalize",
+            "idempotency_key": null,
+            "input": {},
+            "name": "finalize",
+            "output": null,
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-40c5fd70c250",
+            "started_at": null,
+            "status": "PENDING",
+            "updated_at": "2026-11-21T09:20:27+00:00",
+            "workflow_id": "wf-c8027ec483db"
+          },
+          {
+            "attempts": 0,
+            "created_at": "2026-11-21T09:20:27+00:00",
+            "dependencies": [
+              "research"
+            ],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "equals": 0,
+                  "type": "exit_code"
+                },
+                {
+                  "path": "handoff.txt",
+                  "type": "artifact_contains",
+                  "value": "FINAL-5F50EAFD5A"
+                }
+              ],
+              "prompt": "Two phases. Inspect the continuation context.\nPhase 1: if it does NOT contain approved_decision, you MUST NOT create handoff.txt. Write the human decision request JSON to the path in the Human decision protocol section, with question 'Approve the handoff?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if it contains approved_decision with selected_option approve, find the token starting with FINAL- in the completed research output and write exactly that token to handoff.txt using the Write tool, then stop.",
+              "timeout_seconds": 240
+            },
+            "finished_at": null,
+            "id": "handoff",
+            "idempotency_key": null,
+            "input": {},
+            "name": "handoff",
+            "output": null,
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-40c5fd70c250",
+            "started_at": null,
+            "status": "PENDING",
+            "updated_at": "2026-11-21T09:20:27+00:00",
+            "workflow_id": "wf-c8027ec483db"
+          },
+          {
+            "attempts": 0,
+            "created_at": "2026-11-21T09:20:27+00:00",
+            "dependencies": [],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "type": "output_contains",
+                  "value": "FINAL-5F50EAFD5A"
+                }
+              ],
+              "prompt": "Reply with exactly the token FINAL-5F50EAFD5A and nothing else. Do not create files. Do not use tools.",
+              "timeout_seconds": 240
+            },
+            "finished_at": null,
+            "id": "research",
+            "idempotency_key": null,
+            "input": {},
+            "name": "research",
+            "output": null,
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-40c5fd70c250",
+            "started_at": null,
+            "status": "PENDING",
+            "updated_at": "2026-11-21T09:20:27+00:00",
+            "workflow_id": "wf-c8027ec483db"
+          }
+        ],
+        "recent_events": [
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:20:27+00:00",
+            "event_type": "workflow.created",
+            "id": 1,
+            "node_id": null,
+            "payload": {
+              "name": "P0.5 final E2E"
+            },
+            "workflow_id": "wf-c8027ec483db"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:20:27+00:00",
+            "event_type": "stage.created",
+            "id": 2,
+            "node_id": null,
+            "payload": {
+              "name": "main",
+              "stage_id": "stg-40c5fd70c250"
+            },
+            "workflow_id": "wf-c8027ec483db"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:20:27+00:00",
+            "event_type": "nodes.created",
+            "id": 3,
+            "node_id": null,
+            "payload": {
+              "node_ids": [
+                "research",
+                "handoff",
+                "finalize"
+              ]
+            },
+            "workflow_id": "wf-c8027ec483db"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:20:27+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 4,
+            "node_id": null,
+            "payload": {
+              "from": "CREATED",
+              "reason": "start requested",
+              "to": "INITIALIZING"
+            },
+            "workflow_id": "wf-c8027ec483db"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:20:27+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 5,
+            "node_id": null,
+            "payload": {
+              "from": "INITIALIZING",
+              "reason": "initialized",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-c8027ec483db"
+          }
+        ],
+        "stages": [
+          {
+            "created_at": "2026-11-21T09:20:27+00:00",
+            "id": "stg-40c5fd70c250",
+            "name": "main",
+            "sequence": 0,
+            "status": "PENDING",
+            "workflow_id": "wf-c8027ec483db"
+          }
+        ],
+        "workflow": {
+          "context": {},
+          "created_at": "2026-11-21T09:20:27+00:00",
+          "error": null,
+          "finished_at": null,
+          "goal": "Real Claude DAG with crash recovery, handoff and dynamic human decision.",
+          "id": "wf-c8027ec483db",
+          "name": "P0.5 final E2E",
+          "started_at": "2026-11-21T09:20:27+00:00",
+          "status": "RUNNING",
+          "updated_at": "2026-11-21T09:20:27+00:00"
+        }
+      },
+      "context": {
+        "blocked_nodes": [],
+        "checkpoint_source": "sqlite",
+        "completed_nodes": [],
+        "current_node": null,
+        "current_stage": null,
+        "deliverables": [],
+        "goal": "Real Claude DAG with crash recovery, handoff and dynamic human decision.",
+        "last_event": {
+          "actor": "core",
+          "created_at": "2026-11-21T09:20:27+00:00",
+          "event_type": "workflow.status_changed",
+          "id": 5,
+          "node_id": null,
+          "payload": {
+            "from": "INITIALIZING",
+            "reason": "initialized",
+            "to": "RUNNING"
+          },
+          "workflow_id": "wf-c8027ec483db"
+        },
+        "next_actions": [
+          "request recovery"
+        ],
+        "open_decisions": [],
+        "pending_nodes": [
+          {
+            "id": "finalize",
+            "name": "finalize"
+          },
+          {
+            "id": "handoff",
+            "name": "handoff"
+          },
+          {
+            "id": "research",
+            "name": "research"
+          }
+        ],
+        "progress": {
+          "blocked": 0,
+          "completed": 0,
+          "failed": 0,
+          "pending": 3,
+          "ready": 0,
+          "running": 0,
+          "total": 3,
+          "waiting_human": 0
+        },
+        "ready_nodes": [],
+        "running_nodes": [],
+        "side_effects_completed": [],
+        "unresolved_issues": [],
+        "workflow_context": {},
+        "workflow_id": "wf-c8027ec483db",
+        "workflow_status": "RUNNING"
+      },
+      "created_at": "2026-11-21T09:20:27+00:00"
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": null,
+      "event_type": "workflow.created",
+      "payload": {
+        "name": "P0.5 final E2E"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:20:27+00:00"
+    },
+    {
+      "id": 2,
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": null,
+      "event_type": "stage.created",
+      "payload": {
+        "name": "main",
+        "stage_id": "stg-40c5fd70c250"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:20:27+00:00"
+    },
+    {
+      "id": 3,
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": null,
+      "event_type": "nodes.created",
+      "payload": {
+        "node_ids": [
+          "research",
+          "handoff",
+          "finalize"
+        ]
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:20:27+00:00"
+    },
+    {
+      "id": 4,
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": null,
+      "event_type": "workflow.status_changed",
+      "payload": {
+        "from": "CREATED",
+        "reason": "start requested",
+        "to": "INITIALIZING"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:20:27+00:00"
+    },
+    {
+      "id": 5,
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": null,
+      "event_type": "workflow.status_changed",
+      "payload": {
+        "from": "INITIALIZING",
+        "reason": "initialized",
+        "to": "RUNNING"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:20:27+00:00"
+    },
+    {
+      "id": 6,
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": null,
+      "event_type": "checkpoint.saved",
+      "payload": {
+        "checkpoint_id": "ckpt-a232058af6d0",
+        "reason": "started",
+        "sequence": 1
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:20:27+00:00"
+    },
+    {
+      "id": 7,
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": "research",
+      "event_type": "node.status_changed",
+      "payload": {
+        "from": "PENDING",
+        "reason": "scheduler",
+        "to": "READY"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:20:27+00:00"
+    },
+    {
+      "id": 8,
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": "research",
+      "event_type": "node.claimed",
+      "payload": {},
+      "actor": "core",
+      "created_at": "2026-11-21T09:20:27+00:00"
+    },
+    {
+      "id": 9,
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": "research",
+      "event_type": "agent.started",
+      "payload": {
+        "attempt": 1,
+        "run_id": "run-5b814679511f"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:20:27+00:00"
+    },
+    {
+      "id": 10,
+      "workflow_id": "wf-c8027ec483db",
+      "node_id": "research",
+      "event_type": "agent.process_started",
+      "payload": {
+        "pid": 33272,
+        "process_start_time": "win:134397264274192897",
+        "run_id": "run-5b814679511f"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:20:27+00:00"
+    }
+  ]
+}
