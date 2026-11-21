@@ -1,0 +1,30 @@
+rc=0
+stdout={
+  "id": "dec-92aad2d64514",
+  "workflow_id": "wf-002f86d562a9",
+  "node_id": "dynamic",
+  "decision_type": "approval",
+  "question": "Approve writing the result?",
+  "status": "RESOLVED",
+  "context": {
+    "reason": "Human approval is required before writing",
+    "recommended": "approve",
+    "risk": "low",
+    "summary": "Node 'dynamic' of workflow wf-002f86d562a9 must write APPROVED to result.txt, but no approved_decision is present in the continuation context. The goal is: The agent must ask a human before writing the result."
+  },
+  "options": [
+    {
+      "id": "approve",
+      "label": "Approve"
+    }
+  ],
+  "selected_option": "approve",
+  "decision_payload": {},
+  "created_at": "2026-11-21T09:14:41+00:00",
+  "resolved_at": "2026-11-21T09:14:41+00:00",
+  "resolved_by": "cli",
+  "expires_at": null,
+  "note": null
+}
+
+stderr=

@@ -43,10 +43,23 @@ class HumanDecisionManager:
         node_id: str | None,
         spec: dict[str, Any],
     ) -> HumanDecision:
-        question = str(spec.get("question") or "").strip()
+        question = str(spec.get("question") or spec.get("title") or "").strip()
         if not question:
             raise ValidationError("human_decision.question is required")
         options = _normalize_options(spec.get("options"))
+        recommended = spec.get("recommended")
+        if recommended is not None and options:
+            if str(recommended) not in {option["id"] for option in options}:
+                raise ValidationError("recommended must match one of the option ids")
+        context = spec.get("context") or {}
+        if isinstance(context, str):
+            context = {"summary": context}
+        elif not isinstance(context, dict):
+            context = {"value": context}
+        context = dict(context)
+        for key in ("reason", "recommended", "risk"):
+            if spec.get(key) is not None:
+                context[key] = spec.get(key)
         if node_id:
             existing = self.store.find_pending_decision(node_id)
             if existing is not None:
@@ -70,7 +83,7 @@ class HumanDecisionManager:
             node_id,
             str(spec.get("decision_type") or "approval"),
             question,
-            context=spec.get("context") or {},
+            context=context,
             options=options,
             expires_at=expires_at,
         )

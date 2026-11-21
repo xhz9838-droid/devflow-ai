@@ -112,23 +112,33 @@ class DAGScheduler:
         blocked: set[str] = {
             n.id for n in nodes if n.status in (NodeStatus.FAILED, NodeStatus.CANCELLED)
         }
+        held: set[str] = {
+            n.id for n in nodes if n.status is NodeStatus.WAITING_HUMAN
+        }
         changed = True
         while changed:
             changed = False
             for node in nodes:
-                if node.id in blocked:
-                    continue
-                if any(dep in blocked for dep in node.dependencies):
+                if node.id not in blocked and any(
+                    dep in blocked for dep in node.dependencies
+                ):
                     blocked.add(node.id)
+                    changed = True
+                if node.id not in held and any(
+                    dep in held for dep in node.dependencies
+                ):
+                    held.add(node.id)
                     changed = True
 
         for node in nodes:
             target: NodeStatus | None = None
             if node.status in (NodeStatus.PENDING, NodeStatus.BLOCKED):
-                if node.id in blocked:
+                if node.id in blocked or node.id in held:
                     target = NodeStatus.BLOCKED
                 elif all(by_id[dep].status in _DONE for dep in node.dependencies):
                     target = NodeStatus.READY
+                elif node.status is NodeStatus.BLOCKED:
+                    target = NodeStatus.PENDING
             elif node.status is NodeStatus.READY and node.id in blocked:
                 target = NodeStatus.BLOCKED
             if target and target is not node.status:

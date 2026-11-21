@@ -1,0 +1,3942 @@
+{
+  "workflow": {
+    "id": "wf-002f86d562a9",
+    "name": "real dynamic HITL",
+    "goal": "The agent must ask a human before writing the result.",
+    "status": "COMPLETED",
+    "context": {},
+    "error": null,
+    "created_at": "2026-11-21T09:14:24+00:00",
+    "updated_at": "2026-11-21T09:15:08+00:00",
+    "started_at": "2026-11-21T09:14:24+00:00",
+    "finished_at": "2026-11-21T09:15:08+00:00"
+  },
+  "stages": [
+    {
+      "id": "stg-21ab595e5e2e",
+      "workflow_id": "wf-002f86d562a9",
+      "name": "main",
+      "sequence": 0,
+      "status": "PENDING",
+      "created_at": "2026-11-21T09:14:24+00:00"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "dynamic",
+      "workflow_id": "wf-002f86d562a9",
+      "name": "dynamic approval",
+      "status": "SUCCEEDED",
+      "dependencies": [],
+      "stage_id": "stg-21ab595e5e2e",
+      "execution_config": {
+        "acceptance": [
+          {
+            "equals": 0,
+            "type": "exit_code"
+          },
+          {
+            "path": "result.txt",
+            "type": "artifact_contains",
+            "value": "APPROVED"
+          }
+        ],
+        "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.",
+        "timeout_seconds": 240
+      },
+      "retry_policy": {},
+      "input": {},
+      "output": {
+        "agent_run_id": "run-c7938d8197bc",
+        "attempt": 2,
+        "exit_code": 0,
+        "output": "{\"duration_api_ms\":23687,\"stop_reason\":\"end_turn\",\"session_id\":\"6427a7b7-229b-4c8c-a4f8-a36ecfc5749d\",\"total_cost_usd\":0.242446,\"usage\":{\"input_tokens\":43145,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":201,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43145,\"outputTokens\":201,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.242446,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Approved decision was present (`dec-92aad2d64514`, selected `approve`), so I wrote `APPROVED` to `result.txt`.\\n\\nSkipped: nothing else — no decision file needed this run. Risk: none; content is the single required token.\",\"ttft_ms\":18112,\"type\":\"result\",\"duration_ms\":24018,\"uuid\":\"09fd6d78-820f-4d5f-9eb9-81ef8a51a29b\",\"ttft_stream_ms\":17735,\"time_to_request_ms\":220,\"first_content_frame_ms\":17737,\"queued_turn_count\":0,\"result_index\":0}",
+        "summary": "all acceptance conditions passed",
+        "verification": {
+          "evidence": [
+            {
+              "condition": "exit_code",
+              "config": {
+                "equals": 0,
+                "type": "exit_code"
+              },
+              "detail": "exit_code=0, expected=0",
+              "passed": true
+            },
+            {
+              "condition": "artifact_contains",
+              "config": {
+                "path": "result.txt",
+                "type": "artifact_contains",
+                "value": "APPROVED"
+              },
+              "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\result.txt contains 'APPROVED': True",
+              "passed": true
+            }
+          ],
+          "failed_conditions": [],
+          "passed": true,
+          "summary": "all acceptance conditions passed",
+          "verified_at": "2026-11-21T09:15:08+00:00"
+        }
+      },
+      "error": null,
+      "attempts": 2,
+      "required": true,
+      "idempotency_key": null,
+      "created_at": "2026-11-21T09:14:24+00:00",
+      "updated_at": "2026-11-21T09:15:08+00:00",
+      "started_at": "2026-11-21T09:14:24+00:00",
+      "finished_at": "2026-11-21T09:15:08+00:00"
+    }
+  ],
+  "agent_runs": [
+    {
+      "id": "run-4a093eec8a90",
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "adapter": "claude-code",
+      "status": "SUCCEEDED",
+      "attempt": 1,
+      "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\.devflow\\decisions\\dynamic.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-002f86d562a9\",\n  \"goal\": \"The agent must ask a human before writing the result.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"dynamic\",\n  \"progress\": {\n    \"total\": 1,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 0,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"dynamic\",\n      \"name\": \"dynamic approval\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node dynamic\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 8,\n    \"workflow_id\": \"wf-002f86d562a9\",\n    \"node_id\": \"dynamic\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:14:24+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-212\\\\test_real_agent_requests_human0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+      "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace",
+      "pid": 3932,
+      "process_start_time": "win:134397260643282974",
+      "exit_code": 0,
+      "output": "{\"duration_api_ms\":13670,\"stop_reason\":\"end_turn\",\"session_id\":\"8cea9926-1f03-474e-bc9a-1a18dbae2f52\",\"total_cost_usd\":0.247206,\"usage\":{\"input_tokens\":43157,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":389,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43157,\"outputTokens\":389,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.247206,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\\n\\nNode status: waiting on human approval of \\\"Approve writing the result?\\\" (option `approve`, risk low).\\n\\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.\",\"ttft_ms\":9348,\"type\":\"result\",\"duration_ms\":13981,\"uuid\":\"16ec59f7-ea50-4eae-980a-1ed8977833c2\",\"ttft_stream_ms\":9081,\"time_to_request_ms\":241,\"first_content_frame_ms\":9082,\"queued_turn_count\":0,\"result_index\":0}",
+      "error": null,
+      "timeout_seconds": 240.0,
+      "started_at": "2026-11-21T09:14:24+00:00",
+      "finished_at": "2026-11-21T09:14:41+00:00",
+      "heartbeat_at": "2026-11-21T09:14:41+00:00",
+      "metadata": {
+        "parsed": {
+          "api_error_status": null,
+          "duration_api_ms": 13670,
+          "duration_ms": 13981,
+          "fast_mode_disabled_reason": "sdk_opt_in_required",
+          "fast_mode_state": "off",
+          "first_content_frame_ms": 9082,
+          "is_error": false,
+          "modelUsage": {
+            "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+              "cacheCreationInputTokens": 0,
+              "cacheReadInputTokens": 43392,
+              "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+              "contextWindow": 1000000,
+              "costBasis": "unknown",
+              "costUSD": 0.247206,
+              "inputTokens": 43157,
+              "maxOutputTokens": 32000,
+              "outputTokens": 389,
+              "provider": "firstParty",
+              "thinkingTokens": 0,
+              "webSearchRequests": 0
+            }
+          },
+          "num_turns": 2,
+          "permission_denials": [],
+          "queued_turn_count": 0,
+          "result": "No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\n\nNode status: waiting on human approval of \"Approve writing the result?\" (option `approve`, risk low).\n\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.",
+          "result_index": 0,
+          "safety_stops": 0,
+          "session_id": "8cea9926-1f03-474e-bc9a-1a18dbae2f52",
+          "stop_reason": "end_turn",
+          "subagent_stats": {
+            "by_type": {},
+            "completed": 0,
+            "failed": 0,
+            "killed": {
+              "parent": 0,
+              "system": 0,
+              "user": 0
+            },
+            "max_depth": 0,
+            "refused": {
+              "budget": 0,
+              "concurrency_limit": 0,
+              "depth_limit": 0
+            },
+            "requested": {
+              "background": 0,
+              "foreground": 0,
+              "unset": 0
+            },
+            "spawned": 0,
+            "spawned_by_subagents": 0,
+            "started_in_background": 0
+          },
+          "subtype": "success",
+          "terminal_reason": "completed",
+          "time_to_request_ms": 241,
+          "total_cost_usd": 0.247206,
+          "ttft_ms": 9348,
+          "ttft_stream_ms": 9081,
+          "type": "result",
+          "usage": {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 43392,
+            "fallback_credit": null,
+            "inference_geo": "",
+            "input_tokens": 43157,
+            "iterations": [],
+            "output_tokens": 389,
+            "output_tokens_details": {
+              "thinking_tokens": 0
+            },
+            "server_tool_use": {
+              "web_fetch_requests": 0,
+              "web_search_requests": 0
+            },
+            "service_tier": "standard",
+            "speed": "standard"
+          },
+          "uuid": "16ec59f7-ea50-4eae-980a-1ed8977833c2"
+        },
+        "pid": 3932,
+        "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+      }
+    },
+    {
+      "id": "run-c7938d8197bc",
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "adapter": "claude-code",
+      "status": "SUCCEEDED",
+      "attempt": 2,
+      "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\.devflow\\decisions\\dynamic.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-002f86d562a9\",\n  \"goal\": \"The agent must ask a human before writing the result.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"dynamic\",\n  \"progress\": {\n    \"total\": 1,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 0,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"dynamic\",\n      \"name\": \"dynamic approval\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node dynamic\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 25,\n    \"workflow_id\": \"wf-002f86d562a9\",\n    \"node_id\": \"dynamic\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:14:41+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-212\\\\test_real_agent_requests_human0\\\\workspace\",\n  \"approved_decision\": {\n    \"decision_id\": \"dec-92aad2d64514\",\n    \"selected_option\": \"approve\",\n    \"payload\": {},\n    \"resolved_by\": \"cli\"\n  }\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+      "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace",
+      "pid": 23164,
+      "process_start_time": "win:134397260816213981",
+      "exit_code": 0,
+      "output": "{\"duration_api_ms\":23687,\"stop_reason\":\"end_turn\",\"session_id\":\"6427a7b7-229b-4c8c-a4f8-a36ecfc5749d\",\"total_cost_usd\":0.242446,\"usage\":{\"input_tokens\":43145,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":201,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43145,\"outputTokens\":201,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.242446,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Approved decision was present (`dec-92aad2d64514`, selected `approve`), so I wrote `APPROVED` to `result.txt`.\\n\\nSkipped: nothing else — no decision file needed this run. Risk: none; content is the single required token.\",\"ttft_ms\":18112,\"type\":\"result\",\"duration_ms\":24018,\"uuid\":\"09fd6d78-820f-4d5f-9eb9-81ef8a51a29b\",\"ttft_stream_ms\":17735,\"time_to_request_ms\":220,\"first_content_frame_ms\":17737,\"queued_turn_count\":0,\"result_index\":0}",
+      "error": null,
+      "timeout_seconds": 240.0,
+      "started_at": "2026-11-21T09:14:41+00:00",
+      "finished_at": "2026-11-21T09:15:08+00:00",
+      "heartbeat_at": "2026-11-21T09:15:08+00:00",
+      "metadata": {
+        "parsed": {
+          "api_error_status": null,
+          "duration_api_ms": 23687,
+          "duration_ms": 24018,
+          "fast_mode_disabled_reason": "sdk_opt_in_required",
+          "fast_mode_state": "off",
+          "first_content_frame_ms": 17737,
+          "is_error": false,
+          "modelUsage": {
+            "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+              "cacheCreationInputTokens": 0,
+              "cacheReadInputTokens": 43392,
+              "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+              "contextWindow": 1000000,
+              "costBasis": "unknown",
+              "costUSD": 0.242446,
+              "inputTokens": 43145,
+              "maxOutputTokens": 32000,
+              "outputTokens": 201,
+              "provider": "firstParty",
+              "thinkingTokens": 0,
+              "webSearchRequests": 0
+            }
+          },
+          "num_turns": 2,
+          "permission_denials": [],
+          "queued_turn_count": 0,
+          "result": "Approved decision was present (`dec-92aad2d64514`, selected `approve`), so I wrote `APPROVED` to `result.txt`.\n\nSkipped: nothing else — no decision file needed this run. Risk: none; content is the single required token.",
+          "result_index": 0,
+          "safety_stops": 0,
+          "session_id": "6427a7b7-229b-4c8c-a4f8-a36ecfc5749d",
+          "stop_reason": "end_turn",
+          "subagent_stats": {
+            "by_type": {},
+            "completed": 0,
+            "failed": 0,
+            "killed": {
+              "parent": 0,
+              "system": 0,
+              "user": 0
+            },
+            "max_depth": 0,
+            "refused": {
+              "budget": 0,
+              "concurrency_limit": 0,
+              "depth_limit": 0
+            },
+            "requested": {
+              "background": 0,
+              "foreground": 0,
+              "unset": 0
+            },
+            "spawned": 0,
+            "spawned_by_subagents": 0,
+            "started_in_background": 0
+          },
+          "subtype": "success",
+          "terminal_reason": "completed",
+          "time_to_request_ms": 220,
+          "total_cost_usd": 0.242446,
+          "ttft_ms": 18112,
+          "ttft_stream_ms": 17735,
+          "type": "result",
+          "usage": {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 43392,
+            "fallback_credit": null,
+            "inference_geo": "",
+            "input_tokens": 43145,
+            "iterations": [],
+            "output_tokens": 201,
+            "output_tokens_details": {
+              "thinking_tokens": 0
+            },
+            "server_tool_use": {
+              "web_fetch_requests": 0,
+              "web_search_requests": 0
+            },
+            "service_tier": "standard",
+            "speed": "standard"
+          },
+          "uuid": "09fd6d78-820f-4d5f-9eb9-81ef8a51a29b"
+        },
+        "pid": 23164,
+        "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+      }
+    }
+  ],
+  "decisions": [
+    {
+      "id": "dec-92aad2d64514",
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "decision_type": "approval",
+      "question": "Approve writing the result?",
+      "status": "RESOLVED",
+      "context": {
+        "reason": "Human approval is required before writing",
+        "recommended": "approve",
+        "risk": "low",
+        "summary": "Node 'dynamic' of workflow wf-002f86d562a9 must write APPROVED to result.txt, but no approved_decision is present in the continuation context. The goal is: The agent must ask a human before writing the result."
+      },
+      "options": [
+        {
+          "id": "approve",
+          "label": "Approve"
+        }
+      ],
+      "selected_option": "approve",
+      "decision_payload": {},
+      "created_at": "2026-11-21T09:14:41+00:00",
+      "resolved_at": "2026-11-21T09:14:41+00:00",
+      "resolved_by": "cli",
+      "expires_at": null,
+      "note": null
+    }
+  ],
+  "retries": [],
+  "orphans": [],
+  "checkpoints": [
+    {
+      "id": "ckpt-02c56d16f43e",
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "reason": "started",
+      "sequence": 1,
+      "state_snapshot": {
+        "agent_runs": [],
+        "decisions": [],
+        "nodes": [
+          {
+            "attempts": 0,
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "dependencies": [],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "equals": 0,
+                  "type": "exit_code"
+                },
+                {
+                  "path": "result.txt",
+                  "type": "artifact_contains",
+                  "value": "APPROVED"
+                }
+              ],
+              "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.",
+              "timeout_seconds": 240
+            },
+            "finished_at": null,
+            "id": "dynamic",
+            "idempotency_key": null,
+            "input": {},
+            "name": "dynamic approval",
+            "output": null,
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-21ab595e5e2e",
+            "started_at": null,
+            "status": "PENDING",
+            "updated_at": "2026-11-21T09:14:24+00:00",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "recent_events": [
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.created",
+            "id": 1,
+            "node_id": null,
+            "payload": {
+              "name": "real dynamic HITL"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "stage.created",
+            "id": 2,
+            "node_id": null,
+            "payload": {
+              "name": "main",
+              "stage_id": "stg-21ab595e5e2e"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "nodes.created",
+            "id": 3,
+            "node_id": null,
+            "payload": {
+              "node_ids": [
+                "dynamic"
+              ]
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 4,
+            "node_id": null,
+            "payload": {
+              "from": "CREATED",
+              "reason": "start requested",
+              "to": "INITIALIZING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 5,
+            "node_id": null,
+            "payload": {
+              "from": "INITIALIZING",
+              "reason": "initialized",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "stages": [
+          {
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "id": "stg-21ab595e5e2e",
+            "name": "main",
+            "sequence": 0,
+            "status": "PENDING",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "workflow": {
+          "context": {},
+          "created_at": "2026-11-21T09:14:24+00:00",
+          "error": null,
+          "finished_at": null,
+          "goal": "The agent must ask a human before writing the result.",
+          "id": "wf-002f86d562a9",
+          "name": "real dynamic HITL",
+          "started_at": "2026-11-21T09:14:24+00:00",
+          "status": "RUNNING",
+          "updated_at": "2026-11-21T09:14:24+00:00"
+        }
+      },
+      "context": {
+        "blocked_nodes": [],
+        "checkpoint_source": "sqlite",
+        "completed_nodes": [],
+        "current_node": null,
+        "current_stage": null,
+        "deliverables": [],
+        "goal": "The agent must ask a human before writing the result.",
+        "last_event": {
+          "actor": "core",
+          "created_at": "2026-11-21T09:14:24+00:00",
+          "event_type": "workflow.status_changed",
+          "id": 5,
+          "node_id": null,
+          "payload": {
+            "from": "INITIALIZING",
+            "reason": "initialized",
+            "to": "RUNNING"
+          },
+          "workflow_id": "wf-002f86d562a9"
+        },
+        "next_actions": [
+          "request recovery"
+        ],
+        "open_decisions": [],
+        "pending_nodes": [
+          {
+            "id": "dynamic",
+            "name": "dynamic approval"
+          }
+        ],
+        "progress": {
+          "blocked": 0,
+          "completed": 0,
+          "failed": 0,
+          "pending": 1,
+          "ready": 0,
+          "running": 0,
+          "total": 1,
+          "waiting_human": 0
+        },
+        "ready_nodes": [],
+        "running_nodes": [],
+        "side_effects_completed": [],
+        "unresolved_issues": [],
+        "workflow_context": {},
+        "workflow_id": "wf-002f86d562a9",
+        "workflow_status": "RUNNING"
+      },
+      "created_at": "2026-11-21T09:14:24+00:00"
+    },
+    {
+      "id": "ckpt-1c70ff750814",
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "reason": "batch_completed",
+      "sequence": 2,
+      "state_snapshot": {
+        "agent_runs": [
+          {
+            "adapter": "claude-code",
+            "attempt": 1,
+            "error": null,
+            "exit_code": 0,
+            "finished_at": "2026-11-21T09:14:41+00:00",
+            "heartbeat_at": "2026-11-21T09:14:41+00:00",
+            "id": "run-4a093eec8a90",
+            "metadata": {
+              "parsed": {
+                "api_error_status": null,
+                "duration_api_ms": 13670,
+                "duration_ms": 13981,
+                "fast_mode_disabled_reason": "sdk_opt_in_required",
+                "fast_mode_state": "off",
+                "first_content_frame_ms": 9082,
+                "is_error": false,
+                "modelUsage": {
+                  "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                    "cacheCreationInputTokens": 0,
+                    "cacheReadInputTokens": 43392,
+                    "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                    "contextWindow": 1000000,
+                    "costBasis": "unknown",
+                    "costUSD": 0.247206,
+                    "inputTokens": 43157,
+                    "maxOutputTokens": 32000,
+                    "outputTokens": 389,
+                    "provider": "firstParty",
+                    "thinkingTokens": 0,
+                    "webSearchRequests": 0
+                  }
+                },
+                "num_turns": 2,
+                "permission_denials": [],
+                "queued_turn_count": 0,
+                "result": "No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\n\nNode status: waiting on human approval of \"Approve writing the result?\" (option `approve`, risk low).\n\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.",
+                "result_index": 0,
+                "safety_stops": 0,
+                "session_id": "8cea9926-1f03-474e-bc9a-1a18dbae2f52",
+                "stop_reason": "end_turn",
+                "subagent_stats": {
+                  "by_type": {},
+                  "completed": 0,
+                  "failed": 0,
+                  "killed": {
+                    "parent": 0,
+                    "system": 0,
+                    "user": 0
+                  },
+                  "max_depth": 0,
+                  "refused": {
+                    "budget": 0,
+                    "concurrency_limit": 0,
+                    "depth_limit": 0
+                  },
+                  "requested": {
+                    "background": 0,
+                    "foreground": 0,
+                    "unset": 0
+                  },
+                  "spawned": 0,
+                  "spawned_by_subagents": 0,
+                  "started_in_background": 0
+                },
+                "subtype": "success",
+                "terminal_reason": "completed",
+                "time_to_request_ms": 241,
+                "total_cost_usd": 0.247206,
+                "ttft_ms": 9348,
+                "ttft_stream_ms": 9081,
+                "type": "result",
+                "usage": {
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 43392,
+                  "fallback_credit": null,
+                  "inference_geo": "",
+                  "input_tokens": 43157,
+                  "iterations": [],
+                  "output_tokens": 389,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_fetch_requests": 0,
+                    "web_search_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "speed": "standard"
+                },
+                "uuid": "16ec59f7-ea50-4eae-980a-1ed8977833c2"
+              },
+              "pid": 3932,
+              "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+            },
+            "node_id": "dynamic",
+            "output": "{\"duration_api_ms\":13670,\"stop_reason\":\"end_turn\",\"session_id\":\"8cea9926-1f03-474e-bc9a-1a18dbae2f52\",\"total_cost_usd\":0.247206,\"usage\":{\"input_tokens\":43157,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":389,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43157,\"outputTokens\":389,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.247206,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\\n\\nNode status: waiting on human approval of \\\"Approve writing the result?\\\" (option `approve`, risk low).\\n\\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.\",\"ttft_ms\":9348,\"type\":\"result\",\"duration_ms\":13981,\"uuid\":\"16ec59f7-ea50-4eae-980a-1ed8977833c2\",\"ttft_stream_ms\":9081,\"time_to_request_ms\":241,\"first_content_frame_ms\":9082,\"queued_turn_count\":0,\"result_index\":0}",
+            "pid": 3932,
+            "process_start_time": "win:134397260643282974",
+            "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\.devflow\\decisions\\dynamic.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-002f86d562a9\",\n  \"goal\": \"The agent must ask a human before writing the result.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"dynamic\",\n  \"progress\": {\n    \"total\": 1,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 0,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"dynamic\",\n      \"name\": \"dynamic approval\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node dynamic\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 8,\n    \"workflow_id\": \"wf-002f86d562a9\",\n    \"node_id\": \"dynamic\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:14:24+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-212\\\\test_real_agent_requests_human0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+            "started_at": "2026-11-21T09:14:24+00:00",
+            "status": "SUCCEEDED",
+            "timeout_seconds": 240.0,
+            "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "decisions": [
+          {
+            "context": {
+              "reason": "Human approval is required before writing",
+              "recommended": "approve",
+              "risk": "low",
+              "summary": "Node 'dynamic' of workflow wf-002f86d562a9 must write APPROVED to result.txt, but no approved_decision is present in the continuation context. The goal is: The agent must ask a human before writing the result."
+            },
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "decision_payload": {},
+            "decision_type": "approval",
+            "expires_at": null,
+            "id": "dec-92aad2d64514",
+            "node_id": "dynamic",
+            "note": null,
+            "options": [
+              {
+                "id": "approve",
+                "label": "Approve"
+              }
+            ],
+            "question": "Approve writing the result?",
+            "resolved_at": null,
+            "resolved_by": null,
+            "selected_option": null,
+            "status": "PENDING",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "nodes": [
+          {
+            "attempts": 1,
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "dependencies": [],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "equals": 0,
+                  "type": "exit_code"
+                },
+                {
+                  "path": "result.txt",
+                  "type": "artifact_contains",
+                  "value": "APPROVED"
+                }
+              ],
+              "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.",
+              "timeout_seconds": 240
+            },
+            "finished_at": null,
+            "id": "dynamic",
+            "idempotency_key": null,
+            "input": {},
+            "name": "dynamic approval",
+            "output": null,
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-21ab595e5e2e",
+            "started_at": "2026-11-21T09:14:24+00:00",
+            "status": "WAITING_HUMAN",
+            "updated_at": "2026-11-21T09:14:41+00:00",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "recent_events": [
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.created",
+            "id": 1,
+            "node_id": null,
+            "payload": {
+              "name": "real dynamic HITL"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "stage.created",
+            "id": 2,
+            "node_id": null,
+            "payload": {
+              "name": "main",
+              "stage_id": "stg-21ab595e5e2e"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "nodes.created",
+            "id": 3,
+            "node_id": null,
+            "payload": {
+              "node_ids": [
+                "dynamic"
+              ]
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 4,
+            "node_id": null,
+            "payload": {
+              "from": "CREATED",
+              "reason": "start requested",
+              "to": "INITIALIZING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 5,
+            "node_id": null,
+            "payload": {
+              "from": "INITIALIZING",
+              "reason": "initialized",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 6,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-02c56d16f43e",
+              "reason": "started",
+              "sequence": 1
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "node.status_changed",
+            "id": 7,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "PENDING",
+              "reason": "scheduler",
+              "to": "READY"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "node.claimed",
+            "id": 8,
+            "node_id": "dynamic",
+            "payload": {},
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "agent.started",
+            "id": 9,
+            "node_id": "dynamic",
+            "payload": {
+              "attempt": 1,
+              "run_id": "run-4a093eec8a90"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "agent.process_started",
+            "id": 10,
+            "node_id": "dynamic",
+            "payload": {
+              "pid": 3932,
+              "process_start_time": "win:134397260643282974",
+              "run_id": "run-4a093eec8a90"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "agent.status_changed",
+            "id": 11,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "run_id": "run-4a093eec8a90",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.requested",
+            "id": 12,
+            "node_id": "dynamic",
+            "payload": {
+              "decision_id": "dec-92aad2d64514",
+              "question": "Approve writing the result?"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "node.waiting_human",
+            "id": 13,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "reason": "waiting for human decision",
+              "to": "WAITING_HUMAN"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.agent_requested",
+            "id": 14,
+            "node_id": "dynamic",
+            "payload": {
+              "agent_run_id": "run-4a093eec8a90",
+              "decision_id": "dec-92aad2d64514"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "stages": [
+          {
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "id": "stg-21ab595e5e2e",
+            "name": "main",
+            "sequence": 0,
+            "status": "PENDING",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "workflow": {
+          "context": {},
+          "created_at": "2026-11-21T09:14:24+00:00",
+          "error": null,
+          "finished_at": null,
+          "goal": "The agent must ask a human before writing the result.",
+          "id": "wf-002f86d562a9",
+          "name": "real dynamic HITL",
+          "started_at": "2026-11-21T09:14:24+00:00",
+          "status": "RUNNING",
+          "updated_at": "2026-11-21T09:14:24+00:00"
+        }
+      },
+      "context": {
+        "blocked_nodes": [],
+        "checkpoint_source": "sqlite",
+        "completed_nodes": [],
+        "current_node": "dynamic",
+        "current_stage": "main",
+        "deliverables": [],
+        "goal": "The agent must ask a human before writing the result.",
+        "last_event": {
+          "actor": "core",
+          "created_at": "2026-11-21T09:14:41+00:00",
+          "event_type": "human_decision.agent_requested",
+          "id": 14,
+          "node_id": "dynamic",
+          "payload": {
+            "agent_run_id": "run-4a093eec8a90",
+            "decision_id": "dec-92aad2d64514"
+          },
+          "workflow_id": "wf-002f86d562a9"
+        },
+        "next_actions": [
+          "resolve decision dec-92aad2d64514 for node dynamic"
+        ],
+        "open_decisions": [
+          {
+            "expires_at": null,
+            "id": "dec-92aad2d64514",
+            "node_id": "dynamic",
+            "options": [
+              {
+                "id": "approve",
+                "label": "Approve"
+              }
+            ],
+            "question": "Approve writing the result?"
+          }
+        ],
+        "pending_nodes": [],
+        "progress": {
+          "blocked": 0,
+          "completed": 0,
+          "failed": 0,
+          "pending": 0,
+          "ready": 0,
+          "running": 0,
+          "total": 1,
+          "waiting_human": 1
+        },
+        "ready_nodes": [],
+        "running_nodes": [],
+        "side_effects_completed": [],
+        "unresolved_issues": [
+          "decision dec-92aad2d64514: Approve writing the result?"
+        ],
+        "workflow_context": {},
+        "workflow_id": "wf-002f86d562a9",
+        "workflow_status": "RUNNING"
+      },
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": "ckpt-50dda6e0b84e",
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "reason": "waiting_human",
+      "sequence": 3,
+      "state_snapshot": {
+        "agent_runs": [
+          {
+            "adapter": "claude-code",
+            "attempt": 1,
+            "error": null,
+            "exit_code": 0,
+            "finished_at": "2026-11-21T09:14:41+00:00",
+            "heartbeat_at": "2026-11-21T09:14:41+00:00",
+            "id": "run-4a093eec8a90",
+            "metadata": {
+              "parsed": {
+                "api_error_status": null,
+                "duration_api_ms": 13670,
+                "duration_ms": 13981,
+                "fast_mode_disabled_reason": "sdk_opt_in_required",
+                "fast_mode_state": "off",
+                "first_content_frame_ms": 9082,
+                "is_error": false,
+                "modelUsage": {
+                  "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                    "cacheCreationInputTokens": 0,
+                    "cacheReadInputTokens": 43392,
+                    "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                    "contextWindow": 1000000,
+                    "costBasis": "unknown",
+                    "costUSD": 0.247206,
+                    "inputTokens": 43157,
+                    "maxOutputTokens": 32000,
+                    "outputTokens": 389,
+                    "provider": "firstParty",
+                    "thinkingTokens": 0,
+                    "webSearchRequests": 0
+                  }
+                },
+                "num_turns": 2,
+                "permission_denials": [],
+                "queued_turn_count": 0,
+                "result": "No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\n\nNode status: waiting on human approval of \"Approve writing the result?\" (option `approve`, risk low).\n\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.",
+                "result_index": 0,
+                "safety_stops": 0,
+                "session_id": "8cea9926-1f03-474e-bc9a-1a18dbae2f52",
+                "stop_reason": "end_turn",
+                "subagent_stats": {
+                  "by_type": {},
+                  "completed": 0,
+                  "failed": 0,
+                  "killed": {
+                    "parent": 0,
+                    "system": 0,
+                    "user": 0
+                  },
+                  "max_depth": 0,
+                  "refused": {
+                    "budget": 0,
+                    "concurrency_limit": 0,
+                    "depth_limit": 0
+                  },
+                  "requested": {
+                    "background": 0,
+                    "foreground": 0,
+                    "unset": 0
+                  },
+                  "spawned": 0,
+                  "spawned_by_subagents": 0,
+                  "started_in_background": 0
+                },
+                "subtype": "success",
+                "terminal_reason": "completed",
+                "time_to_request_ms": 241,
+                "total_cost_usd": 0.247206,
+                "ttft_ms": 9348,
+                "ttft_stream_ms": 9081,
+                "type": "result",
+                "usage": {
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 43392,
+                  "fallback_credit": null,
+                  "inference_geo": "",
+                  "input_tokens": 43157,
+                  "iterations": [],
+                  "output_tokens": 389,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_fetch_requests": 0,
+                    "web_search_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "speed": "standard"
+                },
+                "uuid": "16ec59f7-ea50-4eae-980a-1ed8977833c2"
+              },
+              "pid": 3932,
+              "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+            },
+            "node_id": "dynamic",
+            "output": "{\"duration_api_ms\":13670,\"stop_reason\":\"end_turn\",\"session_id\":\"8cea9926-1f03-474e-bc9a-1a18dbae2f52\",\"total_cost_usd\":0.247206,\"usage\":{\"input_tokens\":43157,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":389,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43157,\"outputTokens\":389,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.247206,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\\n\\nNode status: waiting on human approval of \\\"Approve writing the result?\\\" (option `approve`, risk low).\\n\\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.\",\"ttft_ms\":9348,\"type\":\"result\",\"duration_ms\":13981,\"uuid\":\"16ec59f7-ea50-4eae-980a-1ed8977833c2\",\"ttft_stream_ms\":9081,\"time_to_request_ms\":241,\"first_content_frame_ms\":9082,\"queued_turn_count\":0,\"result_index\":0}",
+            "pid": 3932,
+            "process_start_time": "win:134397260643282974",
+            "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\.devflow\\decisions\\dynamic.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-002f86d562a9\",\n  \"goal\": \"The agent must ask a human before writing the result.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"dynamic\",\n  \"progress\": {\n    \"total\": 1,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 0,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"dynamic\",\n      \"name\": \"dynamic approval\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node dynamic\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 8,\n    \"workflow_id\": \"wf-002f86d562a9\",\n    \"node_id\": \"dynamic\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:14:24+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-212\\\\test_real_agent_requests_human0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+            "started_at": "2026-11-21T09:14:24+00:00",
+            "status": "SUCCEEDED",
+            "timeout_seconds": 240.0,
+            "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "decisions": [
+          {
+            "context": {
+              "reason": "Human approval is required before writing",
+              "recommended": "approve",
+              "risk": "low",
+              "summary": "Node 'dynamic' of workflow wf-002f86d562a9 must write APPROVED to result.txt, but no approved_decision is present in the continuation context. The goal is: The agent must ask a human before writing the result."
+            },
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "decision_payload": {},
+            "decision_type": "approval",
+            "expires_at": null,
+            "id": "dec-92aad2d64514",
+            "node_id": "dynamic",
+            "note": null,
+            "options": [
+              {
+                "id": "approve",
+                "label": "Approve"
+              }
+            ],
+            "question": "Approve writing the result?",
+            "resolved_at": null,
+            "resolved_by": null,
+            "selected_option": null,
+            "status": "PENDING",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "nodes": [
+          {
+            "attempts": 1,
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "dependencies": [],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "equals": 0,
+                  "type": "exit_code"
+                },
+                {
+                  "path": "result.txt",
+                  "type": "artifact_contains",
+                  "value": "APPROVED"
+                }
+              ],
+              "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.",
+              "timeout_seconds": 240
+            },
+            "finished_at": null,
+            "id": "dynamic",
+            "idempotency_key": null,
+            "input": {},
+            "name": "dynamic approval",
+            "output": null,
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-21ab595e5e2e",
+            "started_at": "2026-11-21T09:14:24+00:00",
+            "status": "WAITING_HUMAN",
+            "updated_at": "2026-11-21T09:14:41+00:00",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "recent_events": [
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.created",
+            "id": 1,
+            "node_id": null,
+            "payload": {
+              "name": "real dynamic HITL"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "stage.created",
+            "id": 2,
+            "node_id": null,
+            "payload": {
+              "name": "main",
+              "stage_id": "stg-21ab595e5e2e"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "nodes.created",
+            "id": 3,
+            "node_id": null,
+            "payload": {
+              "node_ids": [
+                "dynamic"
+              ]
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 4,
+            "node_id": null,
+            "payload": {
+              "from": "CREATED",
+              "reason": "start requested",
+              "to": "INITIALIZING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 5,
+            "node_id": null,
+            "payload": {
+              "from": "INITIALIZING",
+              "reason": "initialized",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 6,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-02c56d16f43e",
+              "reason": "started",
+              "sequence": 1
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "node.status_changed",
+            "id": 7,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "PENDING",
+              "reason": "scheduler",
+              "to": "READY"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "node.claimed",
+            "id": 8,
+            "node_id": "dynamic",
+            "payload": {},
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "agent.started",
+            "id": 9,
+            "node_id": "dynamic",
+            "payload": {
+              "attempt": 1,
+              "run_id": "run-4a093eec8a90"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "agent.process_started",
+            "id": 10,
+            "node_id": "dynamic",
+            "payload": {
+              "pid": 3932,
+              "process_start_time": "win:134397260643282974",
+              "run_id": "run-4a093eec8a90"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "agent.status_changed",
+            "id": 11,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "run_id": "run-4a093eec8a90",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.requested",
+            "id": 12,
+            "node_id": "dynamic",
+            "payload": {
+              "decision_id": "dec-92aad2d64514",
+              "question": "Approve writing the result?"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "node.waiting_human",
+            "id": 13,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "reason": "waiting for human decision",
+              "to": "WAITING_HUMAN"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.agent_requested",
+            "id": 14,
+            "node_id": "dynamic",
+            "payload": {
+              "agent_run_id": "run-4a093eec8a90",
+              "decision_id": "dec-92aad2d64514"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 15,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-1c70ff750814",
+              "reason": "batch_completed",
+              "sequence": 2
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.waiting_human",
+            "id": 16,
+            "node_id": null,
+            "payload": {
+              "from": "RUNNING",
+              "reason": "awaiting human decision",
+              "to": "WAITING_HUMAN"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "stages": [
+          {
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "id": "stg-21ab595e5e2e",
+            "name": "main",
+            "sequence": 0,
+            "status": "PENDING",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "workflow": {
+          "context": {},
+          "created_at": "2026-11-21T09:14:24+00:00",
+          "error": null,
+          "finished_at": null,
+          "goal": "The agent must ask a human before writing the result.",
+          "id": "wf-002f86d562a9",
+          "name": "real dynamic HITL",
+          "started_at": "2026-11-21T09:14:24+00:00",
+          "status": "WAITING_HUMAN",
+          "updated_at": "2026-11-21T09:14:41+00:00"
+        }
+      },
+      "context": {
+        "blocked_nodes": [],
+        "checkpoint_source": "sqlite",
+        "completed_nodes": [],
+        "current_node": "dynamic",
+        "current_stage": "main",
+        "deliverables": [],
+        "goal": "The agent must ask a human before writing the result.",
+        "last_event": {
+          "actor": "core",
+          "created_at": "2026-11-21T09:14:41+00:00",
+          "event_type": "workflow.waiting_human",
+          "id": 16,
+          "node_id": null,
+          "payload": {
+            "from": "RUNNING",
+            "reason": "awaiting human decision",
+            "to": "WAITING_HUMAN"
+          },
+          "workflow_id": "wf-002f86d562a9"
+        },
+        "next_actions": [
+          "resolve decision dec-92aad2d64514 for node dynamic"
+        ],
+        "open_decisions": [
+          {
+            "expires_at": null,
+            "id": "dec-92aad2d64514",
+            "node_id": "dynamic",
+            "options": [
+              {
+                "id": "approve",
+                "label": "Approve"
+              }
+            ],
+            "question": "Approve writing the result?"
+          }
+        ],
+        "pending_nodes": [],
+        "progress": {
+          "blocked": 0,
+          "completed": 0,
+          "failed": 0,
+          "pending": 0,
+          "ready": 0,
+          "running": 0,
+          "total": 1,
+          "waiting_human": 1
+        },
+        "ready_nodes": [],
+        "running_nodes": [],
+        "side_effects_completed": [],
+        "unresolved_issues": [
+          "decision dec-92aad2d64514: Approve writing the result?"
+        ],
+        "workflow_context": {},
+        "workflow_id": "wf-002f86d562a9",
+        "workflow_status": "WAITING_HUMAN"
+      },
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": "ckpt-2c2c52680e43",
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "reason": "recovery",
+      "sequence": 4,
+      "state_snapshot": {
+        "agent_runs": [
+          {
+            "adapter": "claude-code",
+            "attempt": 1,
+            "error": null,
+            "exit_code": 0,
+            "finished_at": "2026-11-21T09:14:41+00:00",
+            "heartbeat_at": "2026-11-21T09:14:41+00:00",
+            "id": "run-4a093eec8a90",
+            "metadata": {
+              "parsed": {
+                "api_error_status": null,
+                "duration_api_ms": 13670,
+                "duration_ms": 13981,
+                "fast_mode_disabled_reason": "sdk_opt_in_required",
+                "fast_mode_state": "off",
+                "first_content_frame_ms": 9082,
+                "is_error": false,
+                "modelUsage": {
+                  "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                    "cacheCreationInputTokens": 0,
+                    "cacheReadInputTokens": 43392,
+                    "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                    "contextWindow": 1000000,
+                    "costBasis": "unknown",
+                    "costUSD": 0.247206,
+                    "inputTokens": 43157,
+                    "maxOutputTokens": 32000,
+                    "outputTokens": 389,
+                    "provider": "firstParty",
+                    "thinkingTokens": 0,
+                    "webSearchRequests": 0
+                  }
+                },
+                "num_turns": 2,
+                "permission_denials": [],
+                "queued_turn_count": 0,
+                "result": "No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\n\nNode status: waiting on human approval of \"Approve writing the result?\" (option `approve`, risk low).\n\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.",
+                "result_index": 0,
+                "safety_stops": 0,
+                "session_id": "8cea9926-1f03-474e-bc9a-1a18dbae2f52",
+                "stop_reason": "end_turn",
+                "subagent_stats": {
+                  "by_type": {},
+                  "completed": 0,
+                  "failed": 0,
+                  "killed": {
+                    "parent": 0,
+                    "system": 0,
+                    "user": 0
+                  },
+                  "max_depth": 0,
+                  "refused": {
+                    "budget": 0,
+                    "concurrency_limit": 0,
+                    "depth_limit": 0
+                  },
+                  "requested": {
+                    "background": 0,
+                    "foreground": 0,
+                    "unset": 0
+                  },
+                  "spawned": 0,
+                  "spawned_by_subagents": 0,
+                  "started_in_background": 0
+                },
+                "subtype": "success",
+                "terminal_reason": "completed",
+                "time_to_request_ms": 241,
+                "total_cost_usd": 0.247206,
+                "ttft_ms": 9348,
+                "ttft_stream_ms": 9081,
+                "type": "result",
+                "usage": {
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 43392,
+                  "fallback_credit": null,
+                  "inference_geo": "",
+                  "input_tokens": 43157,
+                  "iterations": [],
+                  "output_tokens": 389,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_fetch_requests": 0,
+                    "web_search_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "speed": "standard"
+                },
+                "uuid": "16ec59f7-ea50-4eae-980a-1ed8977833c2"
+              },
+              "pid": 3932,
+              "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+            },
+            "node_id": "dynamic",
+            "output": "{\"duration_api_ms\":13670,\"stop_reason\":\"end_turn\",\"session_id\":\"8cea9926-1f03-474e-bc9a-1a18dbae2f52\",\"total_cost_usd\":0.247206,\"usage\":{\"input_tokens\":43157,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":389,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43157,\"outputTokens\":389,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.247206,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\\n\\nNode status: waiting on human approval of \\\"Approve writing the result?\\\" (option `approve`, risk low).\\n\\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.\",\"ttft_ms\":9348,\"type\":\"result\",\"duration_ms\":13981,\"uuid\":\"16ec59f7-ea50-4eae-980a-1ed8977833c2\",\"ttft_stream_ms\":9081,\"time_to_request_ms\":241,\"first_content_frame_ms\":9082,\"queued_turn_count\":0,\"result_index\":0}",
+            "pid": 3932,
+            "process_start_time": "win:134397260643282974",
+            "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\.devflow\\decisions\\dynamic.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-002f86d562a9\",\n  \"goal\": \"The agent must ask a human before writing the result.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"dynamic\",\n  \"progress\": {\n    \"total\": 1,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 0,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"dynamic\",\n      \"name\": \"dynamic approval\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node dynamic\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 8,\n    \"workflow_id\": \"wf-002f86d562a9\",\n    \"node_id\": \"dynamic\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:14:24+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-212\\\\test_real_agent_requests_human0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+            "started_at": "2026-11-21T09:14:24+00:00",
+            "status": "SUCCEEDED",
+            "timeout_seconds": 240.0,
+            "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "decisions": [
+          {
+            "context": {
+              "reason": "Human approval is required before writing",
+              "recommended": "approve",
+              "risk": "low",
+              "summary": "Node 'dynamic' of workflow wf-002f86d562a9 must write APPROVED to result.txt, but no approved_decision is present in the continuation context. The goal is: The agent must ask a human before writing the result."
+            },
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "decision_payload": {},
+            "decision_type": "approval",
+            "expires_at": null,
+            "id": "dec-92aad2d64514",
+            "node_id": "dynamic",
+            "note": null,
+            "options": [
+              {
+                "id": "approve",
+                "label": "Approve"
+              }
+            ],
+            "question": "Approve writing the result?",
+            "resolved_at": "2026-11-21T09:14:41+00:00",
+            "resolved_by": "cli",
+            "selected_option": "approve",
+            "status": "RESOLVED",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "nodes": [
+          {
+            "attempts": 1,
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "dependencies": [],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "equals": 0,
+                  "type": "exit_code"
+                },
+                {
+                  "path": "result.txt",
+                  "type": "artifact_contains",
+                  "value": "APPROVED"
+                }
+              ],
+              "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.",
+              "timeout_seconds": 240
+            },
+            "finished_at": null,
+            "id": "dynamic",
+            "idempotency_key": null,
+            "input": {},
+            "name": "dynamic approval",
+            "output": null,
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-21ab595e5e2e",
+            "started_at": "2026-11-21T09:14:24+00:00",
+            "status": "READY",
+            "updated_at": "2026-11-21T09:14:41+00:00",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "recent_events": [
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.created",
+            "id": 1,
+            "node_id": null,
+            "payload": {
+              "name": "real dynamic HITL"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "stage.created",
+            "id": 2,
+            "node_id": null,
+            "payload": {
+              "name": "main",
+              "stage_id": "stg-21ab595e5e2e"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "nodes.created",
+            "id": 3,
+            "node_id": null,
+            "payload": {
+              "node_ids": [
+                "dynamic"
+              ]
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 4,
+            "node_id": null,
+            "payload": {
+              "from": "CREATED",
+              "reason": "start requested",
+              "to": "INITIALIZING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 5,
+            "node_id": null,
+            "payload": {
+              "from": "INITIALIZING",
+              "reason": "initialized",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 6,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-02c56d16f43e",
+              "reason": "started",
+              "sequence": 1
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "node.status_changed",
+            "id": 7,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "PENDING",
+              "reason": "scheduler",
+              "to": "READY"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "node.claimed",
+            "id": 8,
+            "node_id": "dynamic",
+            "payload": {},
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "agent.started",
+            "id": 9,
+            "node_id": "dynamic",
+            "payload": {
+              "attempt": 1,
+              "run_id": "run-4a093eec8a90"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "agent.process_started",
+            "id": 10,
+            "node_id": "dynamic",
+            "payload": {
+              "pid": 3932,
+              "process_start_time": "win:134397260643282974",
+              "run_id": "run-4a093eec8a90"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "agent.status_changed",
+            "id": 11,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "run_id": "run-4a093eec8a90",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.requested",
+            "id": 12,
+            "node_id": "dynamic",
+            "payload": {
+              "decision_id": "dec-92aad2d64514",
+              "question": "Approve writing the result?"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "node.waiting_human",
+            "id": 13,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "reason": "waiting for human decision",
+              "to": "WAITING_HUMAN"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.agent_requested",
+            "id": 14,
+            "node_id": "dynamic",
+            "payload": {
+              "agent_run_id": "run-4a093eec8a90",
+              "decision_id": "dec-92aad2d64514"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 15,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-1c70ff750814",
+              "reason": "batch_completed",
+              "sequence": 2
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.waiting_human",
+            "id": 16,
+            "node_id": null,
+            "payload": {
+              "from": "RUNNING",
+              "reason": "awaiting human decision",
+              "to": "WAITING_HUMAN"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 17,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-50dda6e0b84e",
+              "reason": "waiting_human",
+              "sequence": 3
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.resolved",
+            "id": 18,
+            "node_id": "dynamic",
+            "payload": {
+              "decision_id": "dec-92aad2d64514",
+              "resolved_by": "cli",
+              "selected_option": "approve"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "node.decision_resolved",
+            "id": 19,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "WAITING_HUMAN",
+              "reason": "decision resolved",
+              "to": "READY"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.resumed",
+            "id": 20,
+            "node_id": null,
+            "payload": {
+              "from": "WAITING_HUMAN",
+              "reason": "all pending decisions resolved",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "recovery",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "recovery.scan",
+            "id": 21,
+            "node_id": null,
+            "payload": {},
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "recovery",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.recovery_started",
+            "id": 22,
+            "node_id": null,
+            "payload": {
+              "from": "RUNNING",
+              "reason": "recovery scan",
+              "to": "RECOVERING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "recovery",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.recovered",
+            "id": 23,
+            "node_id": null,
+            "payload": {
+              "from": "RECOVERING",
+              "reason": "recovery complete",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "stages": [
+          {
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "id": "stg-21ab595e5e2e",
+            "name": "main",
+            "sequence": 0,
+            "status": "PENDING",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "workflow": {
+          "context": {},
+          "created_at": "2026-11-21T09:14:24+00:00",
+          "error": null,
+          "finished_at": null,
+          "goal": "The agent must ask a human before writing the result.",
+          "id": "wf-002f86d562a9",
+          "name": "real dynamic HITL",
+          "started_at": "2026-11-21T09:14:24+00:00",
+          "status": "RUNNING",
+          "updated_at": "2026-11-21T09:14:41+00:00"
+        }
+      },
+      "context": {
+        "blocked_nodes": [],
+        "checkpoint_source": "sqlite",
+        "completed_nodes": [],
+        "current_node": null,
+        "current_stage": null,
+        "deliverables": [],
+        "goal": "The agent must ask a human before writing the result.",
+        "last_event": {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:14:41+00:00",
+          "event_type": "workflow.recovered",
+          "id": 23,
+          "node_id": null,
+          "payload": {
+            "from": "RECOVERING",
+            "reason": "recovery complete",
+            "to": "RUNNING"
+          },
+          "workflow_id": "wf-002f86d562a9"
+        },
+        "next_actions": [
+          "execute ready node dynamic"
+        ],
+        "open_decisions": [],
+        "pending_nodes": [],
+        "progress": {
+          "blocked": 0,
+          "completed": 0,
+          "failed": 0,
+          "pending": 0,
+          "ready": 1,
+          "running": 0,
+          "total": 1,
+          "waiting_human": 0
+        },
+        "ready_nodes": [
+          {
+            "id": "dynamic",
+            "name": "dynamic approval"
+          }
+        ],
+        "running_nodes": [],
+        "side_effects_completed": [],
+        "unresolved_issues": [],
+        "workflow_context": {},
+        "workflow_id": "wf-002f86d562a9",
+        "workflow_status": "RUNNING"
+      },
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": "ckpt-2c461007c376",
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "reason": "batch_completed",
+      "sequence": 5,
+      "state_snapshot": {
+        "agent_runs": [
+          {
+            "adapter": "claude-code",
+            "attempt": 1,
+            "error": null,
+            "exit_code": 0,
+            "finished_at": "2026-11-21T09:14:41+00:00",
+            "heartbeat_at": "2026-11-21T09:14:41+00:00",
+            "id": "run-4a093eec8a90",
+            "metadata": {
+              "parsed": {
+                "api_error_status": null,
+                "duration_api_ms": 13670,
+                "duration_ms": 13981,
+                "fast_mode_disabled_reason": "sdk_opt_in_required",
+                "fast_mode_state": "off",
+                "first_content_frame_ms": 9082,
+                "is_error": false,
+                "modelUsage": {
+                  "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                    "cacheCreationInputTokens": 0,
+                    "cacheReadInputTokens": 43392,
+                    "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                    "contextWindow": 1000000,
+                    "costBasis": "unknown",
+                    "costUSD": 0.247206,
+                    "inputTokens": 43157,
+                    "maxOutputTokens": 32000,
+                    "outputTokens": 389,
+                    "provider": "firstParty",
+                    "thinkingTokens": 0,
+                    "webSearchRequests": 0
+                  }
+                },
+                "num_turns": 2,
+                "permission_denials": [],
+                "queued_turn_count": 0,
+                "result": "No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\n\nNode status: waiting on human approval of \"Approve writing the result?\" (option `approve`, risk low).\n\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.",
+                "result_index": 0,
+                "safety_stops": 0,
+                "session_id": "8cea9926-1f03-474e-bc9a-1a18dbae2f52",
+                "stop_reason": "end_turn",
+                "subagent_stats": {
+                  "by_type": {},
+                  "completed": 0,
+                  "failed": 0,
+                  "killed": {
+                    "parent": 0,
+                    "system": 0,
+                    "user": 0
+                  },
+                  "max_depth": 0,
+                  "refused": {
+                    "budget": 0,
+                    "concurrency_limit": 0,
+                    "depth_limit": 0
+                  },
+                  "requested": {
+                    "background": 0,
+                    "foreground": 0,
+                    "unset": 0
+                  },
+                  "spawned": 0,
+                  "spawned_by_subagents": 0,
+                  "started_in_background": 0
+                },
+                "subtype": "success",
+                "terminal_reason": "completed",
+                "time_to_request_ms": 241,
+                "total_cost_usd": 0.247206,
+                "ttft_ms": 9348,
+                "ttft_stream_ms": 9081,
+                "type": "result",
+                "usage": {
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 43392,
+                  "fallback_credit": null,
+                  "inference_geo": "",
+                  "input_tokens": 43157,
+                  "iterations": [],
+                  "output_tokens": 389,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_fetch_requests": 0,
+                    "web_search_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "speed": "standard"
+                },
+                "uuid": "16ec59f7-ea50-4eae-980a-1ed8977833c2"
+              },
+              "pid": 3932,
+              "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+            },
+            "node_id": "dynamic",
+            "output": "{\"duration_api_ms\":13670,\"stop_reason\":\"end_turn\",\"session_id\":\"8cea9926-1f03-474e-bc9a-1a18dbae2f52\",\"total_cost_usd\":0.247206,\"usage\":{\"input_tokens\":43157,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":389,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43157,\"outputTokens\":389,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.247206,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\\n\\nNode status: waiting on human approval of \\\"Approve writing the result?\\\" (option `approve`, risk low).\\n\\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.\",\"ttft_ms\":9348,\"type\":\"result\",\"duration_ms\":13981,\"uuid\":\"16ec59f7-ea50-4eae-980a-1ed8977833c2\",\"ttft_stream_ms\":9081,\"time_to_request_ms\":241,\"first_content_frame_ms\":9082,\"queued_turn_count\":0,\"result_index\":0}",
+            "pid": 3932,
+            "process_start_time": "win:134397260643282974",
+            "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\.devflow\\decisions\\dynamic.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-002f86d562a9\",\n  \"goal\": \"The agent must ask a human before writing the result.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"dynamic\",\n  \"progress\": {\n    \"total\": 1,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 0,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"dynamic\",\n      \"name\": \"dynamic approval\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node dynamic\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 8,\n    \"workflow_id\": \"wf-002f86d562a9\",\n    \"node_id\": \"dynamic\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:14:24+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-212\\\\test_real_agent_requests_human0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+            "started_at": "2026-11-21T09:14:24+00:00",
+            "status": "SUCCEEDED",
+            "timeout_seconds": 240.0,
+            "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace",
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "adapter": "claude-code",
+            "attempt": 2,
+            "error": null,
+            "exit_code": 0,
+            "finished_at": "2026-11-21T09:15:08+00:00",
+            "heartbeat_at": "2026-11-21T09:15:08+00:00",
+            "id": "run-c7938d8197bc",
+            "metadata": {
+              "parsed": {
+                "api_error_status": null,
+                "duration_api_ms": 23687,
+                "duration_ms": 24018,
+                "fast_mode_disabled_reason": "sdk_opt_in_required",
+                "fast_mode_state": "off",
+                "first_content_frame_ms": 17737,
+                "is_error": false,
+                "modelUsage": {
+                  "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                    "cacheCreationInputTokens": 0,
+                    "cacheReadInputTokens": 43392,
+                    "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                    "contextWindow": 1000000,
+                    "costBasis": "unknown",
+                    "costUSD": 0.242446,
+                    "inputTokens": 43145,
+                    "maxOutputTokens": 32000,
+                    "outputTokens": 201,
+                    "provider": "firstParty",
+                    "thinkingTokens": 0,
+                    "webSearchRequests": 0
+                  }
+                },
+                "num_turns": 2,
+                "permission_denials": [],
+                "queued_turn_count": 0,
+                "result": "Approved decision was present (`dec-92aad2d64514`, selected `approve`), so I wrote `APPROVED` to `result.txt`.\n\nSkipped: nothing else — no decision file needed this run. Risk: none; content is the single required token.",
+                "result_index": 0,
+                "safety_stops": 0,
+                "session_id": "6427a7b7-229b-4c8c-a4f8-a36ecfc5749d",
+                "stop_reason": "end_turn",
+                "subagent_stats": {
+                  "by_type": {},
+                  "completed": 0,
+                  "failed": 0,
+                  "killed": {
+                    "parent": 0,
+                    "system": 0,
+                    "user": 0
+                  },
+                  "max_depth": 0,
+                  "refused": {
+                    "budget": 0,
+                    "concurrency_limit": 0,
+                    "depth_limit": 0
+                  },
+                  "requested": {
+                    "background": 0,
+                    "foreground": 0,
+                    "unset": 0
+                  },
+                  "spawned": 0,
+                  "spawned_by_subagents": 0,
+                  "started_in_background": 0
+                },
+                "subtype": "success",
+                "terminal_reason": "completed",
+                "time_to_request_ms": 220,
+                "total_cost_usd": 0.242446,
+                "ttft_ms": 18112,
+                "ttft_stream_ms": 17735,
+                "type": "result",
+                "usage": {
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 43392,
+                  "fallback_credit": null,
+                  "inference_geo": "",
+                  "input_tokens": 43145,
+                  "iterations": [],
+                  "output_tokens": 201,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_fetch_requests": 0,
+                    "web_search_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "speed": "standard"
+                },
+                "uuid": "09fd6d78-820f-4d5f-9eb9-81ef8a51a29b"
+              },
+              "pid": 23164,
+              "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+            },
+            "node_id": "dynamic",
+            "output": "{\"duration_api_ms\":23687,\"stop_reason\":\"end_turn\",\"session_id\":\"6427a7b7-229b-4c8c-a4f8-a36ecfc5749d\",\"total_cost_usd\":0.242446,\"usage\":{\"input_tokens\":43145,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":201,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43145,\"outputTokens\":201,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.242446,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Approved decision was present (`dec-92aad2d64514`, selected `approve`), so I wrote `APPROVED` to `result.txt`.\\n\\nSkipped: nothing else — no decision file needed this run. Risk: none; content is the single required token.\",\"ttft_ms\":18112,\"type\":\"result\",\"duration_ms\":24018,\"uuid\":\"09fd6d78-820f-4d5f-9eb9-81ef8a51a29b\",\"ttft_stream_ms\":17735,\"time_to_request_ms\":220,\"first_content_frame_ms\":17737,\"queued_turn_count\":0,\"result_index\":0}",
+            "pid": 23164,
+            "process_start_time": "win:134397260816213981",
+            "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\.devflow\\decisions\\dynamic.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-002f86d562a9\",\n  \"goal\": \"The agent must ask a human before writing the result.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"dynamic\",\n  \"progress\": {\n    \"total\": 1,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 0,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"dynamic\",\n      \"name\": \"dynamic approval\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node dynamic\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 25,\n    \"workflow_id\": \"wf-002f86d562a9\",\n    \"node_id\": \"dynamic\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:14:41+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-212\\\\test_real_agent_requests_human0\\\\workspace\",\n  \"approved_decision\": {\n    \"decision_id\": \"dec-92aad2d64514\",\n    \"selected_option\": \"approve\",\n    \"payload\": {},\n    \"resolved_by\": \"cli\"\n  }\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+            "started_at": "2026-11-21T09:14:41+00:00",
+            "status": "SUCCEEDED",
+            "timeout_seconds": 240.0,
+            "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "decisions": [
+          {
+            "context": {
+              "reason": "Human approval is required before writing",
+              "recommended": "approve",
+              "risk": "low",
+              "summary": "Node 'dynamic' of workflow wf-002f86d562a9 must write APPROVED to result.txt, but no approved_decision is present in the continuation context. The goal is: The agent must ask a human before writing the result."
+            },
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "decision_payload": {},
+            "decision_type": "approval",
+            "expires_at": null,
+            "id": "dec-92aad2d64514",
+            "node_id": "dynamic",
+            "note": null,
+            "options": [
+              {
+                "id": "approve",
+                "label": "Approve"
+              }
+            ],
+            "question": "Approve writing the result?",
+            "resolved_at": "2026-11-21T09:14:41+00:00",
+            "resolved_by": "cli",
+            "selected_option": "approve",
+            "status": "RESOLVED",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "nodes": [
+          {
+            "attempts": 2,
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "dependencies": [],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "equals": 0,
+                  "type": "exit_code"
+                },
+                {
+                  "path": "result.txt",
+                  "type": "artifact_contains",
+                  "value": "APPROVED"
+                }
+              ],
+              "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.",
+              "timeout_seconds": 240
+            },
+            "finished_at": "2026-11-21T09:15:08+00:00",
+            "id": "dynamic",
+            "idempotency_key": null,
+            "input": {},
+            "name": "dynamic approval",
+            "output": {
+              "agent_run_id": "run-c7938d8197bc",
+              "attempt": 2,
+              "exit_code": 0,
+              "output": "{\"duration_api_ms\":23687,\"stop_reason\":\"end_turn\",\"session_id\":\"6427a7b7-229b-4c8c-a4f8-a36ecfc5749d\",\"total_cost_usd\":0.242446,\"usage\":{\"input_tokens\":43145,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":201,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43145,\"outputTokens\":201,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.242446,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Approved decision was present (`dec-92aad2d64514`, selected `approve`), so I wrote `APPROVED` to `result.txt`.\\n\\nSkipped: nothing else — no decision file needed this run. Risk: none; content is the single required token.\",\"ttft_ms\":18112,\"type\":\"result\",\"duration_ms\":24018,\"uuid\":\"09fd6d78-820f-4d5f-9eb9-81ef8a51a29b\",\"ttft_stream_ms\":17735,\"time_to_request_ms\":220,\"first_content_frame_ms\":17737,\"queued_turn_count\":0,\"result_index\":0}",
+              "summary": "all acceptance conditions passed",
+              "verification": {
+                "evidence": [
+                  {
+                    "condition": "exit_code",
+                    "config": {
+                      "equals": 0,
+                      "type": "exit_code"
+                    },
+                    "detail": "exit_code=0, expected=0",
+                    "passed": true
+                  },
+                  {
+                    "condition": "artifact_contains",
+                    "config": {
+                      "path": "result.txt",
+                      "type": "artifact_contains",
+                      "value": "APPROVED"
+                    },
+                    "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\result.txt contains 'APPROVED': True",
+                    "passed": true
+                  }
+                ],
+                "failed_conditions": [],
+                "passed": true,
+                "summary": "all acceptance conditions passed",
+                "verified_at": "2026-11-21T09:15:08+00:00"
+              }
+            },
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-21ab595e5e2e",
+            "started_at": "2026-11-21T09:14:24+00:00",
+            "status": "SUCCEEDED",
+            "updated_at": "2026-11-21T09:15:08+00:00",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "recent_events": [
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.created",
+            "id": 1,
+            "node_id": null,
+            "payload": {
+              "name": "real dynamic HITL"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "stage.created",
+            "id": 2,
+            "node_id": null,
+            "payload": {
+              "name": "main",
+              "stage_id": "stg-21ab595e5e2e"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "nodes.created",
+            "id": 3,
+            "node_id": null,
+            "payload": {
+              "node_ids": [
+                "dynamic"
+              ]
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 4,
+            "node_id": null,
+            "payload": {
+              "from": "CREATED",
+              "reason": "start requested",
+              "to": "INITIALIZING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 5,
+            "node_id": null,
+            "payload": {
+              "from": "INITIALIZING",
+              "reason": "initialized",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 6,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-02c56d16f43e",
+              "reason": "started",
+              "sequence": 1
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "node.status_changed",
+            "id": 7,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "PENDING",
+              "reason": "scheduler",
+              "to": "READY"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "node.claimed",
+            "id": 8,
+            "node_id": "dynamic",
+            "payload": {},
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "agent.started",
+            "id": 9,
+            "node_id": "dynamic",
+            "payload": {
+              "attempt": 1,
+              "run_id": "run-4a093eec8a90"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "agent.process_started",
+            "id": 10,
+            "node_id": "dynamic",
+            "payload": {
+              "pid": 3932,
+              "process_start_time": "win:134397260643282974",
+              "run_id": "run-4a093eec8a90"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "agent.status_changed",
+            "id": 11,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "run_id": "run-4a093eec8a90",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.requested",
+            "id": 12,
+            "node_id": "dynamic",
+            "payload": {
+              "decision_id": "dec-92aad2d64514",
+              "question": "Approve writing the result?"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "node.waiting_human",
+            "id": 13,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "reason": "waiting for human decision",
+              "to": "WAITING_HUMAN"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.agent_requested",
+            "id": 14,
+            "node_id": "dynamic",
+            "payload": {
+              "agent_run_id": "run-4a093eec8a90",
+              "decision_id": "dec-92aad2d64514"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 15,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-1c70ff750814",
+              "reason": "batch_completed",
+              "sequence": 2
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.waiting_human",
+            "id": 16,
+            "node_id": null,
+            "payload": {
+              "from": "RUNNING",
+              "reason": "awaiting human decision",
+              "to": "WAITING_HUMAN"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 17,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-50dda6e0b84e",
+              "reason": "waiting_human",
+              "sequence": 3
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.resolved",
+            "id": 18,
+            "node_id": "dynamic",
+            "payload": {
+              "decision_id": "dec-92aad2d64514",
+              "resolved_by": "cli",
+              "selected_option": "approve"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "node.decision_resolved",
+            "id": 19,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "WAITING_HUMAN",
+              "reason": "decision resolved",
+              "to": "READY"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.resumed",
+            "id": 20,
+            "node_id": null,
+            "payload": {
+              "from": "WAITING_HUMAN",
+              "reason": "all pending decisions resolved",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "recovery",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "recovery.scan",
+            "id": 21,
+            "node_id": null,
+            "payload": {},
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "recovery",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.recovery_started",
+            "id": 22,
+            "node_id": null,
+            "payload": {
+              "from": "RUNNING",
+              "reason": "recovery scan",
+              "to": "RECOVERING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "recovery",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.recovered",
+            "id": 23,
+            "node_id": null,
+            "payload": {
+              "from": "RECOVERING",
+              "reason": "recovery complete",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 24,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-2c2c52680e43",
+              "reason": "recovery",
+              "sequence": 4
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "node.claimed",
+            "id": 25,
+            "node_id": "dynamic",
+            "payload": {},
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "agent.started",
+            "id": 26,
+            "node_id": "dynamic",
+            "payload": {
+              "attempt": 2,
+              "run_id": "run-c7938d8197bc"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "agent.process_started",
+            "id": 27,
+            "node_id": "dynamic",
+            "payload": {
+              "pid": 23164,
+              "process_start_time": "win:134397260816213981",
+              "run_id": "run-c7938d8197bc"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:15:08+00:00",
+            "event_type": "agent.status_changed",
+            "id": 28,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "run_id": "run-c7938d8197bc",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:15:08+00:00",
+            "event_type": "node.succeeded",
+            "id": 29,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "reason": "verification passed",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "stages": [
+          {
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "id": "stg-21ab595e5e2e",
+            "name": "main",
+            "sequence": 0,
+            "status": "PENDING",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "workflow": {
+          "context": {},
+          "created_at": "2026-11-21T09:14:24+00:00",
+          "error": null,
+          "finished_at": null,
+          "goal": "The agent must ask a human before writing the result.",
+          "id": "wf-002f86d562a9",
+          "name": "real dynamic HITL",
+          "started_at": "2026-11-21T09:14:24+00:00",
+          "status": "RUNNING",
+          "updated_at": "2026-11-21T09:14:41+00:00"
+        }
+      },
+      "context": {
+        "blocked_nodes": [],
+        "checkpoint_source": "sqlite",
+        "completed_nodes": [
+          {
+            "artifacts": [],
+            "id": "dynamic",
+            "idempotency_key": null,
+            "name": "dynamic approval",
+            "output": "Approved decision was present (`dec-92aad2d64514`, selected `approve`), so I wrote `APPROVED` to `result.txt`.\n\nSkipped: nothing else — no decision file needed this run. Risk: none; content is the single required token.",
+            "summary": "all acceptance conditions passed",
+            "verification_passed": true
+          }
+        ],
+        "current_node": null,
+        "current_stage": null,
+        "deliverables": [],
+        "goal": "The agent must ask a human before writing the result.",
+        "last_event": {
+          "actor": "core",
+          "created_at": "2026-11-21T09:15:08+00:00",
+          "event_type": "node.succeeded",
+          "id": 29,
+          "node_id": "dynamic",
+          "payload": {
+            "from": "RUNNING",
+            "reason": "verification passed",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-002f86d562a9"
+        },
+        "next_actions": [
+          "request recovery"
+        ],
+        "open_decisions": [],
+        "pending_nodes": [],
+        "progress": {
+          "blocked": 0,
+          "completed": 1,
+          "failed": 0,
+          "pending": 0,
+          "ready": 0,
+          "running": 0,
+          "total": 1,
+          "waiting_human": 0
+        },
+        "ready_nodes": [],
+        "running_nodes": [],
+        "side_effects_completed": [],
+        "unresolved_issues": [],
+        "workflow_context": {},
+        "workflow_id": "wf-002f86d562a9",
+        "workflow_status": "RUNNING"
+      },
+      "created_at": "2026-11-21T09:15:08+00:00"
+    },
+    {
+      "id": "ckpt-76b4db15aeff",
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "reason": "completed",
+      "sequence": 6,
+      "state_snapshot": {
+        "agent_runs": [
+          {
+            "adapter": "claude-code",
+            "attempt": 1,
+            "error": null,
+            "exit_code": 0,
+            "finished_at": "2026-11-21T09:14:41+00:00",
+            "heartbeat_at": "2026-11-21T09:14:41+00:00",
+            "id": "run-4a093eec8a90",
+            "metadata": {
+              "parsed": {
+                "api_error_status": null,
+                "duration_api_ms": 13670,
+                "duration_ms": 13981,
+                "fast_mode_disabled_reason": "sdk_opt_in_required",
+                "fast_mode_state": "off",
+                "first_content_frame_ms": 9082,
+                "is_error": false,
+                "modelUsage": {
+                  "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                    "cacheCreationInputTokens": 0,
+                    "cacheReadInputTokens": 43392,
+                    "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                    "contextWindow": 1000000,
+                    "costBasis": "unknown",
+                    "costUSD": 0.247206,
+                    "inputTokens": 43157,
+                    "maxOutputTokens": 32000,
+                    "outputTokens": 389,
+                    "provider": "firstParty",
+                    "thinkingTokens": 0,
+                    "webSearchRequests": 0
+                  }
+                },
+                "num_turns": 2,
+                "permission_denials": [],
+                "queued_turn_count": 0,
+                "result": "No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\n\nNode status: waiting on human approval of \"Approve writing the result?\" (option `approve`, risk low).\n\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.",
+                "result_index": 0,
+                "safety_stops": 0,
+                "session_id": "8cea9926-1f03-474e-bc9a-1a18dbae2f52",
+                "stop_reason": "end_turn",
+                "subagent_stats": {
+                  "by_type": {},
+                  "completed": 0,
+                  "failed": 0,
+                  "killed": {
+                    "parent": 0,
+                    "system": 0,
+                    "user": 0
+                  },
+                  "max_depth": 0,
+                  "refused": {
+                    "budget": 0,
+                    "concurrency_limit": 0,
+                    "depth_limit": 0
+                  },
+                  "requested": {
+                    "background": 0,
+                    "foreground": 0,
+                    "unset": 0
+                  },
+                  "spawned": 0,
+                  "spawned_by_subagents": 0,
+                  "started_in_background": 0
+                },
+                "subtype": "success",
+                "terminal_reason": "completed",
+                "time_to_request_ms": 241,
+                "total_cost_usd": 0.247206,
+                "ttft_ms": 9348,
+                "ttft_stream_ms": 9081,
+                "type": "result",
+                "usage": {
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 43392,
+                  "fallback_credit": null,
+                  "inference_geo": "",
+                  "input_tokens": 43157,
+                  "iterations": [],
+                  "output_tokens": 389,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_fetch_requests": 0,
+                    "web_search_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "speed": "standard"
+                },
+                "uuid": "16ec59f7-ea50-4eae-980a-1ed8977833c2"
+              },
+              "pid": 3932,
+              "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+            },
+            "node_id": "dynamic",
+            "output": "{\"duration_api_ms\":13670,\"stop_reason\":\"end_turn\",\"session_id\":\"8cea9926-1f03-474e-bc9a-1a18dbae2f52\",\"total_cost_usd\":0.247206,\"usage\":{\"input_tokens\":43157,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":389,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43157,\"outputTokens\":389,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.247206,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"No `approved_decision` in the continuation context, so I took Phase 1: wrote the approval request to `.devflow/decisions/dynamic.json` and stopped. `result.txt` was not created.\\n\\nNode status: waiting on human approval of \\\"Approve writing the result?\\\" (option `approve`, risk low).\\n\\nSkipped: nothing else — Phase 2 stays blocked until the engine resumes this node with `approved_decision.selected_option = approve`. Risk: none beyond the node remaining open.\",\"ttft_ms\":9348,\"type\":\"result\",\"duration_ms\":13981,\"uuid\":\"16ec59f7-ea50-4eae-980a-1ed8977833c2\",\"ttft_stream_ms\":9081,\"time_to_request_ms\":241,\"first_content_frame_ms\":9082,\"queued_turn_count\":0,\"result_index\":0}",
+            "pid": 3932,
+            "process_start_time": "win:134397260643282974",
+            "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\.devflow\\decisions\\dynamic.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-002f86d562a9\",\n  \"goal\": \"The agent must ask a human before writing the result.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"dynamic\",\n  \"progress\": {\n    \"total\": 1,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 0,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"dynamic\",\n      \"name\": \"dynamic approval\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node dynamic\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 8,\n    \"workflow_id\": \"wf-002f86d562a9\",\n    \"node_id\": \"dynamic\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:14:24+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-212\\\\test_real_agent_requests_human0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+            "started_at": "2026-11-21T09:14:24+00:00",
+            "status": "SUCCEEDED",
+            "timeout_seconds": 240.0,
+            "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace",
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "adapter": "claude-code",
+            "attempt": 2,
+            "error": null,
+            "exit_code": 0,
+            "finished_at": "2026-11-21T09:15:08+00:00",
+            "heartbeat_at": "2026-11-21T09:15:08+00:00",
+            "id": "run-c7938d8197bc",
+            "metadata": {
+              "parsed": {
+                "api_error_status": null,
+                "duration_api_ms": 23687,
+                "duration_ms": 24018,
+                "fast_mode_disabled_reason": "sdk_opt_in_required",
+                "fast_mode_state": "off",
+                "first_content_frame_ms": 17737,
+                "is_error": false,
+                "modelUsage": {
+                  "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                    "cacheCreationInputTokens": 0,
+                    "cacheReadInputTokens": 43392,
+                    "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                    "contextWindow": 1000000,
+                    "costBasis": "unknown",
+                    "costUSD": 0.242446,
+                    "inputTokens": 43145,
+                    "maxOutputTokens": 32000,
+                    "outputTokens": 201,
+                    "provider": "firstParty",
+                    "thinkingTokens": 0,
+                    "webSearchRequests": 0
+                  }
+                },
+                "num_turns": 2,
+                "permission_denials": [],
+                "queued_turn_count": 0,
+                "result": "Approved decision was present (`dec-92aad2d64514`, selected `approve`), so I wrote `APPROVED` to `result.txt`.\n\nSkipped: nothing else — no decision file needed this run. Risk: none; content is the single required token.",
+                "result_index": 0,
+                "safety_stops": 0,
+                "session_id": "6427a7b7-229b-4c8c-a4f8-a36ecfc5749d",
+                "stop_reason": "end_turn",
+                "subagent_stats": {
+                  "by_type": {},
+                  "completed": 0,
+                  "failed": 0,
+                  "killed": {
+                    "parent": 0,
+                    "system": 0,
+                    "user": 0
+                  },
+                  "max_depth": 0,
+                  "refused": {
+                    "budget": 0,
+                    "concurrency_limit": 0,
+                    "depth_limit": 0
+                  },
+                  "requested": {
+                    "background": 0,
+                    "foreground": 0,
+                    "unset": 0
+                  },
+                  "spawned": 0,
+                  "spawned_by_subagents": 0,
+                  "started_in_background": 0
+                },
+                "subtype": "success",
+                "terminal_reason": "completed",
+                "time_to_request_ms": 220,
+                "total_cost_usd": 0.242446,
+                "ttft_ms": 18112,
+                "ttft_stream_ms": 17735,
+                "type": "result",
+                "usage": {
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 43392,
+                  "fallback_credit": null,
+                  "inference_geo": "",
+                  "input_tokens": 43145,
+                  "iterations": [],
+                  "output_tokens": 201,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_fetch_requests": 0,
+                    "web_search_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "speed": "standard"
+                },
+                "uuid": "09fd6d78-820f-4d5f-9eb9-81ef8a51a29b"
+              },
+              "pid": 23164,
+              "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+            },
+            "node_id": "dynamic",
+            "output": "{\"duration_api_ms\":23687,\"stop_reason\":\"end_turn\",\"session_id\":\"6427a7b7-229b-4c8c-a4f8-a36ecfc5749d\",\"total_cost_usd\":0.242446,\"usage\":{\"input_tokens\":43145,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":201,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43145,\"outputTokens\":201,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.242446,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Approved decision was present (`dec-92aad2d64514`, selected `approve`), so I wrote `APPROVED` to `result.txt`.\\n\\nSkipped: nothing else — no decision file needed this run. Risk: none; content is the single required token.\",\"ttft_ms\":18112,\"type\":\"result\",\"duration_ms\":24018,\"uuid\":\"09fd6d78-820f-4d5f-9eb9-81ef8a51a29b\",\"ttft_stream_ms\":17735,\"time_to_request_ms\":220,\"first_content_frame_ms\":17737,\"queued_turn_count\":0,\"result_index\":0}",
+            "pid": 23164,
+            "process_start_time": "win:134397260816213981",
+            "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.\n\nHuman decision protocol:\nIf you cannot proceed without a human decision, write a JSON file to C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\.devflow\\decisions\\dynamic.json with fields: question (required), decision_type, options (list of {id, label}), reason, context, recommended, risk. Then stop. The engine will persist the decision and resume this node with a new Agent Run after it is resolved.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-002f86d562a9\",\n  \"goal\": \"The agent must ask a human before writing the result.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"dynamic\",\n  \"progress\": {\n    \"total\": 1,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 0,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"dynamic\",\n      \"name\": \"dynamic approval\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node dynamic\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 25,\n    \"workflow_id\": \"wf-002f86d562a9\",\n    \"node_id\": \"dynamic\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:14:41+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-212\\\\test_real_agent_requests_human0\\\\workspace\",\n  \"approved_decision\": {\n    \"decision_id\": \"dec-92aad2d64514\",\n    \"selected_option\": \"approve\",\n    \"payload\": {},\n    \"resolved_by\": \"cli\"\n  }\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+            "started_at": "2026-11-21T09:14:41+00:00",
+            "status": "SUCCEEDED",
+            "timeout_seconds": 240.0,
+            "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "decisions": [
+          {
+            "context": {
+              "reason": "Human approval is required before writing",
+              "recommended": "approve",
+              "risk": "low",
+              "summary": "Node 'dynamic' of workflow wf-002f86d562a9 must write APPROVED to result.txt, but no approved_decision is present in the continuation context. The goal is: The agent must ask a human before writing the result."
+            },
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "decision_payload": {},
+            "decision_type": "approval",
+            "expires_at": null,
+            "id": "dec-92aad2d64514",
+            "node_id": "dynamic",
+            "note": null,
+            "options": [
+              {
+                "id": "approve",
+                "label": "Approve"
+              }
+            ],
+            "question": "Approve writing the result?",
+            "resolved_at": "2026-11-21T09:14:41+00:00",
+            "resolved_by": "cli",
+            "selected_option": "approve",
+            "status": "RESOLVED",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "nodes": [
+          {
+            "attempts": 2,
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "dependencies": [],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "equals": 0,
+                  "type": "exit_code"
+                },
+                {
+                  "path": "result.txt",
+                  "type": "artifact_contains",
+                  "value": "APPROVED"
+                }
+              ],
+              "prompt": "You are executing in two phases. Inspect the continuation context.\nPhase 1: if the context does NOT contain approved_decision, you MUST NOT create result.txt. Instead write the human decision request JSON to the exact path given in the Human decision protocol section below, with question 'Approve writing the result?', decision_type 'approval', options [{'id':'approve','label':'Approve'}], reason 'Human approval is required before writing', recommended 'approve', risk 'low'. Then stop.\nPhase 2: if the context contains approved_decision with selected_option approve, write exactly the text APPROVED to result.txt using the Write tool, then stop.",
+              "timeout_seconds": 240
+            },
+            "finished_at": "2026-11-21T09:15:08+00:00",
+            "id": "dynamic",
+            "idempotency_key": null,
+            "input": {},
+            "name": "dynamic approval",
+            "output": {
+              "agent_run_id": "run-c7938d8197bc",
+              "attempt": 2,
+              "exit_code": 0,
+              "output": "{\"duration_api_ms\":23687,\"stop_reason\":\"end_turn\",\"session_id\":\"6427a7b7-229b-4c8c-a4f8-a36ecfc5749d\",\"total_cost_usd\":0.242446,\"usage\":{\"input_tokens\":43145,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43392,\"output_tokens\":201,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43145,\"outputTokens\":201,\"cacheReadInputTokens\":43392,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.242446,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Approved decision was present (`dec-92aad2d64514`, selected `approve`), so I wrote `APPROVED` to `result.txt`.\\n\\nSkipped: nothing else — no decision file needed this run. Risk: none; content is the single required token.\",\"ttft_ms\":18112,\"type\":\"result\",\"duration_ms\":24018,\"uuid\":\"09fd6d78-820f-4d5f-9eb9-81ef8a51a29b\",\"ttft_stream_ms\":17735,\"time_to_request_ms\":220,\"first_content_frame_ms\":17737,\"queued_turn_count\":0,\"result_index\":0}",
+              "summary": "all acceptance conditions passed",
+              "verification": {
+                "evidence": [
+                  {
+                    "condition": "exit_code",
+                    "config": {
+                      "equals": 0,
+                      "type": "exit_code"
+                    },
+                    "detail": "exit_code=0, expected=0",
+                    "passed": true
+                  },
+                  {
+                    "condition": "artifact_contains",
+                    "config": {
+                      "path": "result.txt",
+                      "type": "artifact_contains",
+                      "value": "APPROVED"
+                    },
+                    "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-212\\test_real_agent_requests_human0\\workspace\\result.txt contains 'APPROVED': True",
+                    "passed": true
+                  }
+                ],
+                "failed_conditions": [],
+                "passed": true,
+                "summary": "all acceptance conditions passed",
+                "verified_at": "2026-11-21T09:15:08+00:00"
+              }
+            },
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-21ab595e5e2e",
+            "started_at": "2026-11-21T09:14:24+00:00",
+            "status": "SUCCEEDED",
+            "updated_at": "2026-11-21T09:15:08+00:00",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "recent_events": [
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.created",
+            "id": 1,
+            "node_id": null,
+            "payload": {
+              "name": "real dynamic HITL"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "stage.created",
+            "id": 2,
+            "node_id": null,
+            "payload": {
+              "name": "main",
+              "stage_id": "stg-21ab595e5e2e"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "nodes.created",
+            "id": 3,
+            "node_id": null,
+            "payload": {
+              "node_ids": [
+                "dynamic"
+              ]
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 4,
+            "node_id": null,
+            "payload": {
+              "from": "CREATED",
+              "reason": "start requested",
+              "to": "INITIALIZING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 5,
+            "node_id": null,
+            "payload": {
+              "from": "INITIALIZING",
+              "reason": "initialized",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 6,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-02c56d16f43e",
+              "reason": "started",
+              "sequence": 1
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "node.status_changed",
+            "id": 7,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "PENDING",
+              "reason": "scheduler",
+              "to": "READY"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "node.claimed",
+            "id": 8,
+            "node_id": "dynamic",
+            "payload": {},
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "agent.started",
+            "id": 9,
+            "node_id": "dynamic",
+            "payload": {
+              "attempt": 1,
+              "run_id": "run-4a093eec8a90"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "event_type": "agent.process_started",
+            "id": 10,
+            "node_id": "dynamic",
+            "payload": {
+              "pid": 3932,
+              "process_start_time": "win:134397260643282974",
+              "run_id": "run-4a093eec8a90"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "agent.status_changed",
+            "id": 11,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "run_id": "run-4a093eec8a90",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.requested",
+            "id": 12,
+            "node_id": "dynamic",
+            "payload": {
+              "decision_id": "dec-92aad2d64514",
+              "question": "Approve writing the result?"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "node.waiting_human",
+            "id": 13,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "reason": "waiting for human decision",
+              "to": "WAITING_HUMAN"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.agent_requested",
+            "id": 14,
+            "node_id": "dynamic",
+            "payload": {
+              "agent_run_id": "run-4a093eec8a90",
+              "decision_id": "dec-92aad2d64514"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 15,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-1c70ff750814",
+              "reason": "batch_completed",
+              "sequence": 2
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.waiting_human",
+            "id": 16,
+            "node_id": null,
+            "payload": {
+              "from": "RUNNING",
+              "reason": "awaiting human decision",
+              "to": "WAITING_HUMAN"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 17,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-50dda6e0b84e",
+              "reason": "waiting_human",
+              "sequence": 3
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "human_decision.resolved",
+            "id": 18,
+            "node_id": "dynamic",
+            "payload": {
+              "decision_id": "dec-92aad2d64514",
+              "resolved_by": "cli",
+              "selected_option": "approve"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "node.decision_resolved",
+            "id": 19,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "WAITING_HUMAN",
+              "reason": "decision resolved",
+              "to": "READY"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.resumed",
+            "id": 20,
+            "node_id": null,
+            "payload": {
+              "from": "WAITING_HUMAN",
+              "reason": "all pending decisions resolved",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "recovery",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "recovery.scan",
+            "id": 21,
+            "node_id": null,
+            "payload": {},
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "recovery",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.recovery_started",
+            "id": 22,
+            "node_id": null,
+            "payload": {
+              "from": "RUNNING",
+              "reason": "recovery scan",
+              "to": "RECOVERING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "recovery",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "workflow.recovered",
+            "id": 23,
+            "node_id": null,
+            "payload": {
+              "from": "RECOVERING",
+              "reason": "recovery complete",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 24,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-2c2c52680e43",
+              "reason": "recovery",
+              "sequence": 4
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "node.claimed",
+            "id": 25,
+            "node_id": "dynamic",
+            "payload": {},
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "agent.started",
+            "id": 26,
+            "node_id": "dynamic",
+            "payload": {
+              "attempt": 2,
+              "run_id": "run-c7938d8197bc"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:14:41+00:00",
+            "event_type": "agent.process_started",
+            "id": 27,
+            "node_id": "dynamic",
+            "payload": {
+              "pid": 23164,
+              "process_start_time": "win:134397260816213981",
+              "run_id": "run-c7938d8197bc"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:15:08+00:00",
+            "event_type": "agent.status_changed",
+            "id": 28,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "run_id": "run-c7938d8197bc",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:15:08+00:00",
+            "event_type": "node.succeeded",
+            "id": 29,
+            "node_id": "dynamic",
+            "payload": {
+              "from": "RUNNING",
+              "reason": "verification passed",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:15:08+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 30,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-2c461007c376",
+              "reason": "batch_completed",
+              "sequence": 5
+            },
+            "workflow_id": "wf-002f86d562a9"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T09:15:08+00:00",
+            "event_type": "workflow.completed",
+            "id": 31,
+            "node_id": null,
+            "payload": {
+              "from": "RUNNING",
+              "reason": "workflow complete",
+              "to": "COMPLETED"
+            },
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "stages": [
+          {
+            "created_at": "2026-11-21T09:14:24+00:00",
+            "id": "stg-21ab595e5e2e",
+            "name": "main",
+            "sequence": 0,
+            "status": "PENDING",
+            "workflow_id": "wf-002f86d562a9"
+          }
+        ],
+        "workflow": {
+          "context": {},
+          "created_at": "2026-11-21T09:14:24+00:00",
+          "error": null,
+          "finished_at": "2026-11-21T09:15:08+00:00",
+          "goal": "The agent must ask a human before writing the result.",
+          "id": "wf-002f86d562a9",
+          "name": "real dynamic HITL",
+          "started_at": "2026-11-21T09:14:24+00:00",
+          "status": "COMPLETED",
+          "updated_at": "2026-11-21T09:15:08+00:00"
+        }
+      },
+      "context": {
+        "blocked_nodes": [],
+        "checkpoint_source": "sqlite",
+        "completed_nodes": [
+          {
+            "artifacts": [],
+            "id": "dynamic",
+            "idempotency_key": null,
+            "name": "dynamic approval",
+            "output": "Approved decision was present (`dec-92aad2d64514`, selected `approve`), so I wrote `APPROVED` to `result.txt`.\n\nSkipped: nothing else — no decision file needed this run. Risk: none; content is the single required token.",
+            "summary": "all acceptance conditions passed",
+            "verification_passed": true
+          }
+        ],
+        "current_node": null,
+        "current_stage": null,
+        "deliverables": [],
+        "goal": "The agent must ask a human before writing the result.",
+        "last_event": {
+          "actor": "core",
+          "created_at": "2026-11-21T09:15:08+00:00",
+          "event_type": "workflow.completed",
+          "id": 31,
+          "node_id": null,
+          "payload": {
+            "from": "RUNNING",
+            "reason": "workflow complete",
+            "to": "COMPLETED"
+          },
+          "workflow_id": "wf-002f86d562a9"
+        },
+        "next_actions": [
+          "workflow terminal"
+        ],
+        "open_decisions": [],
+        "pending_nodes": [],
+        "progress": {
+          "blocked": 0,
+          "completed": 1,
+          "failed": 0,
+          "pending": 0,
+          "ready": 0,
+          "running": 0,
+          "total": 1,
+          "waiting_human": 0
+        },
+        "ready_nodes": [],
+        "running_nodes": [],
+        "side_effects_completed": [],
+        "unresolved_issues": [],
+        "workflow_context": {},
+        "workflow_id": "wf-002f86d562a9",
+        "workflow_status": "COMPLETED"
+      },
+      "created_at": "2026-11-21T09:15:08+00:00"
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "workflow.created",
+      "payload": {
+        "name": "real dynamic HITL"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:24+00:00"
+    },
+    {
+      "id": 2,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "stage.created",
+      "payload": {
+        "name": "main",
+        "stage_id": "stg-21ab595e5e2e"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:24+00:00"
+    },
+    {
+      "id": 3,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "nodes.created",
+      "payload": {
+        "node_ids": [
+          "dynamic"
+        ]
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:24+00:00"
+    },
+    {
+      "id": 4,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "workflow.status_changed",
+      "payload": {
+        "from": "CREATED",
+        "reason": "start requested",
+        "to": "INITIALIZING"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:24+00:00"
+    },
+    {
+      "id": 5,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "workflow.status_changed",
+      "payload": {
+        "from": "INITIALIZING",
+        "reason": "initialized",
+        "to": "RUNNING"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:24+00:00"
+    },
+    {
+      "id": 6,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "checkpoint.saved",
+      "payload": {
+        "checkpoint_id": "ckpt-02c56d16f43e",
+        "reason": "started",
+        "sequence": 1
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:24+00:00"
+    },
+    {
+      "id": 7,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "node.status_changed",
+      "payload": {
+        "from": "PENDING",
+        "reason": "scheduler",
+        "to": "READY"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:24+00:00"
+    },
+    {
+      "id": 8,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "node.claimed",
+      "payload": {},
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:24+00:00"
+    },
+    {
+      "id": 9,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "agent.started",
+      "payload": {
+        "attempt": 1,
+        "run_id": "run-4a093eec8a90"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:24+00:00"
+    },
+    {
+      "id": 10,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "agent.process_started",
+      "payload": {
+        "pid": 3932,
+        "process_start_time": "win:134397260643282974",
+        "run_id": "run-4a093eec8a90"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:24+00:00"
+    },
+    {
+      "id": 11,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "agent.status_changed",
+      "payload": {
+        "from": "RUNNING",
+        "run_id": "run-4a093eec8a90",
+        "to": "SUCCEEDED"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 12,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "human_decision.requested",
+      "payload": {
+        "decision_id": "dec-92aad2d64514",
+        "question": "Approve writing the result?"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 13,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "node.waiting_human",
+      "payload": {
+        "from": "RUNNING",
+        "reason": "waiting for human decision",
+        "to": "WAITING_HUMAN"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 14,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "human_decision.agent_requested",
+      "payload": {
+        "agent_run_id": "run-4a093eec8a90",
+        "decision_id": "dec-92aad2d64514"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 15,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "checkpoint.saved",
+      "payload": {
+        "checkpoint_id": "ckpt-1c70ff750814",
+        "reason": "batch_completed",
+        "sequence": 2
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 16,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "workflow.waiting_human",
+      "payload": {
+        "from": "RUNNING",
+        "reason": "awaiting human decision",
+        "to": "WAITING_HUMAN"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 17,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "checkpoint.saved",
+      "payload": {
+        "checkpoint_id": "ckpt-50dda6e0b84e",
+        "reason": "waiting_human",
+        "sequence": 3
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 18,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "human_decision.resolved",
+      "payload": {
+        "decision_id": "dec-92aad2d64514",
+        "resolved_by": "cli",
+        "selected_option": "approve"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 19,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "node.decision_resolved",
+      "payload": {
+        "from": "WAITING_HUMAN",
+        "reason": "decision resolved",
+        "to": "READY"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 20,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "workflow.resumed",
+      "payload": {
+        "from": "WAITING_HUMAN",
+        "reason": "all pending decisions resolved",
+        "to": "RUNNING"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 21,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "recovery.scan",
+      "payload": {},
+      "actor": "recovery",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 22,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "workflow.recovery_started",
+      "payload": {
+        "from": "RUNNING",
+        "reason": "recovery scan",
+        "to": "RECOVERING"
+      },
+      "actor": "recovery",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 23,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "workflow.recovered",
+      "payload": {
+        "from": "RECOVERING",
+        "reason": "recovery complete",
+        "to": "RUNNING"
+      },
+      "actor": "recovery",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 24,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "checkpoint.saved",
+      "payload": {
+        "checkpoint_id": "ckpt-2c2c52680e43",
+        "reason": "recovery",
+        "sequence": 4
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 25,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "node.claimed",
+      "payload": {},
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 26,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "agent.started",
+      "payload": {
+        "attempt": 2,
+        "run_id": "run-c7938d8197bc"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 27,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "agent.process_started",
+      "payload": {
+        "pid": 23164,
+        "process_start_time": "win:134397260816213981",
+        "run_id": "run-c7938d8197bc"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:14:41+00:00"
+    },
+    {
+      "id": 28,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "agent.status_changed",
+      "payload": {
+        "from": "RUNNING",
+        "run_id": "run-c7938d8197bc",
+        "to": "SUCCEEDED"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:15:08+00:00"
+    },
+    {
+      "id": 29,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": "dynamic",
+      "event_type": "node.succeeded",
+      "payload": {
+        "from": "RUNNING",
+        "reason": "verification passed",
+        "to": "SUCCEEDED"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:15:08+00:00"
+    },
+    {
+      "id": 30,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "checkpoint.saved",
+      "payload": {
+        "checkpoint_id": "ckpt-2c461007c376",
+        "reason": "batch_completed",
+        "sequence": 5
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:15:08+00:00"
+    },
+    {
+      "id": 31,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "workflow.completed",
+      "payload": {
+        "from": "RUNNING",
+        "reason": "workflow complete",
+        "to": "COMPLETED"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:15:08+00:00"
+    },
+    {
+      "id": 32,
+      "workflow_id": "wf-002f86d562a9",
+      "node_id": null,
+      "event_type": "checkpoint.saved",
+      "payload": {
+        "checkpoint_id": "ckpt-76b4db15aeff",
+        "reason": "completed",
+        "sequence": 6
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T09:15:08+00:00"
+    }
+  ]
+}

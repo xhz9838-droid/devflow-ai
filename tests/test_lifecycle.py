@@ -70,6 +70,7 @@ def test_node_lifecycle_including_retry_and_human_wait():
     ]
     for current, target in zip(path, path[1:]):
         ensure_transition("node", current, target)
+    ensure_transition("node", NodeStatus.BLOCKED, NodeStatus.PENDING)
     assert is_node_terminal(NodeStatus.SUCCEEDED)
     assert not is_node_terminal(NodeStatus.WAITING_HUMAN)
 

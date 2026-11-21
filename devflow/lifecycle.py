@@ -67,7 +67,11 @@ NODE_TRANSITIONS: dict[NodeStatus, set[NodeStatus]] = {
         NodeStatus.FAILED,
         NodeStatus.CANCELLED,
     },
-    NodeStatus.BLOCKED: {NodeStatus.READY, NodeStatus.CANCELLED},
+    NodeStatus.BLOCKED: {
+        NodeStatus.PENDING,
+        NodeStatus.READY,
+        NodeStatus.CANCELLED,
+    },
     NodeStatus.FAILED: {NodeStatus.READY, NodeStatus.CANCELLED},
     NodeStatus.SUCCEEDED: set(),
     NodeStatus.SKIPPED: set(),

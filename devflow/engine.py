@@ -12,6 +12,11 @@ from typing import Any
 
 from .agents.base import AgentAdapter, AgentResult
 from .agents.manager import AgentExecutionManager
+from .agent_protocol import (
+    archive_decision_request,
+    decision_request_path,
+    read_decision_request,
+)
 from .config import DevFlowConfig
 from .continuation import CheckpointManager
 from .db import Database
@@ -388,6 +393,52 @@ class WorkflowEngine:
             )
             return
 
+        try:
+            request_spec = read_decision_request(self.config.workdir, node_id)
+            request_error = None
+        except ValidationError as exc:
+            request_spec = None
+            request_error = str(exc)
+
+        if request_spec is not None:
+            try:
+                decision = self.decisions.request(workflow_id, node_id, request_spec)
+            except ValidationError as exc:
+                self.store.update_node_status(
+                    node_id,
+                    NodeStatus.FAILED,
+                    "invalid human decision request",
+                    error=str(exc),
+                    event_type="node.failed",
+                )
+                return
+            archive_decision_request(self.config.workdir, node_id)
+            self.store.append_event(
+                workflow_id,
+                "human_decision.agent_requested",
+                {"decision_id": decision.id, "agent_run_id": run.id},
+                node_id=node_id,
+            )
+            return
+
+        if request_error:
+            if run.status is AgentRunStatus.INTERRUPTED:
+                self.store.append_event(
+                    workflow_id,
+                    "human_decision.invalid_request",
+                    {"agent_run_id": run.id, "error": request_error},
+                    node_id=node_id,
+                )
+            else:
+                self.store.update_node_status(
+                    node_id,
+                    NodeStatus.FAILED,
+                    "invalid human decision request",
+                    error=request_error,
+                    event_type="node.failed",
+                )
+                return
+
         if run.status is AgentRunStatus.INTERRUPTED:
             self.store.append_event(
                 workflow_id,
@@ -525,6 +576,12 @@ class WorkflowEngine:
             )
         return (
             f"{body}\n\n"
+            "Human decision protocol:\n"
+            f"If you cannot proceed without a human decision, write a JSON file to "
+            f"{decision_request_path(self.config.workdir, node.id)} with fields: "
+            "question (required), decision_type, options (list of {id, label}), "
+            "reason, context, recommended, risk. Then stop. The engine will persist "
+            "the decision and resume this node with a new Agent Run after it is resolved.\n\n"
             "Continuation context (authoritative state is persisted in SQLite):\n"
             f"{context_json}\n\n"
             "Execute this node and report the result. Do not declare the workflow "

@@ -114,3 +114,11 @@ def test_waiting_human_node_does_not_block_independent_node(store, create_workfl
     ready = scheduler.refresh(workflow.id)
     assert "independent" in [n.id for n in ready]
     assert "downstream" not in [n.id for n in ready]
+    assert store.get_node("downstream").status is NodeStatus.BLOCKED
+
+    store.update_node_status("human", NodeStatus.READY)
+    store.update_node_status("human", NodeStatus.RUNNING)
+    store.update_node_status("human", NodeStatus.SUCCEEDED)
+    ready = scheduler.refresh(workflow.id)
+    assert "downstream" in [n.id for n in ready]
+    assert store.get_node("downstream").status is NodeStatus.READY
