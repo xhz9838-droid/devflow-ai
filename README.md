@@ -25,7 +25,13 @@ python -m devflow --db devflow.db inspect <workflow-id>
 python -m devflow --db devflow.db recover
 ```
 
-`start` 通过 Claude Code Adapter 调用本机 `claude` CLI。人工决策：
+`start` 通过 Claude Code Adapter 调用本机 `claude` CLI。需要在临时/受控目录中允许文件编辑时，可显式传入：
+
+```bash
+export DEVFLOW_CLAUDE_EXTRA_ARGS="--permission-mode acceptEdits"
+```
+
+人工决策：
 
 ```bash
 python -m devflow --db devflow.db decisions <workflow-id>

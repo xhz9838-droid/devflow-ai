@@ -72,6 +72,26 @@ def test_default_verifier_reports_failed_conditions(tmp_path):
     assert len(report.failed_conditions) == 2
 
 
+def test_artifact_contains_checks_file_content(tmp_path):
+    (tmp_path / "artifact.txt").write_text("token-DF-012-OK", encoding="utf-8")
+    passing = _node(
+        config={
+            "acceptance": [
+                {"type": "artifact_contains", "path": "artifact.txt", "value": "DF-012-OK"}
+            ]
+        }
+    )
+    failing = _node(
+        config={
+            "acceptance": [
+                {"type": "artifact_contains", "path": "artifact.txt", "value": "missing"}
+            ]
+        }
+    )
+    assert DefaultVerifier().verify(_workflow(), passing, _result(), {"workdir": str(tmp_path)}).passed
+    assert not DefaultVerifier().verify(_workflow(), failing, _result(), {"workdir": str(tmp_path)}).passed
+
+
 def test_default_verifier_rejects_invalid_condition():
     node = _node(config={"acceptance": [{"type": "telepathy"}]})
     report = DefaultVerifier().verify(_workflow(), node, _result())

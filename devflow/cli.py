@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import shlex
 import sys
 from dataclasses import asdict
 from pathlib import Path
@@ -85,7 +87,8 @@ def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     config = load_config(args.db, workdir=args.workdir)
     configure_logging(args.log_level or config.log_level)
-    engine = WorkflowEngine(config, ClaudeCodeAdapter())
+    extra_args = shlex.split(os.environ.get("DEVFLOW_CLAUDE_EXTRA_ARGS", ""))
+    engine = WorkflowEngine(config, ClaudeCodeAdapter(extra_args=extra_args))
     try:
         if args.command == "init":
             _print({"db": str(config.db_path), "schema_version": engine.db.migrate()})

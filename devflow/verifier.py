@@ -93,6 +93,20 @@ class DefaultVerifier(Verifier):
                     target = base / target
                 passed = bool(raw_path) and target.exists()
                 detail = f"artifact {target} exists: {passed}"
+            elif kind == "artifact_contains":
+                raw_path = str(raw.get("path", ""))
+                needle = str(raw.get("value", ""))
+                base = Path((context or {}).get("workdir") or ".")
+                target = Path(raw_path)
+                if not target.is_absolute():
+                    target = base / target
+                try:
+                    content = target.read_text(encoding="utf-8", errors="replace")
+                    passed = bool(needle) and needle in content
+                except OSError as exc:
+                    passed = False
+                    detail = f"artifact {target} unreadable: {exc}"
+                detail = detail or f"artifact {target} contains {needle!r}: {passed}"
             else:
                 detail = f"unknown condition type: {kind}"
             evidence.append(

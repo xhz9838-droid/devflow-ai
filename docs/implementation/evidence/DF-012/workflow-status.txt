@@ -1,0 +1,3 @@
+workflow=COMPLETED
+node=SUCCEEDED
+verification_passed=True
