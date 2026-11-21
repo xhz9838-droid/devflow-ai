@@ -1,0 +1,1479 @@
+{
+  "workflow": {
+    "id": "wf-bddb39114c70",
+    "name": "real claude smoke",
+    "goal": "Create the requested artifact and let the engine verify it.",
+    "status": "COMPLETED",
+    "context": {},
+    "error": null,
+    "created_at": "2026-11-21T08:52:54+00:00",
+    "updated_at": "2026-11-21T08:53:12+00:00",
+    "started_at": "2026-11-21T08:52:54+00:00",
+    "finished_at": "2026-11-21T08:53:12+00:00"
+  },
+  "stages": [
+    {
+      "id": "stg-5809d4d13f0a",
+      "workflow_id": "wf-bddb39114c70",
+      "name": "main",
+      "sequence": 0,
+      "status": "PENDING",
+      "created_at": "2026-11-21T08:52:54+00:00"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "write-artifact",
+      "workflow_id": "wf-bddb39114c70",
+      "name": "write artifact",
+      "status": "SUCCEEDED",
+      "dependencies": [],
+      "stage_id": "stg-5809d4d13f0a",
+      "execution_config": {
+        "acceptance": [
+          {
+            "equals": 0,
+            "type": "exit_code"
+          },
+          {
+            "path": "artifact.txt",
+            "type": "artifact_exists"
+          },
+          {
+            "path": "artifact.txt",
+            "type": "artifact_contains",
+            "value": "DF-012-OK"
+          }
+        ],
+        "prompt": "Use the Write tool to create a file named artifact.txt in the current working directory. The file content must be exactly DF-012-OK with no extra lines. Do not use Bash. Then reply with one short confirmation.",
+        "timeout_seconds": 240
+      },
+      "retry_policy": {},
+      "input": {},
+      "output": {
+        "agent_run_id": "run-6a245aed89e0",
+        "attempt": 1,
+        "exit_code": 0,
+        "output": "{\"duration_api_ms\":14208,\"stop_reason\":\"end_turn\",\"session_id\":\"dde761c7-4a79-4fed-96ef-ded79bdb57a5\",\"total_cost_usd\":0.237711,\"usage\":{\"input_tokens\":42227,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":42752,\"output_tokens\":208,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":42227,\"outputTokens\":208,\"cacheReadInputTokens\":42752,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.237711,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Created `artifact.txt` containing exactly `DF-012-OK`.\\n\\nSkipped: verifying byte-level trailing newline behavior of Write. Risk: some editors/tools append a newline if the file is later resaved.\",\"ttft_ms\":9894,\"type\":\"result\",\"duration_ms\":14550,\"uuid\":\"de1772df-9a4d-4fb7-bf24-812babe74478\",\"ttft_stream_ms\":9331,\"time_to_request_ms\":230,\"first_content_frame_ms\":9331,\"queued_turn_count\":0,\"result_index\":0}",
+        "summary": "all acceptance conditions passed",
+        "verification": {
+          "evidence": [
+            {
+              "condition": "exit_code",
+              "config": {
+                "equals": 0,
+                "type": "exit_code"
+              },
+              "detail": "exit_code=0, expected=0",
+              "passed": true
+            },
+            {
+              "condition": "artifact_exists",
+              "config": {
+                "path": "artifact.txt",
+                "type": "artifact_exists"
+              },
+              "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-192\\test_real_claude_creates_and_v0\\workspace\\artifact.txt exists: True",
+              "passed": true
+            },
+            {
+              "condition": "artifact_contains",
+              "config": {
+                "path": "artifact.txt",
+                "type": "artifact_contains",
+                "value": "DF-012-OK"
+              },
+              "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-192\\test_real_claude_creates_and_v0\\workspace\\artifact.txt contains 'DF-012-OK': True",
+              "passed": true
+            }
+          ],
+          "failed_conditions": [],
+          "passed": true,
+          "summary": "all acceptance conditions passed",
+          "verified_at": "2026-11-21T08:53:12+00:00"
+        }
+      },
+      "error": null,
+      "attempts": 1,
+      "required": true,
+      "idempotency_key": null,
+      "created_at": "2026-11-21T08:52:54+00:00",
+      "updated_at": "2026-11-21T08:53:12+00:00",
+      "started_at": "2026-11-21T08:52:54+00:00",
+      "finished_at": "2026-11-21T08:53:12+00:00"
+    }
+  ],
+  "agent_runs": [
+    {
+      "id": "run-6a245aed89e0",
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": "write-artifact",
+      "adapter": "claude-code",
+      "status": "SUCCEEDED",
+      "attempt": 1,
+      "prompt": "Use the Write tool to create a file named artifact.txt in the current working directory. The file content must be exactly DF-012-OK with no extra lines. Do not use Bash. Then reply with one short confirmation.",
+      "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-192\\test_real_claude_creates_and_v0\\workspace",
+      "pid": 33664,
+      "process_start_time": "win:134397247746887993",
+      "exit_code": 0,
+      "output": "{\"duration_api_ms\":14208,\"stop_reason\":\"end_turn\",\"session_id\":\"dde761c7-4a79-4fed-96ef-ded79bdb57a5\",\"total_cost_usd\":0.237711,\"usage\":{\"input_tokens\":42227,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":42752,\"output_tokens\":208,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":42227,\"outputTokens\":208,\"cacheReadInputTokens\":42752,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.237711,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Created `artifact.txt` containing exactly `DF-012-OK`.\\n\\nSkipped: verifying byte-level trailing newline behavior of Write. Risk: some editors/tools append a newline if the file is later resaved.\",\"ttft_ms\":9894,\"type\":\"result\",\"duration_ms\":14550,\"uuid\":\"de1772df-9a4d-4fb7-bf24-812babe74478\",\"ttft_stream_ms\":9331,\"time_to_request_ms\":230,\"first_content_frame_ms\":9331,\"queued_turn_count\":0,\"result_index\":0}",
+      "error": null,
+      "timeout_seconds": 240.0,
+      "started_at": "2026-11-21T08:52:54+00:00",
+      "finished_at": "2026-11-21T08:53:12+00:00",
+      "heartbeat_at": "2026-11-21T08:53:12+00:00",
+      "metadata": {
+        "parsed": {
+          "api_error_status": null,
+          "duration_api_ms": 14208,
+          "duration_ms": 14550,
+          "fast_mode_disabled_reason": "sdk_opt_in_required",
+          "fast_mode_state": "off",
+          "first_content_frame_ms": 9331,
+          "is_error": false,
+          "modelUsage": {
+            "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+              "cacheCreationInputTokens": 0,
+              "cacheReadInputTokens": 42752,
+              "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+              "contextWindow": 1000000,
+              "costBasis": "unknown",
+              "costUSD": 0.237711,
+              "inputTokens": 42227,
+              "maxOutputTokens": 32000,
+              "outputTokens": 208,
+              "provider": "firstParty",
+              "thinkingTokens": 0,
+              "webSearchRequests": 0
+            }
+          },
+          "num_turns": 2,
+          "permission_denials": [],
+          "queued_turn_count": 0,
+          "result": "Created `artifact.txt` containing exactly `DF-012-OK`.\n\nSkipped: verifying byte-level trailing newline behavior of Write. Risk: some editors/tools append a newline if the file is later resaved.",
+          "result_index": 0,
+          "safety_stops": 0,
+          "session_id": "dde761c7-4a79-4fed-96ef-ded79bdb57a5",
+          "stop_reason": "end_turn",
+          "subagent_stats": {
+            "by_type": {},
+            "completed": 0,
+            "failed": 0,
+            "killed": {
+              "parent": 0,
+              "system": 0,
+              "user": 0
+            },
+            "max_depth": 0,
+            "refused": {
+              "budget": 0,
+              "concurrency_limit": 0,
+              "depth_limit": 0
+            },
+            "requested": {
+              "background": 0,
+              "foreground": 0,
+              "unset": 0
+            },
+            "spawned": 0,
+            "spawned_by_subagents": 0,
+            "started_in_background": 0
+          },
+          "subtype": "success",
+          "terminal_reason": "completed",
+          "time_to_request_ms": 230,
+          "total_cost_usd": 0.237711,
+          "ttft_ms": 9894,
+          "ttft_stream_ms": 9331,
+          "type": "result",
+          "usage": {
+            "cache_creation": {
+              "ephemeral_1h_input_tokens": 0,
+              "ephemeral_5m_input_tokens": 0
+            },
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 42752,
+            "fallback_credit": null,
+            "inference_geo": "",
+            "input_tokens": 42227,
+            "iterations": [],
+            "output_tokens": 208,
+            "output_tokens_details": {
+              "thinking_tokens": 0
+            },
+            "server_tool_use": {
+              "web_fetch_requests": 0,
+              "web_search_requests": 0
+            },
+            "service_tier": "standard",
+            "speed": "standard"
+          },
+          "uuid": "de1772df-9a4d-4fb7-bf24-812babe74478"
+        },
+        "pid": 33664,
+        "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+      }
+    }
+  ],
+  "decisions": [],
+  "retries": [],
+  "orphans": [],
+  "checkpoints": [
+    {
+      "id": "ckpt-61ec360741a3",
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "reason": "started",
+      "sequence": 1,
+      "state_snapshot": {
+        "agent_runs": [],
+        "decisions": [],
+        "nodes": [
+          {
+            "attempts": 0,
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "dependencies": [],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "equals": 0,
+                  "type": "exit_code"
+                },
+                {
+                  "path": "artifact.txt",
+                  "type": "artifact_exists"
+                },
+                {
+                  "path": "artifact.txt",
+                  "type": "artifact_contains",
+                  "value": "DF-012-OK"
+                }
+              ],
+              "prompt": "Use the Write tool to create a file named artifact.txt in the current working directory. The file content must be exactly DF-012-OK with no extra lines. Do not use Bash. Then reply with one short confirmation.",
+              "timeout_seconds": 240
+            },
+            "finished_at": null,
+            "id": "write-artifact",
+            "idempotency_key": null,
+            "input": {},
+            "name": "write artifact",
+            "output": null,
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-5809d4d13f0a",
+            "started_at": null,
+            "status": "PENDING",
+            "updated_at": "2026-11-21T08:52:54+00:00",
+            "workflow_id": "wf-bddb39114c70"
+          }
+        ],
+        "recent_events": [
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "workflow.created",
+            "id": 1,
+            "node_id": null,
+            "payload": {
+              "name": "real claude smoke"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "stage.created",
+            "id": 2,
+            "node_id": null,
+            "payload": {
+              "name": "main",
+              "stage_id": "stg-5809d4d13f0a"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "nodes.created",
+            "id": 3,
+            "node_id": null,
+            "payload": {
+              "node_ids": [
+                "write-artifact"
+              ]
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 4,
+            "node_id": null,
+            "payload": {
+              "from": "CREATED",
+              "reason": "start requested",
+              "to": "INITIALIZING"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 5,
+            "node_id": null,
+            "payload": {
+              "from": "INITIALIZING",
+              "reason": "initialized",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          }
+        ],
+        "stages": [
+          {
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "id": "stg-5809d4d13f0a",
+            "name": "main",
+            "sequence": 0,
+            "status": "PENDING",
+            "workflow_id": "wf-bddb39114c70"
+          }
+        ],
+        "workflow": {
+          "context": {},
+          "created_at": "2026-11-21T08:52:54+00:00",
+          "error": null,
+          "finished_at": null,
+          "goal": "Create the requested artifact and let the engine verify it.",
+          "id": "wf-bddb39114c70",
+          "name": "real claude smoke",
+          "started_at": "2026-11-21T08:52:54+00:00",
+          "status": "RUNNING",
+          "updated_at": "2026-11-21T08:52:54+00:00"
+        }
+      },
+      "context": {
+        "blocked_nodes": [],
+        "checkpoint_source": "sqlite",
+        "completed_nodes": [],
+        "current_node": null,
+        "current_stage": null,
+        "deliverables": [],
+        "goal": "Create the requested artifact and let the engine verify it.",
+        "last_event": {
+          "actor": "core",
+          "created_at": "2026-11-21T08:52:54+00:00",
+          "event_type": "workflow.status_changed",
+          "id": 5,
+          "node_id": null,
+          "payload": {
+            "from": "INITIALIZING",
+            "reason": "initialized",
+            "to": "RUNNING"
+          },
+          "workflow_id": "wf-bddb39114c70"
+        },
+        "next_actions": [
+          "request recovery"
+        ],
+        "open_decisions": [],
+        "pending_nodes": [
+          {
+            "id": "write-artifact",
+            "name": "write artifact"
+          }
+        ],
+        "progress": {
+          "blocked": 0,
+          "completed": 0,
+          "failed": 0,
+          "pending": 1,
+          "ready": 0,
+          "running": 0,
+          "total": 1,
+          "waiting_human": 0
+        },
+        "ready_nodes": [],
+        "running_nodes": [],
+        "side_effects_completed": [],
+        "unresolved_issues": [],
+        "workflow_context": {},
+        "workflow_id": "wf-bddb39114c70",
+        "workflow_status": "RUNNING"
+      },
+      "created_at": "2026-11-21T08:52:54+00:00"
+    },
+    {
+      "id": "ckpt-a36d6b8ae9ed",
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "reason": "batch_completed",
+      "sequence": 2,
+      "state_snapshot": {
+        "agent_runs": [
+          {
+            "adapter": "claude-code",
+            "attempt": 1,
+            "error": null,
+            "exit_code": 0,
+            "finished_at": "2026-11-21T08:53:12+00:00",
+            "heartbeat_at": "2026-11-21T08:53:12+00:00",
+            "id": "run-6a245aed89e0",
+            "metadata": {
+              "parsed": {
+                "api_error_status": null,
+                "duration_api_ms": 14208,
+                "duration_ms": 14550,
+                "fast_mode_disabled_reason": "sdk_opt_in_required",
+                "fast_mode_state": "off",
+                "first_content_frame_ms": 9331,
+                "is_error": false,
+                "modelUsage": {
+                  "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                    "cacheCreationInputTokens": 0,
+                    "cacheReadInputTokens": 42752,
+                    "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                    "contextWindow": 1000000,
+                    "costBasis": "unknown",
+                    "costUSD": 0.237711,
+                    "inputTokens": 42227,
+                    "maxOutputTokens": 32000,
+                    "outputTokens": 208,
+                    "provider": "firstParty",
+                    "thinkingTokens": 0,
+                    "webSearchRequests": 0
+                  }
+                },
+                "num_turns": 2,
+                "permission_denials": [],
+                "queued_turn_count": 0,
+                "result": "Created `artifact.txt` containing exactly `DF-012-OK`.\n\nSkipped: verifying byte-level trailing newline behavior of Write. Risk: some editors/tools append a newline if the file is later resaved.",
+                "result_index": 0,
+                "safety_stops": 0,
+                "session_id": "dde761c7-4a79-4fed-96ef-ded79bdb57a5",
+                "stop_reason": "end_turn",
+                "subagent_stats": {
+                  "by_type": {},
+                  "completed": 0,
+                  "failed": 0,
+                  "killed": {
+                    "parent": 0,
+                    "system": 0,
+                    "user": 0
+                  },
+                  "max_depth": 0,
+                  "refused": {
+                    "budget": 0,
+                    "concurrency_limit": 0,
+                    "depth_limit": 0
+                  },
+                  "requested": {
+                    "background": 0,
+                    "foreground": 0,
+                    "unset": 0
+                  },
+                  "spawned": 0,
+                  "spawned_by_subagents": 0,
+                  "started_in_background": 0
+                },
+                "subtype": "success",
+                "terminal_reason": "completed",
+                "time_to_request_ms": 230,
+                "total_cost_usd": 0.237711,
+                "ttft_ms": 9894,
+                "ttft_stream_ms": 9331,
+                "type": "result",
+                "usage": {
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 42752,
+                  "fallback_credit": null,
+                  "inference_geo": "",
+                  "input_tokens": 42227,
+                  "iterations": [],
+                  "output_tokens": 208,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_fetch_requests": 0,
+                    "web_search_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "speed": "standard"
+                },
+                "uuid": "de1772df-9a4d-4fb7-bf24-812babe74478"
+              },
+              "pid": 33664,
+              "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+            },
+            "node_id": "write-artifact",
+            "output": "{\"duration_api_ms\":14208,\"stop_reason\":\"end_turn\",\"session_id\":\"dde761c7-4a79-4fed-96ef-ded79bdb57a5\",\"total_cost_usd\":0.237711,\"usage\":{\"input_tokens\":42227,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":42752,\"output_tokens\":208,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":42227,\"outputTokens\":208,\"cacheReadInputTokens\":42752,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.237711,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Created `artifact.txt` containing exactly `DF-012-OK`.\\n\\nSkipped: verifying byte-level trailing newline behavior of Write. Risk: some editors/tools append a newline if the file is later resaved.\",\"ttft_ms\":9894,\"type\":\"result\",\"duration_ms\":14550,\"uuid\":\"de1772df-9a4d-4fb7-bf24-812babe74478\",\"ttft_stream_ms\":9331,\"time_to_request_ms\":230,\"first_content_frame_ms\":9331,\"queued_turn_count\":0,\"result_index\":0}",
+            "pid": 33664,
+            "process_start_time": "win:134397247746887993",
+            "prompt": "Use the Write tool to create a file named artifact.txt in the current working directory. The file content must be exactly DF-012-OK with no extra lines. Do not use Bash. Then reply with one short confirmation.",
+            "started_at": "2026-11-21T08:52:54+00:00",
+            "status": "SUCCEEDED",
+            "timeout_seconds": 240.0,
+            "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-192\\test_real_claude_creates_and_v0\\workspace",
+            "workflow_id": "wf-bddb39114c70"
+          }
+        ],
+        "decisions": [],
+        "nodes": [
+          {
+            "attempts": 1,
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "dependencies": [],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "equals": 0,
+                  "type": "exit_code"
+                },
+                {
+                  "path": "artifact.txt",
+                  "type": "artifact_exists"
+                },
+                {
+                  "path": "artifact.txt",
+                  "type": "artifact_contains",
+                  "value": "DF-012-OK"
+                }
+              ],
+              "prompt": "Use the Write tool to create a file named artifact.txt in the current working directory. The file content must be exactly DF-012-OK with no extra lines. Do not use Bash. Then reply with one short confirmation.",
+              "timeout_seconds": 240
+            },
+            "finished_at": "2026-11-21T08:53:12+00:00",
+            "id": "write-artifact",
+            "idempotency_key": null,
+            "input": {},
+            "name": "write artifact",
+            "output": {
+              "agent_run_id": "run-6a245aed89e0",
+              "attempt": 1,
+              "exit_code": 0,
+              "output": "{\"duration_api_ms\":14208,\"stop_reason\":\"end_turn\",\"session_id\":\"dde761c7-4a79-4fed-96ef-ded79bdb57a5\",\"total_cost_usd\":0.237711,\"usage\":{\"input_tokens\":42227,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":42752,\"output_tokens\":208,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":42227,\"outputTokens\":208,\"cacheReadInputTokens\":42752,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.237711,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Created `artifact.txt` containing exactly `DF-012-OK`.\\n\\nSkipped: verifying byte-level trailing newline behavior of Write. Risk: some editors/tools append a newline if the file is later resaved.\",\"ttft_ms\":9894,\"type\":\"result\",\"duration_ms\":14550,\"uuid\":\"de1772df-9a4d-4fb7-bf24-812babe74478\",\"ttft_stream_ms\":9331,\"time_to_request_ms\":230,\"first_content_frame_ms\":9331,\"queued_turn_count\":0,\"result_index\":0}",
+              "summary": "all acceptance conditions passed",
+              "verification": {
+                "evidence": [
+                  {
+                    "condition": "exit_code",
+                    "config": {
+                      "equals": 0,
+                      "type": "exit_code"
+                    },
+                    "detail": "exit_code=0, expected=0",
+                    "passed": true
+                  },
+                  {
+                    "condition": "artifact_exists",
+                    "config": {
+                      "path": "artifact.txt",
+                      "type": "artifact_exists"
+                    },
+                    "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-192\\test_real_claude_creates_and_v0\\workspace\\artifact.txt exists: True",
+                    "passed": true
+                  },
+                  {
+                    "condition": "artifact_contains",
+                    "config": {
+                      "path": "artifact.txt",
+                      "type": "artifact_contains",
+                      "value": "DF-012-OK"
+                    },
+                    "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-192\\test_real_claude_creates_and_v0\\workspace\\artifact.txt contains 'DF-012-OK': True",
+                    "passed": true
+                  }
+                ],
+                "failed_conditions": [],
+                "passed": true,
+                "summary": "all acceptance conditions passed",
+                "verified_at": "2026-11-21T08:53:12+00:00"
+              }
+            },
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-5809d4d13f0a",
+            "started_at": "2026-11-21T08:52:54+00:00",
+            "status": "SUCCEEDED",
+            "updated_at": "2026-11-21T08:53:12+00:00",
+            "workflow_id": "wf-bddb39114c70"
+          }
+        ],
+        "recent_events": [
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "workflow.created",
+            "id": 1,
+            "node_id": null,
+            "payload": {
+              "name": "real claude smoke"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "stage.created",
+            "id": 2,
+            "node_id": null,
+            "payload": {
+              "name": "main",
+              "stage_id": "stg-5809d4d13f0a"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "nodes.created",
+            "id": 3,
+            "node_id": null,
+            "payload": {
+              "node_ids": [
+                "write-artifact"
+              ]
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 4,
+            "node_id": null,
+            "payload": {
+              "from": "CREATED",
+              "reason": "start requested",
+              "to": "INITIALIZING"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 5,
+            "node_id": null,
+            "payload": {
+              "from": "INITIALIZING",
+              "reason": "initialized",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 6,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-61ec360741a3",
+              "reason": "started",
+              "sequence": 1
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "node.status_changed",
+            "id": 7,
+            "node_id": "write-artifact",
+            "payload": {
+              "from": "PENDING",
+              "reason": "scheduler",
+              "to": "READY"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "node.claimed",
+            "id": 8,
+            "node_id": "write-artifact",
+            "payload": {},
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "agent.started",
+            "id": 9,
+            "node_id": "write-artifact",
+            "payload": {
+              "attempt": 1,
+              "run_id": "run-6a245aed89e0"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "agent.process_started",
+            "id": 10,
+            "node_id": "write-artifact",
+            "payload": {
+              "pid": 33664,
+              "process_start_time": "win:134397247746887993",
+              "run_id": "run-6a245aed89e0"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:53:12+00:00",
+            "event_type": "agent.status_changed",
+            "id": 11,
+            "node_id": "write-artifact",
+            "payload": {
+              "from": "RUNNING",
+              "run_id": "run-6a245aed89e0",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:53:12+00:00",
+            "event_type": "node.succeeded",
+            "id": 12,
+            "node_id": "write-artifact",
+            "payload": {
+              "from": "RUNNING",
+              "reason": "verification passed",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          }
+        ],
+        "stages": [
+          {
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "id": "stg-5809d4d13f0a",
+            "name": "main",
+            "sequence": 0,
+            "status": "PENDING",
+            "workflow_id": "wf-bddb39114c70"
+          }
+        ],
+        "workflow": {
+          "context": {},
+          "created_at": "2026-11-21T08:52:54+00:00",
+          "error": null,
+          "finished_at": null,
+          "goal": "Create the requested artifact and let the engine verify it.",
+          "id": "wf-bddb39114c70",
+          "name": "real claude smoke",
+          "started_at": "2026-11-21T08:52:54+00:00",
+          "status": "RUNNING",
+          "updated_at": "2026-11-21T08:52:54+00:00"
+        }
+      },
+      "context": {
+        "blocked_nodes": [],
+        "checkpoint_source": "sqlite",
+        "completed_nodes": [
+          {
+            "id": "write-artifact",
+            "name": "write artifact",
+            "summary": "all acceptance conditions passed"
+          }
+        ],
+        "current_node": null,
+        "current_stage": null,
+        "deliverables": [],
+        "goal": "Create the requested artifact and let the engine verify it.",
+        "last_event": {
+          "actor": "core",
+          "created_at": "2026-11-21T08:53:12+00:00",
+          "event_type": "node.succeeded",
+          "id": 12,
+          "node_id": "write-artifact",
+          "payload": {
+            "from": "RUNNING",
+            "reason": "verification passed",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-bddb39114c70"
+        },
+        "next_actions": [
+          "request recovery"
+        ],
+        "open_decisions": [],
+        "pending_nodes": [],
+        "progress": {
+          "blocked": 0,
+          "completed": 1,
+          "failed": 0,
+          "pending": 0,
+          "ready": 0,
+          "running": 0,
+          "total": 1,
+          "waiting_human": 0
+        },
+        "ready_nodes": [],
+        "running_nodes": [],
+        "side_effects_completed": [],
+        "unresolved_issues": [],
+        "workflow_context": {},
+        "workflow_id": "wf-bddb39114c70",
+        "workflow_status": "RUNNING"
+      },
+      "created_at": "2026-11-21T08:53:12+00:00"
+    },
+    {
+      "id": "ckpt-55f7c5fa3599",
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "reason": "completed",
+      "sequence": 3,
+      "state_snapshot": {
+        "agent_runs": [
+          {
+            "adapter": "claude-code",
+            "attempt": 1,
+            "error": null,
+            "exit_code": 0,
+            "finished_at": "2026-11-21T08:53:12+00:00",
+            "heartbeat_at": "2026-11-21T08:53:12+00:00",
+            "id": "run-6a245aed89e0",
+            "metadata": {
+              "parsed": {
+                "api_error_status": null,
+                "duration_api_ms": 14208,
+                "duration_ms": 14550,
+                "fast_mode_disabled_reason": "sdk_opt_in_required",
+                "fast_mode_state": "off",
+                "first_content_frame_ms": 9331,
+                "is_error": false,
+                "modelUsage": {
+                  "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                    "cacheCreationInputTokens": 0,
+                    "cacheReadInputTokens": 42752,
+                    "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                    "contextWindow": 1000000,
+                    "costBasis": "unknown",
+                    "costUSD": 0.237711,
+                    "inputTokens": 42227,
+                    "maxOutputTokens": 32000,
+                    "outputTokens": 208,
+                    "provider": "firstParty",
+                    "thinkingTokens": 0,
+                    "webSearchRequests": 0
+                  }
+                },
+                "num_turns": 2,
+                "permission_denials": [],
+                "queued_turn_count": 0,
+                "result": "Created `artifact.txt` containing exactly `DF-012-OK`.\n\nSkipped: verifying byte-level trailing newline behavior of Write. Risk: some editors/tools append a newline if the file is later resaved.",
+                "result_index": 0,
+                "safety_stops": 0,
+                "session_id": "dde761c7-4a79-4fed-96ef-ded79bdb57a5",
+                "stop_reason": "end_turn",
+                "subagent_stats": {
+                  "by_type": {},
+                  "completed": 0,
+                  "failed": 0,
+                  "killed": {
+                    "parent": 0,
+                    "system": 0,
+                    "user": 0
+                  },
+                  "max_depth": 0,
+                  "refused": {
+                    "budget": 0,
+                    "concurrency_limit": 0,
+                    "depth_limit": 0
+                  },
+                  "requested": {
+                    "background": 0,
+                    "foreground": 0,
+                    "unset": 0
+                  },
+                  "spawned": 0,
+                  "spawned_by_subagents": 0,
+                  "started_in_background": 0
+                },
+                "subtype": "success",
+                "terminal_reason": "completed",
+                "time_to_request_ms": 230,
+                "total_cost_usd": 0.237711,
+                "ttft_ms": 9894,
+                "ttft_stream_ms": 9331,
+                "type": "result",
+                "usage": {
+                  "cache_creation": {
+                    "ephemeral_1h_input_tokens": 0,
+                    "ephemeral_5m_input_tokens": 0
+                  },
+                  "cache_creation_input_tokens": 0,
+                  "cache_read_input_tokens": 42752,
+                  "fallback_credit": null,
+                  "inference_geo": "",
+                  "input_tokens": 42227,
+                  "iterations": [],
+                  "output_tokens": 208,
+                  "output_tokens_details": {
+                    "thinking_tokens": 0
+                  },
+                  "server_tool_use": {
+                    "web_fetch_requests": 0,
+                    "web_search_requests": 0
+                  },
+                  "service_tier": "standard",
+                  "speed": "standard"
+                },
+                "uuid": "de1772df-9a4d-4fb7-bf24-812babe74478"
+              },
+              "pid": 33664,
+              "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+            },
+            "node_id": "write-artifact",
+            "output": "{\"duration_api_ms\":14208,\"stop_reason\":\"end_turn\",\"session_id\":\"dde761c7-4a79-4fed-96ef-ded79bdb57a5\",\"total_cost_usd\":0.237711,\"usage\":{\"input_tokens\":42227,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":42752,\"output_tokens\":208,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":42227,\"outputTokens\":208,\"cacheReadInputTokens\":42752,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.237711,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Created `artifact.txt` containing exactly `DF-012-OK`.\\n\\nSkipped: verifying byte-level trailing newline behavior of Write. Risk: some editors/tools append a newline if the file is later resaved.\",\"ttft_ms\":9894,\"type\":\"result\",\"duration_ms\":14550,\"uuid\":\"de1772df-9a4d-4fb7-bf24-812babe74478\",\"ttft_stream_ms\":9331,\"time_to_request_ms\":230,\"first_content_frame_ms\":9331,\"queued_turn_count\":0,\"result_index\":0}",
+            "pid": 33664,
+            "process_start_time": "win:134397247746887993",
+            "prompt": "Use the Write tool to create a file named artifact.txt in the current working directory. The file content must be exactly DF-012-OK with no extra lines. Do not use Bash. Then reply with one short confirmation.",
+            "started_at": "2026-11-21T08:52:54+00:00",
+            "status": "SUCCEEDED",
+            "timeout_seconds": 240.0,
+            "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-192\\test_real_claude_creates_and_v0\\workspace",
+            "workflow_id": "wf-bddb39114c70"
+          }
+        ],
+        "decisions": [],
+        "nodes": [
+          {
+            "attempts": 1,
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "dependencies": [],
+            "error": null,
+            "execution_config": {
+              "acceptance": [
+                {
+                  "equals": 0,
+                  "type": "exit_code"
+                },
+                {
+                  "path": "artifact.txt",
+                  "type": "artifact_exists"
+                },
+                {
+                  "path": "artifact.txt",
+                  "type": "artifact_contains",
+                  "value": "DF-012-OK"
+                }
+              ],
+              "prompt": "Use the Write tool to create a file named artifact.txt in the current working directory. The file content must be exactly DF-012-OK with no extra lines. Do not use Bash. Then reply with one short confirmation.",
+              "timeout_seconds": 240
+            },
+            "finished_at": "2026-11-21T08:53:12+00:00",
+            "id": "write-artifact",
+            "idempotency_key": null,
+            "input": {},
+            "name": "write artifact",
+            "output": {
+              "agent_run_id": "run-6a245aed89e0",
+              "attempt": 1,
+              "exit_code": 0,
+              "output": "{\"duration_api_ms\":14208,\"stop_reason\":\"end_turn\",\"session_id\":\"dde761c7-4a79-4fed-96ef-ded79bdb57a5\",\"total_cost_usd\":0.237711,\"usage\":{\"input_tokens\":42227,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":42752,\"output_tokens\":208,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":42227,\"outputTokens\":208,\"cacheReadInputTokens\":42752,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.237711,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Created `artifact.txt` containing exactly `DF-012-OK`.\\n\\nSkipped: verifying byte-level trailing newline behavior of Write. Risk: some editors/tools append a newline if the file is later resaved.\",\"ttft_ms\":9894,\"type\":\"result\",\"duration_ms\":14550,\"uuid\":\"de1772df-9a4d-4fb7-bf24-812babe74478\",\"ttft_stream_ms\":9331,\"time_to_request_ms\":230,\"first_content_frame_ms\":9331,\"queued_turn_count\":0,\"result_index\":0}",
+              "summary": "all acceptance conditions passed",
+              "verification": {
+                "evidence": [
+                  {
+                    "condition": "exit_code",
+                    "config": {
+                      "equals": 0,
+                      "type": "exit_code"
+                    },
+                    "detail": "exit_code=0, expected=0",
+                    "passed": true
+                  },
+                  {
+                    "condition": "artifact_exists",
+                    "config": {
+                      "path": "artifact.txt",
+                      "type": "artifact_exists"
+                    },
+                    "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-192\\test_real_claude_creates_and_v0\\workspace\\artifact.txt exists: True",
+                    "passed": true
+                  },
+                  {
+                    "condition": "artifact_contains",
+                    "config": {
+                      "path": "artifact.txt",
+                      "type": "artifact_contains",
+                      "value": "DF-012-OK"
+                    },
+                    "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-192\\test_real_claude_creates_and_v0\\workspace\\artifact.txt contains 'DF-012-OK': True",
+                    "passed": true
+                  }
+                ],
+                "failed_conditions": [],
+                "passed": true,
+                "summary": "all acceptance conditions passed",
+                "verified_at": "2026-11-21T08:53:12+00:00"
+              }
+            },
+            "required": true,
+            "retry_policy": {},
+            "stage_id": "stg-5809d4d13f0a",
+            "started_at": "2026-11-21T08:52:54+00:00",
+            "status": "SUCCEEDED",
+            "updated_at": "2026-11-21T08:53:12+00:00",
+            "workflow_id": "wf-bddb39114c70"
+          }
+        ],
+        "recent_events": [
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "workflow.created",
+            "id": 1,
+            "node_id": null,
+            "payload": {
+              "name": "real claude smoke"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "stage.created",
+            "id": 2,
+            "node_id": null,
+            "payload": {
+              "name": "main",
+              "stage_id": "stg-5809d4d13f0a"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "nodes.created",
+            "id": 3,
+            "node_id": null,
+            "payload": {
+              "node_ids": [
+                "write-artifact"
+              ]
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 4,
+            "node_id": null,
+            "payload": {
+              "from": "CREATED",
+              "reason": "start requested",
+              "to": "INITIALIZING"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "workflow.status_changed",
+            "id": 5,
+            "node_id": null,
+            "payload": {
+              "from": "INITIALIZING",
+              "reason": "initialized",
+              "to": "RUNNING"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 6,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-61ec360741a3",
+              "reason": "started",
+              "sequence": 1
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "node.status_changed",
+            "id": 7,
+            "node_id": "write-artifact",
+            "payload": {
+              "from": "PENDING",
+              "reason": "scheduler",
+              "to": "READY"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "node.claimed",
+            "id": 8,
+            "node_id": "write-artifact",
+            "payload": {},
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "agent.started",
+            "id": 9,
+            "node_id": "write-artifact",
+            "payload": {
+              "attempt": 1,
+              "run_id": "run-6a245aed89e0"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "event_type": "agent.process_started",
+            "id": 10,
+            "node_id": "write-artifact",
+            "payload": {
+              "pid": 33664,
+              "process_start_time": "win:134397247746887993",
+              "run_id": "run-6a245aed89e0"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:53:12+00:00",
+            "event_type": "agent.status_changed",
+            "id": 11,
+            "node_id": "write-artifact",
+            "payload": {
+              "from": "RUNNING",
+              "run_id": "run-6a245aed89e0",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:53:12+00:00",
+            "event_type": "node.succeeded",
+            "id": 12,
+            "node_id": "write-artifact",
+            "payload": {
+              "from": "RUNNING",
+              "reason": "verification passed",
+              "to": "SUCCEEDED"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:53:12+00:00",
+            "event_type": "checkpoint.saved",
+            "id": 13,
+            "node_id": null,
+            "payload": {
+              "checkpoint_id": "ckpt-a36d6b8ae9ed",
+              "reason": "batch_completed",
+              "sequence": 2
+            },
+            "workflow_id": "wf-bddb39114c70"
+          },
+          {
+            "actor": "core",
+            "created_at": "2026-11-21T08:53:12+00:00",
+            "event_type": "workflow.completed",
+            "id": 14,
+            "node_id": null,
+            "payload": {
+              "from": "RUNNING",
+              "reason": "workflow complete",
+              "to": "COMPLETED"
+            },
+            "workflow_id": "wf-bddb39114c70"
+          }
+        ],
+        "stages": [
+          {
+            "created_at": "2026-11-21T08:52:54+00:00",
+            "id": "stg-5809d4d13f0a",
+            "name": "main",
+            "sequence": 0,
+            "status": "PENDING",
+            "workflow_id": "wf-bddb39114c70"
+          }
+        ],
+        "workflow": {
+          "context": {},
+          "created_at": "2026-11-21T08:52:54+00:00",
+          "error": null,
+          "finished_at": "2026-11-21T08:53:12+00:00",
+          "goal": "Create the requested artifact and let the engine verify it.",
+          "id": "wf-bddb39114c70",
+          "name": "real claude smoke",
+          "started_at": "2026-11-21T08:52:54+00:00",
+          "status": "COMPLETED",
+          "updated_at": "2026-11-21T08:53:12+00:00"
+        }
+      },
+      "context": {
+        "blocked_nodes": [],
+        "checkpoint_source": "sqlite",
+        "completed_nodes": [
+          {
+            "id": "write-artifact",
+            "name": "write artifact",
+            "summary": "all acceptance conditions passed"
+          }
+        ],
+        "current_node": null,
+        "current_stage": null,
+        "deliverables": [],
+        "goal": "Create the requested artifact and let the engine verify it.",
+        "last_event": {
+          "actor": "core",
+          "created_at": "2026-11-21T08:53:12+00:00",
+          "event_type": "workflow.completed",
+          "id": 14,
+          "node_id": null,
+          "payload": {
+            "from": "RUNNING",
+            "reason": "workflow complete",
+            "to": "COMPLETED"
+          },
+          "workflow_id": "wf-bddb39114c70"
+        },
+        "next_actions": [
+          "workflow terminal"
+        ],
+        "open_decisions": [],
+        "pending_nodes": [],
+        "progress": {
+          "blocked": 0,
+          "completed": 1,
+          "failed": 0,
+          "pending": 0,
+          "ready": 0,
+          "running": 0,
+          "total": 1,
+          "waiting_human": 0
+        },
+        "ready_nodes": [],
+        "running_nodes": [],
+        "side_effects_completed": [],
+        "unresolved_issues": [],
+        "workflow_context": {},
+        "workflow_id": "wf-bddb39114c70",
+        "workflow_status": "COMPLETED"
+      },
+      "created_at": "2026-11-21T08:53:12+00:00"
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "event_type": "workflow.created",
+      "payload": {
+        "name": "real claude smoke"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:52:54+00:00"
+    },
+    {
+      "id": 2,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "event_type": "stage.created",
+      "payload": {
+        "name": "main",
+        "stage_id": "stg-5809d4d13f0a"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:52:54+00:00"
+    },
+    {
+      "id": 3,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "event_type": "nodes.created",
+      "payload": {
+        "node_ids": [
+          "write-artifact"
+        ]
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:52:54+00:00"
+    },
+    {
+      "id": 4,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "event_type": "workflow.status_changed",
+      "payload": {
+        "from": "CREATED",
+        "reason": "start requested",
+        "to": "INITIALIZING"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:52:54+00:00"
+    },
+    {
+      "id": 5,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "event_type": "workflow.status_changed",
+      "payload": {
+        "from": "INITIALIZING",
+        "reason": "initialized",
+        "to": "RUNNING"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:52:54+00:00"
+    },
+    {
+      "id": 6,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "event_type": "checkpoint.saved",
+      "payload": {
+        "checkpoint_id": "ckpt-61ec360741a3",
+        "reason": "started",
+        "sequence": 1
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:52:54+00:00"
+    },
+    {
+      "id": 7,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": "write-artifact",
+      "event_type": "node.status_changed",
+      "payload": {
+        "from": "PENDING",
+        "reason": "scheduler",
+        "to": "READY"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:52:54+00:00"
+    },
+    {
+      "id": 8,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": "write-artifact",
+      "event_type": "node.claimed",
+      "payload": {},
+      "actor": "core",
+      "created_at": "2026-11-21T08:52:54+00:00"
+    },
+    {
+      "id": 9,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": "write-artifact",
+      "event_type": "agent.started",
+      "payload": {
+        "attempt": 1,
+        "run_id": "run-6a245aed89e0"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:52:54+00:00"
+    },
+    {
+      "id": 10,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": "write-artifact",
+      "event_type": "agent.process_started",
+      "payload": {
+        "pid": 33664,
+        "process_start_time": "win:134397247746887993",
+        "run_id": "run-6a245aed89e0"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:52:54+00:00"
+    },
+    {
+      "id": 11,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": "write-artifact",
+      "event_type": "agent.status_changed",
+      "payload": {
+        "from": "RUNNING",
+        "run_id": "run-6a245aed89e0",
+        "to": "SUCCEEDED"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:53:12+00:00"
+    },
+    {
+      "id": 12,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": "write-artifact",
+      "event_type": "node.succeeded",
+      "payload": {
+        "from": "RUNNING",
+        "reason": "verification passed",
+        "to": "SUCCEEDED"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:53:12+00:00"
+    },
+    {
+      "id": 13,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "event_type": "checkpoint.saved",
+      "payload": {
+        "checkpoint_id": "ckpt-a36d6b8ae9ed",
+        "reason": "batch_completed",
+        "sequence": 2
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:53:12+00:00"
+    },
+    {
+      "id": 14,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "event_type": "workflow.completed",
+      "payload": {
+        "from": "RUNNING",
+        "reason": "workflow complete",
+        "to": "COMPLETED"
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:53:12+00:00"
+    },
+    {
+      "id": 15,
+      "workflow_id": "wf-bddb39114c70",
+      "node_id": null,
+      "event_type": "checkpoint.saved",
+      "payload": {
+        "checkpoint_id": "ckpt-55f7c5fa3599",
+        "reason": "completed",
+        "sequence": 3
+      },
+      "actor": "core",
+      "created_at": "2026-11-21T08:53:12+00:00"
+    }
+  ]
+}

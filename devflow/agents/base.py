@@ -5,9 +5,11 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, Callable
 
 from ..errors import NotFoundError
+
+ProcessStarted = Callable[[int, str | None], None]
 
 
 class Capability(str, Enum):
@@ -15,6 +17,7 @@ class Capability(str, Enum):
     RESUME_SESSION = "resume_session"
     STRUCTURED_OUTPUT = "structured_output"
     TOOL_CALLS = "tool_calls"
+    PROCESS_CONTROL = "process_control"
 
 
 @dataclass(frozen=True)
@@ -28,6 +31,7 @@ class AgentRequest:
     context: dict[str, Any] = field(default_factory=dict)
     session_id: str | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
+    on_process_started: ProcessStarted | None = field(default=None, compare=False, repr=False)
 
 
 @dataclass

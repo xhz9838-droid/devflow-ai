@@ -9,6 +9,7 @@ from typing import Any
 
 from ..errors import AgentExecutionError, AgentInterrupted, AgentTimeout, InvalidTransition
 from ..models import AgentRun, AgentRunStatus, Node
+from ..platform_proc import terminate_process_tree
 from ..state import StateStore
 from .base import AgentAdapter, AgentRequest
 
@@ -50,6 +51,9 @@ class AgentExecutionManager:
             timeout_seconds=timeout_seconds,
             context=context or {},
             metadata=node.execution_config.get("agent_metadata") or {},
+            on_process_started=lambda pid, started: self.store.set_agent_run_process(
+                run.id, pid, started
+            ),
         )
 
         started = time.monotonic()
@@ -129,3 +133,40 @@ class AgentExecutionManager:
         finally:
             stop_heartbeat.set()
             beat.join(timeout=2.0)
+
+    def terminate(self, workflow_id: str, *, force: bool = True) -> list[str]:
+        """Terminate live agent processes for a workflow. Identity-checked, so
+        a reused PID is never killed."""
+        terminated: list[str] = []
+        for run in self.store.list_agent_runs(
+            workflow_id=workflow_id, status=AgentRunStatus.RUNNING
+        ):
+            if not run.pid:
+                continue
+            if not run.process_start_time:
+                self.store.append_event(
+                    workflow_id,
+                    "agent.terminate_skipped",
+                    {"run_id": run.id, "pid": run.pid, "reason": "no process identity"},
+                    node_id=run.node_id,
+                )
+                continue
+            accepted = terminate_process_tree(
+                run.pid, run.process_start_time, force=force
+            )
+            self.store.append_event(
+                workflow_id,
+                "agent.terminate_requested",
+                {"run_id": run.id, "pid": run.pid, "force": force, "accepted": accepted},
+                node_id=run.node_id,
+            )
+            if not accepted:
+                continue
+            try:
+                self.store.update_agent_run(
+                    run.id, AgentRunStatus.CANCELLED, error="terminated by engine"
+                )
+            except InvalidTransition:
+                pass
+            terminated.append(run.id)
+        return terminated

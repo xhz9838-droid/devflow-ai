@@ -440,6 +440,32 @@ class StateStore:
         with self.db.transaction() as conn:
             conn.execute("UPDATE agent_runs SET heartbeat_at = ? WHERE id = ?", (utcnow(), run_id))
 
+    def set_agent_run_process(
+        self, run_id: str, pid: int, process_start_time: str | None
+    ) -> bool:
+        """Persist the process identity of a live run. Returns False if the run
+        is no longer RUNNING (for example, already cancelled or interrupted)."""
+        with self.db.transaction() as conn:
+            row = conn.execute("SELECT * FROM agent_runs WHERE id = ?", (run_id,)).fetchone()
+            if row is None:
+                raise NotFoundError(f"agent run not found: {run_id}")
+            if AgentRunStatus(row["status"]) is not AgentRunStatus.RUNNING:
+                return False
+            now = utcnow()
+            conn.execute(
+                "UPDATE agent_runs SET pid = ?, process_start_time = ?, heartbeat_at = ?"
+                " WHERE id = ?",
+                (pid, process_start_time, now, run_id),
+            )
+            self._add_event(
+                conn,
+                row["workflow_id"],
+                row["node_id"],
+                "agent.process_started",
+                {"run_id": run_id, "pid": pid, "process_start_time": process_start_time},
+            )
+            return True
+
     def get_agent_run(self, run_id: str) -> AgentRun:
         with self.db.read() as conn:
             row = conn.execute("SELECT * FROM agent_runs WHERE id = ?", (run_id,)).fetchone()

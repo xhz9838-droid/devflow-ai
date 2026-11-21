@@ -115,6 +115,7 @@ class WorkflowEngine:
         workflow = self.store.get_workflow(workflow_id)
         if is_workflow_terminal(workflow.status):
             return workflow
+        self.agents.terminate(workflow_id, force=True)
         self._close_pending_decisions(workflow_id, reason)
         self._cancel_open_nodes(workflow_id, reason)
         workflow = self.store.get_workflow(workflow_id)
@@ -354,6 +355,20 @@ class WorkflowEngine:
             context=context,
         )
 
+        current = self.store.get_node(node_id)
+        if current.status is not NodeStatus.RUNNING:
+            self.store.append_event(
+                workflow_id,
+                "node.result_ignored",
+                {
+                    "agent_run_id": run.id,
+                    "node_status": current.status.value,
+                    "run_status": run.status.value,
+                },
+                node_id=node_id,
+            )
+            return
+
         if run.status is AgentRunStatus.INTERRUPTED:
             self.store.append_event(
                 workflow_id,
@@ -508,6 +523,7 @@ class WorkflowEngine:
             "agent_runs": [asdict(r) for r in self.store.list_agent_runs(workflow_id)],
             "decisions": [asdict(d) for d in self.store.list_decisions(workflow_id)],
             "retries": [asdict(r) for r in self.store.list_retries(workflow_id)],
+            "orphans": [asdict(r) for r in self.recovery.find_orphans(workflow_id)],
             "checkpoints": [asdict(c) for c in self.store.list_checkpoints(workflow_id)],
             "events": [asdict(e) for e in self.store.list_events(workflow_id, event_limit)],
         }

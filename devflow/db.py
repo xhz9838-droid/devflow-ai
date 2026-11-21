@@ -150,7 +150,13 @@ MIGRATIONS: list[tuple[int, list[str]]] = [
             """,
             "CREATE INDEX IF NOT EXISTS idx_retries_workflow ON retry_records(workflow_id)",
         ],
-    )
+    ),
+    (
+        2,
+        [
+            "ALTER TABLE agent_runs ADD COLUMN process_start_time TEXT",
+        ],
+    ),
 ]
 
 

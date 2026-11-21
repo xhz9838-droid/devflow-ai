@@ -79,6 +79,8 @@ def test_real_claude_creates_and_verifies_an_artifact(tmp_path):
     assert runs[0].status is AgentRunStatus.SUCCEEDED
     assert runs[0].adapter == "claude-code"
     assert runs[0].exit_code == 0
+    assert runs[0].pid
+    assert runs[0].process_start_time
     parsed = runs[0].metadata.get("parsed") or {}
     assert parsed.get("session_id")
 

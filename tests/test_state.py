@@ -9,8 +9,8 @@ from devflow.models import DecisionStatus, NodeStatus, WorkflowStatus
 
 def test_migrations_are_idempotent(tmp_path):
     db = Database(tmp_path / "m.db")
-    assert db.migrate() == 1
-    assert db.migrate() == 1
+    assert db.migrate() == 2
+    assert db.migrate() == 2
     with db.read() as conn:
         tables = {
             row["name"]
@@ -77,6 +77,16 @@ def test_attempts_increment(store, create_workflow):
     create_workflow([{"id": "a"}])
     assert store.increment_attempts("a") == 1
     assert store.increment_attempts("a") == 2
+
+
+def test_agent_run_process_identity_is_persisted(store, create_workflow):
+    workflow = create_workflow([{"id": "a"}])
+    run = store.create_agent_run(workflow.id, "a", "stub", 1, timeout_seconds=10)
+    assert store.set_agent_run_process(run.id, 1234, "win:5678") is True
+    updated = store.get_agent_run(run.id)
+    assert updated.pid == 1234
+    assert updated.process_start_time == "win:5678"
+    assert "agent.process_started" in [e.event_type for e in store.list_events(workflow.id)]
 
 
 def test_duplicate_pending_decision_is_rejected_by_database(store, create_workflow):

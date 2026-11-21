@@ -19,6 +19,7 @@ from .models import (
     WorkflowStatus,
     parse_time,
 )
+from .platform_proc import process_alive
 from .scheduler import DAGScheduler
 from .state import StateStore
 from .verifier import Verifier
@@ -112,12 +113,19 @@ class RecoveryManager:
             run = runs[-1] if runs else None
 
             if run is not None and run.status is AgentRunStatus.RUNNING:
-                if not self._is_stale(run):
+                if run.pid and run.process_start_time:
+                    if process_alive(run.pid, run.process_start_time):
+                        active.append(node.id)
+                        continue
+                    reason = "agent process exited or pid was reused"
+                elif not self._is_stale(run):
                     active.append(node.id)
                     continue
+                else:
+                    reason = "stale or unresponsive agent run"
                 try:
                     run = self.store.update_agent_run(
-                        run.id, AgentRunStatus.INTERRUPTED, error="stale or unresponsive agent run"
+                        run.id, AgentRunStatus.INTERRUPTED, error=reason
                     )
                 except InvalidTransition:
                     # The manager committed a terminal result between our read
@@ -342,6 +350,19 @@ class RecoveryManager:
                     )
             except InvalidTransition:
                 continue  # another writer already reconciled this node
+
+    def find_orphans(self, workflow_id: str | None = None) -> list[AgentRun]:
+        """RUNNING runs whose recorded process is gone or whose PID was reused."""
+        runs = self.store.list_agent_runs(
+            workflow_id=workflow_id, status=AgentRunStatus.RUNNING
+        )
+        return [
+            run
+            for run in runs
+            if run.pid
+            and run.process_start_time
+            and not process_alive(run.pid, run.process_start_time)
+        ]
 
     def _is_stale(self, run: AgentRun) -> bool:
         # With a timeout, the deadline is timeout + grace. Without one,

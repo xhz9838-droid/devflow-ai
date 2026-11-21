@@ -75,17 +75,26 @@ def test_claude_adapter_builds_safe_command(monkeypatch, tmp_path):
     captured = {}
 
     class Proc:
+        pid = 4321
         returncode = 0
-        stdout = '{"session_id": "s1", "result": "ok"}'
-        stderr = ""
 
-    def fake_run(command, **kwargs):
-        captured["command"] = command
-        captured.update(kwargs)
-        return Proc()
+        def __init__(self, command, **kwargs):
+            captured["command"] = command
+            captured.update(kwargs)
+
+        def communicate(self, timeout=None):
+            captured["timeout"] = timeout
+            return '{"session_id": "s1", "result": "ok"}', ""
+
+        def poll(self):
+            return 0
+
+        def kill(self):
+            captured["killed"] = True
 
     monkeypatch.setattr(module.shutil, "which", lambda name: "/usr/bin/claude")
-    monkeypatch.setattr(module.subprocess, "run", fake_run)
+    monkeypatch.setattr(module.subprocess, "Popen", Proc)
+    monkeypatch.setattr(module, "process_identity", lambda pid: "test:1")
     request = AgentRequest(
         workflow_id="w",
         node_id="n",
@@ -105,6 +114,55 @@ def test_claude_adapter_builds_safe_command(monkeypatch, tmp_path):
     assert captured["cwd"] == str(tmp_path)
     assert captured["env"]["FOO"] == "bar"
     assert captured["timeout"] == 5
+    assert result.metadata["pid"] == 4321
+
+
+def test_claude_adapter_timeout_terminates_the_process(monkeypatch, tmp_path):
+    import devflow.agents.claude_code as module
+
+    calls = []
+    state = {"timeouts": 0}
+
+    class Proc:
+        pid = 999
+        returncode = -1
+
+        def __init__(self, command, **kwargs):
+            pass
+
+        def communicate(self, timeout=None):
+            if state["timeouts"] == 0:
+                state["timeouts"] = 1
+                raise module.subprocess.TimeoutExpired(cmd="claude", timeout=timeout)
+            return "", "terminated"
+
+        def poll(self):
+            return None if state["timeouts"] == 0 else -1
+
+        def kill(self):
+            calls.append("kill")
+
+    monkeypatch.setattr(module.shutil, "which", lambda name: "/usr/bin/claude")
+    monkeypatch.setattr(module.subprocess, "Popen", Proc)
+    monkeypatch.setattr(module, "process_identity", lambda pid: "test:1")
+    monkeypatch.setattr(
+        module,
+        "terminate_process_tree",
+        lambda pid, identity, force=False: calls.append(("terminate", force)) or True,
+    )
+    monkeypatch.setattr(module, "process_alive", lambda pid, identity: False)
+
+    request = AgentRequest(
+        workflow_id="w",
+        node_id="n",
+        agent_run_id="r",
+        prompt="x",
+        workdir=str(tmp_path),
+        timeout_seconds=1,
+    )
+    with pytest.raises(AgentTimeout):
+        ClaudeCodeAdapter().execute(request)
+    assert ("terminate", False) in calls
 
 
 def test_claude_adapter_reports_missing_executable(monkeypatch, tmp_path):

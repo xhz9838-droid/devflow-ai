@@ -119,6 +119,7 @@ class AgentRun:
     prompt: str = ""
     workdir: str = ""
     pid: int | None = None
+    process_start_time: str | None = None
     exit_code: int | None = None
     output: str = ""
     error: str | None = None

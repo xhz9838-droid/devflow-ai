@@ -90,6 +90,7 @@ def to_agent_run(row: sqlite3.Row) -> AgentRun:
         prompt=row["prompt"],
         workdir=row["workdir"],
         pid=row["pid"],
+        process_start_time=row["process_start_time"],
         exit_code=row["exit_code"],
         output=row["output"],
         error=row["error"],
