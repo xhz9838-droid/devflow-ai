@@ -15,6 +15,7 @@ class DevFlowConfig:
     max_parallel: int = 4
     agent_timeout: float = 1800.0
     recovery_grace: float = 30.0
+    engine_lease_seconds: float = 300.0
     log_level: str = "INFO"
 
 
@@ -25,6 +26,7 @@ def load_config(db_path: str | os.PathLike[str] | None = None, *, workdir: str |
         max_parallel=int(os.environ.get("DEVFLOW_MAX_PARALLEL", "4")),
         agent_timeout=float(os.environ.get("DEVFLOW_AGENT_TIMEOUT", "1800")),
         recovery_grace=float(os.environ.get("DEVFLOW_RECOVERY_GRACE", "30")),
+        engine_lease_seconds=float(os.environ.get("DEVFLOW_ENGINE_LEASE_SECONDS", "300")),
         log_level=os.environ.get("DEVFLOW_LOG_LEVEL", "INFO"),
     )
 

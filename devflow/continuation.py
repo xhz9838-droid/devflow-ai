@@ -2,11 +2,26 @@
 
 from __future__ import annotations
 
+import json
 from typing import Any
 
 from .errors import CheckpointError
 from .models import Checkpoint, NodeStatus
 from .state import StateStore
+
+
+def _result_text(output: dict[str, Any] | None) -> str:
+    """Extract the agent's meaningful result from a structured CLI payload."""
+    if not output:
+        return ""
+    raw = output.get("output") or ""
+    try:
+        parsed = json.loads(raw)
+        if isinstance(parsed, dict) and isinstance(parsed.get("result"), str):
+            return parsed["result"]
+    except (TypeError, ValueError):
+        pass
+    return str(raw)
 
 
 def build_continuation_context(snapshot: dict[str, Any]) -> dict[str, Any]:
@@ -74,7 +89,17 @@ def build_continuation_context(snapshot: dict[str, Any]) -> dict[str, Any]:
             "failed": len(failed),
         },
         "completed_nodes": [
-            {"id": n["id"], "name": n["name"], "summary": (n.get("output") or {}).get("summary")}
+            {
+                "id": n["id"],
+                "name": n["name"],
+                "summary": (n.get("output") or {}).get("summary"),
+                "verification_passed": (
+                    ((n.get("output") or {}).get("verification") or {}).get("passed")
+                ),
+                "artifacts": (n.get("output") or {}).get("artifacts") or [],
+                "output": _result_text(n.get("output"))[:4000],
+                "idempotency_key": n.get("idempotency_key"),
+            }
             for n in completed
         ],
         "running_nodes": [{"id": n["id"], "name": n["name"]} for n in running],

@@ -167,6 +167,28 @@ def test_cancel_is_terminal_and_cancels_nodes(make_engine):
         engine.start(workflow.id)
 
 
+def test_custom_prompt_still_receives_continuation_context(adapter, make_engine):
+    engine = make_engine(adapter)
+    workflow = engine.create_workflow(
+        "handoff",
+        "pass a token",
+        [
+            {"id": "first"},
+            {
+                "id": "second",
+                "dependencies": ["first"],
+                "execution_config": {"prompt": "custom prompt without context"},
+            },
+        ],
+    )
+    result = engine.start(workflow.id)
+    assert result.status is WorkflowStatus.COMPLETED
+    second = next(call for call in adapter.calls if call.node_id == "second")
+    assert second.prompt.startswith("custom prompt without context")
+    assert "Continuation context" in second.prompt
+    assert "ok:first" in second.prompt
+
+
 def test_invalid_human_decision_spec_fails_instead_of_looping(make_engine):
     engine = make_engine()
     workflow = engine.create_workflow(

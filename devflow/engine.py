@@ -17,6 +17,7 @@ from .continuation import CheckpointManager
 from .db import Database
 from .errors import DevFlowError, InvalidTransition, ValidationError
 from .hitl import HumanDecisionManager
+from .lease import EngineLease
 from .lifecycle import is_workflow_terminal
 from .models import (
     AgentRunStatus,
@@ -36,7 +37,7 @@ from .verifier import CompletionVerifier, DefaultVerifier, Verifier
 logger = logging.getLogger(__name__)
 
 _MAX_BACKOFF_WAIT = 60.0
-_MAX_PROMPT_CONTEXT = 8000
+_MAX_PROMPT_CONTEXT = 32000
 
 
 class WorkflowEngine:
@@ -63,6 +64,9 @@ class WorkflowEngine:
             self.verifier,
             grace_seconds=config.recovery_grace,
         )
+        self.lease = EngineLease(
+            self.store, ttl_seconds=config.engine_lease_seconds
+        )
 
     # ------------------------------------------------------------ lifecycle
     def create_workflow(
@@ -82,6 +86,10 @@ class WorkflowEngine:
         return self.store.get_workflow(workflow.id)
 
     def start(self, workflow_id: str) -> Workflow:
+        with self.lease:
+            return self._start(workflow_id)
+
+    def _start(self, workflow_id: str) -> Workflow:
         workflow = self.store.get_workflow(workflow_id)
         if is_workflow_terminal(workflow.status):
             raise ValidationError(f"workflow {workflow_id} is already {workflow.status.value}")
@@ -100,16 +108,18 @@ class WorkflowEngine:
         return self.run(workflow_id)
 
     def resume(self, workflow_id: str) -> Workflow:
-        workflow = self.store.get_workflow(workflow_id)
-        if is_workflow_terminal(workflow.status):
-            return workflow
-        if workflow.status is WorkflowStatus.CREATED:
-            return self.start(workflow_id)
-        self.recovery.recover_workflow(workflow_id)
-        return self.run(workflow_id)
+        with self.lease:
+            workflow = self.store.get_workflow(workflow_id)
+            if is_workflow_terminal(workflow.status):
+                return workflow
+            if workflow.status is WorkflowStatus.CREATED:
+                return self._start(workflow_id)
+            self.recovery.recover_workflow(workflow_id)
+            return self.run(workflow_id)
 
     def recover_all(self):
-        return self.recovery.scan()
+        with self.lease:
+            return self.recovery.scan()
 
     def cancel(self, workflow_id: str, reason: str = "cancelled by user") -> Workflow:
         workflow = self.store.get_workflow(workflow_id)
@@ -128,11 +138,18 @@ class WorkflowEngine:
 
     # ----------------------------------------------------------------- run
     def run(self, workflow_id: str, max_iterations: int | None = None) -> Workflow:
+        if self.lease.held:
+            return self._run(workflow_id, max_iterations)
+        with self.lease:
+            return self._run(workflow_id, max_iterations)
+
+    def _run(self, workflow_id: str, max_iterations: int | None = None) -> Workflow:
         if max_iterations is None:
             # One wave per DAG layer; the bound scales with the DAG instead of
             # failing long but perfectly healthy chains.
             max_iterations = max(100, len(self.store.list_nodes(workflow_id)) * 2 + 10)
         for _ in range(max_iterations):
+            self.lease.ensure_held()
             workflow = self.store.get_workflow(workflow_id)
             if is_workflow_terminal(workflow.status):
                 return workflow
@@ -221,6 +238,8 @@ class WorkflowEngine:
 
     def _finish(self, workflow_id: str, target: WorkflowStatus, reason: str) -> None:
         workflow = self.store.get_workflow(workflow_id)
+        if is_workflow_terminal(workflow.status):
+            return  # cancelled/failed concurrently; never resurrect or rewrite
         if workflow.status is target:
             return
         if target in (WorkflowStatus.COMPLETED, WorkflowStatus.FAILED):
@@ -420,6 +439,14 @@ class WorkflowEngine:
 
     def _handle_failure(self, workflow_id: str, node_id: str, run, reason: str, output: dict) -> None:
         node = self.store.get_node(node_id)
+        if node.status is not NodeStatus.RUNNING:
+            self.store.append_event(
+                workflow_id,
+                "node.failure_ignored",
+                {"node_status": node.status.value, "reason": reason},
+                node_id=node_id,
+            )
+            return
         try:
             policy = (
                 RetryPolicy.from_dict(node.retry_policy)
@@ -483,17 +510,21 @@ class WorkflowEngine:
         return executable, (min(waits) if waits else 0.0)
 
     def _build_prompt(self, workflow: Workflow, node: Node, context: dict[str, Any]) -> str:
-        custom = node.execution_config.get("prompt")
-        if custom:
-            return str(custom)
         context_json = json.dumps(context, ensure_ascii=False, default=str, indent=2)
         if len(context_json) > _MAX_PROMPT_CONTEXT:
             context_json = context_json[:_MAX_PROMPT_CONTEXT] + "\n... (truncated)"
         node_input = json.dumps(node.input, ensure_ascii=False, default=str, indent=2)
+        custom = node.execution_config.get("prompt")
+        if custom:
+            body = str(custom)
+        else:
+            body = (
+                f"Workflow goal: {workflow.goal}\n"
+                f"Node: {node.name} ({node.id})\n"
+                f"Node input:\n{node_input}"
+            )
         return (
-            f"Workflow goal: {workflow.goal}\n"
-            f"Node: {node.name} ({node.id})\n"
-            f"Node input:\n{node_input}\n\n"
+            f"{body}\n\n"
             "Continuation context (authoritative state is persisted in SQLite):\n"
             f"{context_json}\n\n"
             "Execute this node and report the result. Do not declare the workflow "

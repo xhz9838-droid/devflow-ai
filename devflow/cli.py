@@ -84,6 +84,10 @@ def _parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # Windows consoles default to GBK; agent output is UTF-8 JSON.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="backslashreplace")
     args = _parser().parse_args(argv)
     config = load_config(args.db, workdir=args.workdir)
     configure_logging(args.log_level or config.log_level)

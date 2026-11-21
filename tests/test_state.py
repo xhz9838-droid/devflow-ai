@@ -9,8 +9,8 @@ from devflow.models import DecisionStatus, NodeStatus, WorkflowStatus
 
 def test_migrations_are_idempotent(tmp_path):
     db = Database(tmp_path / "m.db")
-    assert db.migrate() == 2
-    assert db.migrate() == 2
+    assert db.migrate() == 3
+    assert db.migrate() == 3
     with db.read() as conn:
         tables = {
             row["name"]

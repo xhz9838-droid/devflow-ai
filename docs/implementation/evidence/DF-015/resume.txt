@@ -1,0 +1,930 @@
+rc=0
+stdout={
+  "workflow": {
+    "id": "wf-a04f63f8bfac",
+    "name": "real WCP handoff",
+    "goal": "Produce a token, pause for approval, then hand the token to the next agent run.",
+    "status": "COMPLETED",
+    "context": {},
+    "error": null,
+    "created_at": "2026-11-21T09:07:43+00:00",
+    "updated_at": "2026-11-21T09:08:11+00:00",
+    "started_at": "2026-11-21T09:07:43+00:00",
+    "finished_at": "2026-11-21T09:08:11+00:00"
+  },
+  "node_counts": {
+    "SUCCEEDED": 2
+  },
+  "pending_decisions": [],
+  "latest_checkpoint": {
+    "id": "ckpt-815900ff12c5",
+    "workflow_id": "wf-a04f63f8bfac",
+    "node_id": null,
+    "reason": "completed",
+    "sequence": 7,
+    "state_snapshot": {
+      "agent_runs": [
+        {
+          "adapter": "claude-code",
+          "attempt": 1,
+          "error": null,
+          "exit_code": 0,
+          "finished_at": "2026-11-21T09:07:54+00:00",
+          "heartbeat_at": "2026-11-21T09:07:54+00:00",
+          "id": "run-2d506f6a0552",
+          "metadata": {
+            "parsed": {
+              "api_error_status": null,
+              "duration_api_ms": 7586,
+              "duration_ms": 7823,
+              "fast_mode_disabled_reason": "sdk_opt_in_required",
+              "fast_mode_state": "off",
+              "first_content_frame_ms": 5855,
+              "is_error": false,
+              "modelUsage": {
+                "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                  "cacheCreationInputTokens": 0,
+                  "cacheReadInputTokens": 256,
+                  "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                  "contextWindow": 1000000,
+                  "costBasis": "unknown",
+                  "costUSD": 0.21956299999999998,
+                  "inputTokens": 42657,
+                  "maxOutputTokens": 32000,
+                  "outputTokens": 246,
+                  "provider": "firstParty",
+                  "thinkingTokens": 0,
+                  "webSearchRequests": 0
+                }
+              },
+              "num_turns": 1,
+              "permission_denials": [],
+              "queued_turn_count": 0,
+              "result": "WCP-1E9CD214E0",
+              "result_index": 0,
+              "safety_stops": 0,
+              "session_id": "a6cdb139-35f3-455e-b436-66f8720170e3",
+              "stop_reason": "end_turn",
+              "subagent_stats": {
+                "by_type": {},
+                "completed": 0,
+                "failed": 0,
+                "killed": {
+                  "parent": 0,
+                  "system": 0,
+                  "user": 0
+                },
+                "max_depth": 0,
+                "refused": {
+                  "budget": 0,
+                  "concurrency_limit": 0,
+                  "depth_limit": 0
+                },
+                "requested": {
+                  "background": 0,
+                  "foreground": 0,
+                  "unset": 0
+                },
+                "spawned": 0,
+                "spawned_by_subagents": 0,
+                "started_in_background": 0
+              },
+              "subtype": "success",
+              "terminal_reason": "completed",
+              "time_to_request_ms": 240,
+              "total_cost_usd": 0.21956299999999998,
+              "ttft_ms": 7786,
+              "ttft_stream_ms": 5845,
+              "type": "result",
+              "usage": {
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 256,
+                "fallback_credit": null,
+                "inference_geo": "",
+                "input_tokens": 42657,
+                "iterations": [],
+                "output_tokens": 246,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_fetch_requests": 0,
+                  "web_search_requests": 0
+                },
+                "service_tier": "standard",
+                "speed": "standard"
+              },
+              "uuid": "a9b29237-540e-44bc-9f9a-114b9f981f19"
+            },
+            "pid": 10832,
+            "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+          },
+          "node_id": "research",
+          "output": "{\"duration_api_ms\":7586,\"stop_reason\":\"end_turn\",\"session_id\":\"a6cdb139-35f3-455e-b436-66f8720170e3\",\"total_cost_usd\":0.21956299999999998,\"usage\":{\"input_tokens\":42657,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":256,\"output_tokens\":246,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":42657,\"outputTokens\":246,\"cacheReadInputTokens\":256,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.21956299999999998,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":1,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"WCP-1E9CD214E0\",\"ttft_ms\":7786,\"type\":\"result\",\"duration_ms\":7823,\"uuid\":\"a9b29237-540e-44bc-9f9a-114b9f981f19\",\"ttft_stream_ms\":5845,\"time_to_request_ms\":240,\"first_content_frame_ms\":5855,\"queued_turn_count\":0,\"result_index\":0}",
+          "pid": 10832,
+          "process_start_time": "win:134397256637024573",
+          "prompt": "Reply with exactly the token WCP-1E9CD214E0 and nothing else. Do not create files. Do not use tools.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-a04f63f8bfac\",\n  \"goal\": \"Produce a token, pause for approval, then hand the token to the next agent run.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"research\",\n  \"progress\": {\n    \"total\": 2,\n    \"completed\": 0,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 1,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [],\n  \"running_nodes\": [\n    {\n      \"id\": \"research\",\n      \"name\": \"research\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [\n    {\n      \"id\": \"handoff\",\n      \"name\": \"handoff\"\n    }\n  ],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node research\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 8,\n    \"workflow_id\": \"wf-a04f63f8bfac\",\n    \"node_id\": \"research\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:07:43+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-207\\\\test_real_wcp_handoff_across_a0\\\\workspace\"\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+          "started_at": "2026-11-21T09:07:43+00:00",
+          "status": "SUCCEEDED",
+          "timeout_seconds": 240.0,
+          "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-207\\test_real_wcp_handoff_across_a0\\workspace",
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "adapter": "claude-code",
+          "attempt": 1,
+          "error": null,
+          "exit_code": 0,
+          "finished_at": "2026-11-21T09:08:11+00:00",
+          "heartbeat_at": "2026-11-21T09:08:11+00:00",
+          "id": "run-e44ffd1994a8",
+          "metadata": {
+            "parsed": {
+              "api_error_status": null,
+              "duration_api_ms": 13184,
+              "duration_ms": 13508,
+              "fast_mode_disabled_reason": "sdk_opt_in_required",
+              "fast_mode_state": "off",
+              "first_content_frame_ms": 7937,
+              "is_error": false,
+              "modelUsage": {
+                "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]": {
+                  "cacheCreationInputTokens": 0,
+                  "cacheReadInputTokens": 43264,
+                  "canonicalModel": "ccs-claude-opencode-3--deepseek-v4.1-flash[1m]",
+                  "contextWindow": 1000000,
+                  "costBasis": "unknown",
+                  "costUSD": 0.24338699999999996,
+                  "inputTokens": 43101,
+                  "maxOutputTokens": 32000,
+                  "outputTokens": 250,
+                  "provider": "firstParty",
+                  "thinkingTokens": 0,
+                  "webSearchRequests": 0
+                }
+              },
+              "num_turns": 2,
+              "permission_denials": [],
+              "queued_turn_count": 0,
+              "result": "Handoff node executed.\n\n- Token found in the completed `research` node output: `WCP-1E9CD214E0`\n- Written verbatim to `handoff.txt` in the workspace.\n\nSkipped nothing else per instructions (no other files read, no shell used). Risk: the token comes solely from the supplied continuation context; I did not cross-check it against the SQLite state.",
+              "result_index": 0,
+              "safety_stops": 0,
+              "session_id": "20c1af95-79cd-4edb-b30c-82f133ab588c",
+              "stop_reason": "end_turn",
+              "subagent_stats": {
+                "by_type": {},
+                "completed": 0,
+                "failed": 0,
+                "killed": {
+                  "parent": 0,
+                  "system": 0,
+                  "user": 0
+                },
+                "max_depth": 0,
+                "refused": {
+                  "budget": 0,
+                  "concurrency_limit": 0,
+                  "depth_limit": 0
+                },
+                "requested": {
+                  "background": 0,
+                  "foreground": 0,
+                  "unset": 0
+                },
+                "spawned": 0,
+                "spawned_by_subagents": 0,
+                "started_in_background": 0
+              },
+              "subtype": "success",
+              "terminal_reason": "completed",
+              "time_to_request_ms": 234,
+              "total_cost_usd": 0.24338699999999996,
+              "ttft_ms": 8332,
+              "ttft_stream_ms": 7914,
+              "type": "result",
+              "usage": {
+                "cache_creation": {
+                  "ephemeral_1h_input_tokens": 0,
+                  "ephemeral_5m_input_tokens": 0
+                },
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 43264,
+                "fallback_credit": null,
+                "inference_geo": "",
+                "input_tokens": 43101,
+                "iterations": [],
+                "output_tokens": 250,
+                "output_tokens_details": {
+                  "thinking_tokens": 0
+                },
+                "server_tool_use": {
+                  "web_fetch_requests": 0,
+                  "web_search_requests": 0
+                },
+                "service_tier": "standard",
+                "speed": "standard"
+              },
+              "uuid": "09a777f1-5766-4678-b8aa-8f3a19918db9"
+            },
+            "pid": 17512,
+            "stderr": "[claude-code:unrecognized_model] {\"model\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"query_source\":\"sdk\"}"
+          },
+          "node_id": "handoff",
+          "output": "{\"duration_api_ms\":13184,\"stop_reason\":\"end_turn\",\"session_id\":\"20c1af95-79cd-4edb-b30c-82f133ab588c\",\"total_cost_usd\":0.24338699999999996,\"usage\":{\"input_tokens\":43101,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43264,\"output_tokens\":250,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43101,\"outputTokens\":250,\"cacheReadInputTokens\":43264,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.24338699999999996,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Handoff node executed.\\n\\n- Token found in the completed `research` node output: `WCP-1E9CD214E0`\\n- Written verbatim to `handoff.txt` in the workspace.\\n\\nSkipped nothing else per instructions (no other files read, no shell used). Risk: the token comes solely from the supplied continuation context; I did not cross-check it against the SQLite state.\",\"ttft_ms\":8332,\"type\":\"result\",\"duration_ms\":13508,\"uuid\":\"09a777f1-5766-4678-b8aa-8f3a19918db9\",\"ttft_stream_ms\":7914,\"time_to_request_ms\":234,\"first_content_frame_ms\":7937,\"queued_turn_count\":0,\"result_index\":0}",
+          "pid": 17512,
+          "process_start_time": "win:134397256752255421",
+          "prompt": "You are resuming a workflow. The continuation context contains a completed node named research and its output. Find the token that starts with WCP- and write exactly that token to handoff.txt using the Write tool. Do not read any other files and do not use Bash.\n\nContinuation context (authoritative state is persisted in SQLite):\n{\n  \"workflow_id\": \"wf-a04f63f8bfac\",\n  \"goal\": \"Produce a token, pause for approval, then hand the token to the next agent run.\",\n  \"workflow_status\": \"RUNNING\",\n  \"current_stage\": \"main\",\n  \"current_node\": \"handoff\",\n  \"progress\": {\n    \"total\": 2,\n    \"completed\": 1,\n    \"running\": 1,\n    \"waiting_human\": 0,\n    \"ready\": 0,\n    \"pending\": 0,\n    \"blocked\": 0,\n    \"failed\": 0\n  },\n  \"completed_nodes\": [\n    {\n      \"id\": \"research\",\n      \"name\": \"research\",\n      \"summary\": \"all acceptance conditions passed\",\n      \"verification_passed\": true,\n      \"artifacts\": [],\n      \"output\": \"WCP-1E9CD214E0\",\n      \"idempotency_key\": null\n    }\n  ],\n  \"running_nodes\": [\n    {\n      \"id\": \"handoff\",\n      \"name\": \"handoff\"\n    }\n  ],\n  \"ready_nodes\": [],\n  \"pending_nodes\": [],\n  \"blocked_nodes\": [],\n  \"open_decisions\": [],\n  \"deliverables\": [],\n  \"side_effects_completed\": [],\n  \"unresolved_issues\": [],\n  \"next_actions\": [\n    \"wait for or recover node handoff\"\n  ],\n  \"workflow_context\": {},\n  \"last_event\": {\n    \"id\": 28,\n    \"workflow_id\": \"wf-a04f63f8bfac\",\n    \"node_id\": \"handoff\",\n    \"event_type\": \"node.claimed\",\n    \"payload\": {},\n    \"actor\": \"core\",\n    \"created_at\": \"2026-11-21T09:07:55+00:00\"\n  },\n  \"checkpoint_source\": \"sqlite\",\n  \"workdir\": \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Temp\\\\pytest-of-Administrator\\\\pytest-207\\\\test_real_wcp_handoff_across_a0\\\\workspace\",\n  \"approved_decision\": {\n    \"decision_id\": \"dec-0623533c0dcd\",\n    \"selected_option\": \"approve\",\n    \"payload\": {},\n    \"resolved_by\": \"cli\"\n  }\n}\n\nExecute this node and report the result. Do not declare the workflow complete yourself; the engine verifies completion.",
+          "started_at": "2026-11-21T09:07:55+00:00",
+          "status": "SUCCEEDED",
+          "timeout_seconds": 240.0,
+          "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-207\\test_real_wcp_handoff_across_a0\\workspace",
+          "workflow_id": "wf-a04f63f8bfac"
+        }
+      ],
+      "decisions": [
+        {
+          "context": {},
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "decision_payload": {},
+          "decision_type": "approval",
+          "expires_at": null,
+          "id": "dec-0623533c0dcd",
+          "node_id": "handoff",
+          "note": null,
+          "options": [
+            {
+              "id": "approve",
+              "label": "Approve"
+            }
+          ],
+          "question": "Continue with the handoff?",
+          "resolved_at": "2026-11-21T09:07:54+00:00",
+          "resolved_by": "cli",
+          "selected_option": "approve",
+          "status": "RESOLVED",
+          "workflow_id": "wf-a04f63f8bfac"
+        }
+      ],
+      "nodes": [
+        {
+          "attempts": 1,
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "dependencies": [
+            "research"
+          ],
+          "error": null,
+          "execution_config": {
+            "acceptance": [
+              {
+                "equals": 0,
+                "type": "exit_code"
+              },
+              {
+                "path": "handoff.txt",
+                "type": "artifact_exists"
+              },
+              {
+                "path": "handoff.txt",
+                "type": "artifact_contains",
+                "value": "WCP-1E9CD214E0"
+              }
+            ],
+            "human_decision": {
+              "options": [
+                {
+                  "id": "approve",
+                  "label": "Approve"
+                }
+              ],
+              "question": "Continue with the handoff?"
+            },
+            "prompt": "You are resuming a workflow. The continuation context contains a completed node named research and its output. Find the token that starts with WCP- and write exactly that token to handoff.txt using the Write tool. Do not read any other files and do not use Bash.",
+            "timeout_seconds": 240
+          },
+          "finished_at": "2026-11-21T09:08:11+00:00",
+          "id": "handoff",
+          "idempotency_key": null,
+          "input": {},
+          "name": "handoff",
+          "output": {
+            "agent_run_id": "run-e44ffd1994a8",
+            "attempt": 1,
+            "exit_code": 0,
+            "output": "{\"duration_api_ms\":13184,\"stop_reason\":\"end_turn\",\"session_id\":\"20c1af95-79cd-4edb-b30c-82f133ab588c\",\"total_cost_usd\":0.24338699999999996,\"usage\":{\"input_tokens\":43101,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":43264,\"output_tokens\":250,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":43101,\"outputTokens\":250,\"cacheReadInputTokens\":43264,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.24338699999999996,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":2,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"Handoff node executed.\\n\\n- Token found in the completed `research` node output: `WCP-1E9CD214E0`\\n- Written verbatim to `handoff.txt` in the workspace.\\n\\nSkipped nothing else per instructions (no other files read, no shell used). Risk: the token comes solely from the supplied continuation context; I did not cross-check it against the SQLite state.\",\"ttft_ms\":8332,\"type\":\"result\",\"duration_ms\":13508,\"uuid\":\"09a777f1-5766-4678-b8aa-8f3a19918db9\",\"ttft_stream_ms\":7914,\"time_to_request_ms\":234,\"first_content_frame_ms\":7937,\"queued_turn_count\":0,\"result_index\":0}",
+            "summary": "all acceptance conditions passed",
+            "verification": {
+              "evidence": [
+                {
+                  "condition": "exit_code",
+                  "config": {
+                    "equals": 0,
+                    "type": "exit_code"
+                  },
+                  "detail": "exit_code=0, expected=0",
+                  "passed": true
+                },
+                {
+                  "condition": "artifact_exists",
+                  "config": {
+                    "path": "handoff.txt",
+                    "type": "artifact_exists"
+                  },
+                  "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-207\\test_real_wcp_handoff_across_a0\\workspace\\handoff.txt exists: True",
+                  "passed": true
+                },
+                {
+                  "condition": "artifact_contains",
+                  "config": {
+                    "path": "handoff.txt",
+                    "type": "artifact_contains",
+                    "value": "WCP-1E9CD214E0"
+                  },
+                  "detail": "artifact C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-207\\test_real_wcp_handoff_across_a0\\workspace\\handoff.txt contains 'WCP-1E9CD214E0': True",
+                  "passed": true
+                }
+              ],
+              "failed_conditions": [],
+              "passed": true,
+              "summary": "all acceptance conditions passed",
+              "verified_at": "2026-11-21T09:08:11+00:00"
+            }
+          },
+          "required": true,
+          "retry_policy": {},
+          "stage_id": "stg-0c60b8c90d79",
+          "started_at": "2026-11-21T09:07:54+00:00",
+          "status": "SUCCEEDED",
+          "updated_at": "2026-11-21T09:08:11+00:00",
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "attempts": 1,
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "dependencies": [],
+          "error": null,
+          "execution_config": {
+            "acceptance": [
+              {
+                "type": "output_contains",
+                "value": "WCP-1E9CD214E0"
+              }
+            ],
+            "prompt": "Reply with exactly the token WCP-1E9CD214E0 and nothing else. Do not create files. Do not use tools.",
+            "timeout_seconds": 240
+          },
+          "finished_at": "2026-11-21T09:07:54+00:00",
+          "id": "research",
+          "idempotency_key": null,
+          "input": {},
+          "name": "research",
+          "output": {
+            "agent_run_id": "run-2d506f6a0552",
+            "attempt": 1,
+            "exit_code": 0,
+            "output": "{\"duration_api_ms\":7586,\"stop_reason\":\"end_turn\",\"session_id\":\"a6cdb139-35f3-455e-b436-66f8720170e3\",\"total_cost_usd\":0.21956299999999998,\"usage\":{\"input_tokens\":42657,\"cache_creation_input_tokens\":0,\"cache_read_input_tokens\":256,\"output_tokens\":246,\"output_tokens_details\":{\"thinking_tokens\":0},\"server_tool_use\":{\"web_search_requests\":0,\"web_fetch_requests\":0},\"service_tier\":\"standard\",\"cache_creation\":{\"ephemeral_1h_input_tokens\":0,\"ephemeral_5m_input_tokens\":0},\"inference_geo\":\"\",\"iterations\":[],\"speed\":\"standard\",\"fallback_credit\":null},\"modelUsage\":{\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\":{\"inputTokens\":42657,\"outputTokens\":246,\"cacheReadInputTokens\":256,\"cacheCreationInputTokens\":0,\"webSearchRequests\":0,\"costUSD\":0.21956299999999998,\"contextWindow\":1000000,\"maxOutputTokens\":32000,\"thinkingTokens\":0,\"canonicalModel\":\"ccs-claude-opencode-3--deepseek-v4.1-flash[1m]\",\"provider\":\"firstParty\",\"costBasis\":\"unknown\"}},\"permission_denials\":[],\"terminal_reason\":\"completed\",\"fast_mode_state\":\"off\",\"fast_mode_disabled_reason\":\"sdk_opt_in_required\",\"subagent_stats\":{\"spawned\":0,\"requested\":{\"background\":0,\"foreground\":0,\"unset\":0},\"started_in_background\":0,\"max_depth\":0,\"spawned_by_subagents\":0,\"completed\":0,\"failed\":0,\"killed\":{\"parent\":0,\"user\":0,\"system\":0},\"refused\":{\"depth_limit\":0,\"concurrency_limit\":0,\"budget\":0},\"by_type\":{}},\"safety_stops\":0,\"is_error\":false,\"num_turns\":1,\"subtype\":\"success\",\"api_error_status\":null,\"result\":\"WCP-1E9CD214E0\",\"ttft_ms\":7786,\"type\":\"result\",\"duration_ms\":7823,\"uuid\":\"a9b29237-540e-44bc-9f9a-114b9f981f19\",\"ttft_stream_ms\":5845,\"time_to_request_ms\":240,\"first_content_frame_ms\":5855,\"queued_turn_count\":0,\"result_index\":0}",
+            "summary": "all acceptance conditions passed",
+            "verification": {
+              "evidence": [
+                {
+                  "condition": "output_contains",
+                  "config": {
+                    "type": "output_contains",
+                    "value": "WCP-1E9CD214E0"
+                  },
+                  "detail": "output contains 'WCP-1E9CD214E0': True",
+                  "passed": true
+                }
+              ],
+              "failed_conditions": [],
+              "passed": true,
+              "summary": "all acceptance conditions passed",
+              "verified_at": "2026-11-21T09:07:54+00:00"
+            }
+          },
+          "required": true,
+          "retry_policy": {},
+          "stage_id": "stg-0c60b8c90d79",
+          "started_at": "2026-11-21T09:07:43+00:00",
+          "status": "SUCCEEDED",
+          "updated_at": "2026-11-21T09:07:54+00:00",
+          "workflow_id": "wf-a04f63f8bfac"
+        }
+      ],
+      "recent_events": [
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "event_type": "workflow.created",
+          "id": 1,
+          "node_id": null,
+          "payload": {
+            "name": "real WCP handoff"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "event_type": "stage.created",
+          "id": 2,
+          "node_id": null,
+          "payload": {
+            "name": "main",
+            "stage_id": "stg-0c60b8c90d79"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "event_type": "nodes.created",
+          "id": 3,
+          "node_id": null,
+          "payload": {
+            "node_ids": [
+              "research",
+              "handoff"
+            ]
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "event_type": "workflow.status_changed",
+          "id": 4,
+          "node_id": null,
+          "payload": {
+            "from": "CREATED",
+            "reason": "start requested",
+            "to": "INITIALIZING"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "event_type": "workflow.status_changed",
+          "id": 5,
+          "node_id": null,
+          "payload": {
+            "from": "INITIALIZING",
+            "reason": "initialized",
+            "to": "RUNNING"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 6,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-c8c09e13fb29",
+            "reason": "started",
+            "sequence": 1
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "event_type": "node.status_changed",
+          "id": 7,
+          "node_id": "research",
+          "payload": {
+            "from": "PENDING",
+            "reason": "scheduler",
+            "to": "READY"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "event_type": "node.claimed",
+          "id": 8,
+          "node_id": "research",
+          "payload": {},
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "event_type": "agent.started",
+          "id": 9,
+          "node_id": "research",
+          "payload": {
+            "attempt": 1,
+            "run_id": "run-2d506f6a0552"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "event_type": "agent.process_started",
+          "id": 10,
+          "node_id": "research",
+          "payload": {
+            "pid": 10832,
+            "process_start_time": "win:134397256637024573",
+            "run_id": "run-2d506f6a0552"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "agent.status_changed",
+          "id": 11,
+          "node_id": "research",
+          "payload": {
+            "from": "RUNNING",
+            "run_id": "run-2d506f6a0552",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "node.succeeded",
+          "id": 12,
+          "node_id": "research",
+          "payload": {
+            "from": "RUNNING",
+            "reason": "verification passed",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 13,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-66a8f1631e4f",
+            "reason": "batch_completed",
+            "sequence": 2
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "node.status_changed",
+          "id": 14,
+          "node_id": "handoff",
+          "payload": {
+            "from": "PENDING",
+            "reason": "scheduler",
+            "to": "READY"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "node.claimed",
+          "id": 15,
+          "node_id": "handoff",
+          "payload": {},
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "human_decision.requested",
+          "id": 16,
+          "node_id": "handoff",
+          "payload": {
+            "decision_id": "dec-0623533c0dcd",
+            "question": "Continue with the handoff?"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "node.waiting_human",
+          "id": 17,
+          "node_id": "handoff",
+          "payload": {
+            "from": "RUNNING",
+            "reason": "waiting for human decision",
+            "to": "WAITING_HUMAN"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 18,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-248f010cc626",
+            "reason": "batch_completed",
+            "sequence": 3
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "workflow.waiting_human",
+          "id": 19,
+          "node_id": null,
+          "payload": {
+            "from": "RUNNING",
+            "reason": "awaiting human decision",
+            "to": "WAITING_HUMAN"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 20,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-05696f9d6896",
+            "reason": "waiting_human",
+            "sequence": 4
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "human_decision.resolved",
+          "id": 21,
+          "node_id": "handoff",
+          "payload": {
+            "decision_id": "dec-0623533c0dcd",
+            "resolved_by": "cli",
+            "selected_option": "approve"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "node.decision_resolved",
+          "id": 22,
+          "node_id": "handoff",
+          "payload": {
+            "from": "WAITING_HUMAN",
+            "reason": "decision resolved",
+            "to": "READY"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:54+00:00",
+          "event_type": "workflow.resumed",
+          "id": 23,
+          "node_id": null,
+          "payload": {
+            "from": "WAITING_HUMAN",
+            "reason": "all pending decisions resolved",
+            "to": "RUNNING"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:07:55+00:00",
+          "event_type": "recovery.scan",
+          "id": 24,
+          "node_id": null,
+          "payload": {},
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:07:55+00:00",
+          "event_type": "workflow.recovery_started",
+          "id": 25,
+          "node_id": null,
+          "payload": {
+            "from": "RUNNING",
+            "reason": "recovery scan",
+            "to": "RECOVERING"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "recovery",
+          "created_at": "2026-11-21T09:07:55+00:00",
+          "event_type": "workflow.recovered",
+          "id": 26,
+          "node_id": null,
+          "payload": {
+            "from": "RECOVERING",
+            "reason": "recovery complete",
+            "to": "RUNNING"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:55+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 27,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-356cb56e3702",
+            "reason": "recovery",
+            "sequence": 5
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:55+00:00",
+          "event_type": "node.claimed",
+          "id": 28,
+          "node_id": "handoff",
+          "payload": {},
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:55+00:00",
+          "event_type": "agent.started",
+          "id": 29,
+          "node_id": "handoff",
+          "payload": {
+            "attempt": 1,
+            "run_id": "run-e44ffd1994a8"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:07:55+00:00",
+          "event_type": "agent.process_started",
+          "id": 30,
+          "node_id": "handoff",
+          "payload": {
+            "pid": 17512,
+            "process_start_time": "win:134397256752255421",
+            "run_id": "run-e44ffd1994a8"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:08:11+00:00",
+          "event_type": "agent.status_changed",
+          "id": 31,
+          "node_id": "handoff",
+          "payload": {
+            "from": "RUNNING",
+            "run_id": "run-e44ffd1994a8",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:08:11+00:00",
+          "event_type": "node.succeeded",
+          "id": 32,
+          "node_id": "handoff",
+          "payload": {
+            "from": "RUNNING",
+            "reason": "verification passed",
+            "to": "SUCCEEDED"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:08:11+00:00",
+          "event_type": "checkpoint.saved",
+          "id": 33,
+          "node_id": null,
+          "payload": {
+            "checkpoint_id": "ckpt-8646480220a5",
+            "reason": "batch_completed",
+            "sequence": 6
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        },
+        {
+          "actor": "core",
+          "created_at": "2026-11-21T09:08:11+00:00",
+          "event_type": "workflow.completed",
+          "id": 34,
+          "node_id": null,
+          "payload": {
+            "from": "RUNNING",
+            "reason": "workflow complete",
+            "to": "COMPLETED"
+          },
+          "workflow_id": "wf-a04f63f8bfac"
+        }
+      ],
+      "stages": [
+        {
+          "created_at": "2026-11-21T09:07:43+00:00",
+          "id": "stg-0c60b8c90d79",
+          "name": "main",
+          "sequence": 0,
+          "status": "PENDING",
+          "workflow_id": "wf-a04f63f8bfac"
+        }
+      ],
+      "workflow": {
+        "context": {},
+        "created_at": "2026-11-21T09:07:43+00:00",
+        "error": null,
+        "finished_at": "2026-11-21T09:08:11+00:00",
+        "goal": "Produce a token, pause for approval, then hand the token to the next agent run.",
+        "id": "wf-a04f63f8bfac",
+        "name": "real WCP handoff",
+        "started_at": "2026-11-21T09:07:43+00:00",
+        "status": "COMPLETED",
+        "updated_at": "2026-11-21T09:08:11+00:00"
+      }
+    },
+    "context": {
+      "blocked_nodes": [],
+      "checkpoint_source": "sqlite",
+      "completed_nodes": [
+        {
+          "artifacts": [],
+          "id": "handoff",
+          "idempotency_key": null,
+          "name": "handoff",
+          "output": "Handoff node executed.\n\n- Token found in the completed `research` node output: `WCP-1E9CD214E0`\n- Written verbatim to `handoff.txt` in the workspace.\n\nSkipped nothing else per instructions (no other files read, no shell used). Risk: the token comes solely from the supplied continuation context; I did not cross-check it against the SQLite state.",
+          "summary": "all acceptance conditions passed",
+          "verification_passed": true
+        },
+        {
+          "artifacts": [],
+          "id": "research",
+          "idempotency_key": null,
+          "name": "research",
+          "output": "WCP-1E9CD214E0",
+          "summary": "all acceptance conditions passed",
+          "verification_passed": true
+        }
+      ],
+      "current_node": null,
+      "current_stage": null,
+      "deliverables": [],
+      "goal": "Produce a token, pause for approval, then hand the token to the next agent run.",
+      "last_event": {
+        "actor": "core",
+        "created_at": "2026-11-21T09:08:11+00:00",
+        "event_type": "workflow.completed",
+        "id": 34,
+        "node_id": null,
+        "payload": {
+          "from": "RUNNING",
+          "reason": "workflow complete",
+          "to": "COMPLETED"
+        },
+        "workflow_id": "wf-a04f63f8bfac"
+      },
+      "next_actions": [
+        "workflow terminal"
+      ],
+      "open_decisions": [],
+      "pending_nodes": [],
+      "progress": {
+        "blocked": 0,
+        "completed": 2,
+        "failed": 0,
+        "pending": 0,
+        "ready": 0,
+        "running": 0,
+        "total": 2,
+        "waiting_human": 0
+      },
+      "ready_nodes": [],
+      "running_nodes": [],
+      "side_effects_completed": [],
+      "unresolved_issues": [],
+      "workflow_context": {},
+      "workflow_id": "wf-a04f63f8bfac",
+      "workflow_status": "COMPLETED"
+    },
+    "created_at": "2026-11-21T09:08:11+00:00"
+  }
+}
+
+stderr=

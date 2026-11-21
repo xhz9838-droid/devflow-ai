@@ -1,8 +1,11 @@
+import json
+
 import pytest
 
 from devflow.continuation import CheckpointManager, build_continuation_context
 from devflow.errors import CheckpointError
 from devflow.models import NodeStatus
+from devflow.scheduler import DAGScheduler
 
 
 def test_checkpoint_sequence_snapshot_and_context(store, create_workflow):
@@ -77,6 +80,35 @@ def test_checkpoint_failure_is_not_swallowed(store, create_workflow, monkeypatch
     with pytest.raises(CheckpointError, match="disk full"):
         manager.save(workflow.id, "started")
     assert store.list_checkpoints(workflow.id) == []
+
+
+def test_completed_node_output_is_ready_for_handoff(store, create_workflow):
+    workflow = create_workflow(
+        [
+            {"id": "research", "idempotency_key": "research-side-effect"},
+            {"id": "handoff", "dependencies": ["research"]},
+        ]
+    )
+    store.update_node_status("research", NodeStatus.READY)
+    store.update_node_status("research", NodeStatus.RUNNING)
+    store.update_node_status(
+        "research",
+        NodeStatus.SUCCEEDED,
+        output={
+            "output": json.dumps({"result": "TOKEN-WCP-1", "session_id": "s"}),
+            "verification": {"passed": True},
+            "artifacts": ["research.md"],
+        },
+    )
+    DAGScheduler(store).refresh(workflow.id)
+
+    context = CheckpointManager(store).build_context(workflow.id)
+    completed = context["completed_nodes"][0]
+    assert completed["id"] == "research"
+    assert completed["output"] == "TOKEN-WCP-1"
+    assert completed["verification_passed"] is True
+    assert completed["artifacts"] == ["research.md"]
+    assert completed["idempotency_key"] == "research-side-effect"
 
 
 def test_context_builder_handles_empty_workflow(store, create_workflow):

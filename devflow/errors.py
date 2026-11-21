@@ -47,3 +47,23 @@ class DecisionError(DevFlowError):
 
 class CheckpointError(DevFlowError):
     """Checkpoint could not be built or persisted."""
+
+
+class EngineLocked(DevFlowError):
+    """Another engine holds the scheduling lease for this database."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        owner: str | None = None,
+        hostname: str | None = None,
+        pid: int | None = None,
+        expires_at: str | None = None,
+    ) -> None:
+        self.owner = owner
+        self.hostname = hostname
+        self.pid = pid
+        self.expires_at = expires_at
+        detail = f"{message} (owner={owner}, host={hostname}, pid={pid}, expires_at={expires_at})"
+        super().__init__(detail)

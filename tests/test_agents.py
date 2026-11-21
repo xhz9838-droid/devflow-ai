@@ -82,8 +82,9 @@ def test_claude_adapter_builds_safe_command(monkeypatch, tmp_path):
             captured["command"] = command
             captured.update(kwargs)
 
-        def communicate(self, timeout=None):
+        def communicate(self, input=None, timeout=None):
             captured["timeout"] = timeout
+            captured["input"] = input
             return '{"session_id": "s1", "result": "ok"}', ""
 
         def poll(self):
@@ -108,8 +109,9 @@ def test_claude_adapter_builds_safe_command(monkeypatch, tmp_path):
 
     assert result.success
     assert result.session_id == "s1"
-    assert captured["command"][:2] == ["/usr/bin/claude", "-p"]
-    assert "fix it" in captured["command"]
+    assert captured["command"][:3] == ["/usr/bin/claude", "-p", "--output-format"]
+    assert "fix it" not in captured["command"]
+    assert captured["input"] == "fix it"
     assert captured["shell"] is False
     assert captured["cwd"] == str(tmp_path)
     assert captured["env"]["FOO"] == "bar"
@@ -130,7 +132,7 @@ def test_claude_adapter_timeout_terminates_the_process(monkeypatch, tmp_path):
         def __init__(self, command, **kwargs):
             pass
 
-        def communicate(self, timeout=None):
+        def communicate(self, input=None, timeout=None):
             if state["timeouts"] == 0:
                 state["timeouts"] = 1
                 raise module.subprocess.TimeoutExpired(cmd="claude", timeout=timeout)

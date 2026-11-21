@@ -34,7 +34,7 @@ class ClaudeCodeAdapter(AgentAdapter):
         if not shutil.which(self.executable):
             raise AgentExecutionError(f"agent executable not found: {self.executable}")
 
-        command = [executable, "-p", request.prompt, "--output-format", "json"]
+        command = [executable, "-p", "--output-format", "json"]
         if request.session_id:
             command.extend(["--resume", request.session_id])
         command.extend(self.extra_args)
@@ -44,6 +44,7 @@ class ClaudeCodeAdapter(AgentAdapter):
 
         popen_kwargs: dict[str, object] = {
             "cwd": request.workdir or None,
+            "stdin": subprocess.PIPE,
             "stdout": subprocess.PIPE,
             "stderr": subprocess.PIPE,
             "text": True,
@@ -70,7 +71,7 @@ class ClaudeCodeAdapter(AgentAdapter):
 
         try:
             stdout, stderr = process.communicate(
-                timeout=request.timeout_seconds or None
+                input=request.prompt, timeout=request.timeout_seconds or None
             )
         except subprocess.TimeoutExpired as exc:
             self._stop(process, identity)

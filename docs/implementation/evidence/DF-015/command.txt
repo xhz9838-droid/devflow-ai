@@ -1,0 +1,1 @@
+DEVFLOW_REAL_CLAUDE=1 DEVFLOW_EVIDENCE_DIR=docs/implementation/evidence/DF-015 python -m pytest -q tests/integration/test_real_wcp.py -s

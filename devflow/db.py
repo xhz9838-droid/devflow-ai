@@ -157,6 +157,23 @@ MIGRATIONS: list[tuple[int, list[str]]] = [
             "ALTER TABLE agent_runs ADD COLUMN process_start_time TEXT",
         ],
     ),
+    (
+        3,
+        [
+            """
+            CREATE TABLE IF NOT EXISTS engine_locks (
+                id INTEGER PRIMARY KEY CHECK (id = 1),
+                owner_id TEXT NOT NULL,
+                hostname TEXT NOT NULL,
+                pid INTEGER NOT NULL,
+                acquired_at TEXT NOT NULL,
+                heartbeat_at TEXT NOT NULL,
+                expires_at TEXT NOT NULL,
+                released_at TEXT
+            )
+            """,
+        ],
+    ),
 ]
 
 
