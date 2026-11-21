@@ -69,6 +69,9 @@ class Workflow:
     goal: str
     status: WorkflowStatus
     context: dict[str, Any] = field(default_factory=dict)
+    plan_id: str | None = None
+    plan_snapshot_id: str | None = None
+    plan_version: int | None = None
     error: str | None = None
     created_at: str = ""
     updated_at: str = ""

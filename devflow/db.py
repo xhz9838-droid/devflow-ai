@@ -174,6 +174,113 @@ MIGRATIONS: list[tuple[int, list[str]]] = [
             """,
         ],
     ),
+    (
+        4,
+        [
+            "ALTER TABLE workflows ADD COLUMN plan_id TEXT",
+            "ALTER TABLE workflows ADD COLUMN plan_snapshot_id TEXT",
+            "ALTER TABLE workflows ADD COLUMN plan_version INTEGER",
+            "CREATE UNIQUE INDEX IF NOT EXISTS idx_workflows_plan_snapshot"
+            " ON workflows(plan_snapshot_id) WHERE plan_snapshot_id IS NOT NULL",
+            """
+            CREATE TABLE IF NOT EXISTS plans (
+                id TEXT PRIMARY KEY,
+                status TEXT NOT NULL,
+                title TEXT NOT NULL,
+                objective TEXT NOT NULL,
+                project_context TEXT NOT NULL DEFAULT '{}',
+                plan_json TEXT,
+                version INTEGER NOT NULL DEFAULT 0,
+                workflow_id TEXT,
+                error TEXT,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                confirmed_at TEXT,
+                confirmed_by TEXT
+            )
+            """,
+            "CREATE INDEX IF NOT EXISTS idx_plans_status ON plans(status)",
+            """
+            CREATE TABLE IF NOT EXISTS plan_clarifications (
+                id TEXT PRIMARY KEY,
+                plan_id TEXT NOT NULL REFERENCES plans(id) ON DELETE CASCADE,
+                question TEXT NOT NULL,
+                level TEXT NOT NULL DEFAULT 'L3',
+                reason TEXT NOT NULL DEFAULT '',
+                research TEXT NOT NULL DEFAULT '',
+                impact TEXT NOT NULL DEFAULT '',
+                options TEXT NOT NULL DEFAULT '[]',
+                recommended TEXT,
+                status TEXT NOT NULL,
+                answer TEXT,
+                answered_by TEXT,
+                created_at TEXT NOT NULL,
+                answered_at TEXT
+            )
+            """,
+            "CREATE INDEX IF NOT EXISTS idx_plan_clarifications"
+            " ON plan_clarifications(plan_id, status)",
+            """
+            CREATE TABLE IF NOT EXISTS plan_versions (
+                id TEXT PRIMARY KEY,
+                plan_id TEXT NOT NULL REFERENCES plans(id) ON DELETE CASCADE,
+                version INTEGER NOT NULL,
+                plan_json TEXT NOT NULL,
+                content_hash TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                created_by TEXT,
+                snapshot_id TEXT,
+                UNIQUE(plan_id, version)
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS plan_snapshots (
+                id TEXT PRIMARY KEY,
+                plan_id TEXT NOT NULL REFERENCES plans(id) ON DELETE CASCADE,
+                version INTEGER NOT NULL,
+                plan_json TEXT NOT NULL,
+                content_hash TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                confirmed_by TEXT,
+                UNIQUE(plan_id, version)
+            )
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS plan_change_requests (
+                id TEXT PRIMARY KEY,
+                plan_id TEXT NOT NULL REFERENCES plans(id) ON DELETE CASCADE,
+                workflow_id TEXT NOT NULL,
+                node_id TEXT,
+                risk_level TEXT NOT NULL,
+                status TEXT NOT NULL,
+                title TEXT NOT NULL,
+                reason TEXT NOT NULL DEFAULT '',
+                impact TEXT NOT NULL DEFAULT '',
+                proposed_changes TEXT NOT NULL DEFAULT '{}',
+                decision_id TEXT,
+                new_version INTEGER,
+                note TEXT,
+                created_at TEXT NOT NULL,
+                resolved_at TEXT,
+                resolved_by TEXT
+            )
+            """,
+            "CREATE INDEX IF NOT EXISTS idx_plan_changes"
+            " ON plan_change_requests(plan_id, status)",
+            "CREATE TRIGGER IF NOT EXISTS plan_snapshots_no_update"
+            " BEFORE UPDATE ON plan_snapshots BEGIN"
+            " SELECT RAISE(ABORT, 'plan snapshots are immutable'); END",
+            "CREATE TRIGGER IF NOT EXISTS plan_snapshots_no_delete"
+            " BEFORE DELETE ON plan_snapshots BEGIN"
+            " SELECT RAISE(ABORT, 'plan snapshots are immutable'); END",
+            "CREATE TRIGGER IF NOT EXISTS plan_versions_no_update"
+            " BEFORE UPDATE ON plan_versions BEGIN"
+            " SELECT RAISE(ABORT, 'plan versions are immutable'); END",
+            "CREATE TRIGGER IF NOT EXISTS plan_versions_no_delete"
+            " BEFORE DELETE ON plan_versions BEGIN"
+            " SELECT RAISE(ABORT, 'plan versions are immutable'); END",
+        ],
+    ),
 ]
 
 

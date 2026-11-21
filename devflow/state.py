@@ -9,7 +9,7 @@ from typing import Any, Iterator
 
 from .db import Database
 from .errors import DecisionError, NotFoundError, ValidationError
-from .lifecycle import ensure_transition, is_node_terminal, is_workflow_terminal
+from .lifecycle import ensure_transition, is_workflow_terminal
 from .models import (
     AgentRun,
     AgentRunStatus,
@@ -38,9 +38,10 @@ from .rows import (
     to_stage as _stage,
     to_workflow as _workflow,
 )
+from .state_plan import PlanWorkflowMixin
 
 
-class StateStore:
+class StateStore(PlanWorkflowMixin):
     def __init__(self, db: Database) -> None:
         self.db = db
 
@@ -78,36 +79,6 @@ class StateStore:
         return row
 
     # -------------------------------------------------------------- workflows
-    def create_workflow(self, name: str, goal: str, context: dict[str, Any] | None = None) -> Workflow:
-        if not name or not name.strip():
-            raise ValidationError("workflow name is required")
-        now = utcnow()
-        workflow = Workflow(
-            id=new_id("wf"),
-            name=name.strip(),
-            goal=goal,
-            status=WorkflowStatus.CREATED,
-            context=context or {},
-            created_at=now,
-            updated_at=now,
-        )
-        with self.db.transaction() as conn:
-            conn.execute(
-                "INSERT INTO workflows(id, name, goal, status, context, created_at, updated_at)"
-                " VALUES (?, ?, ?, ?, ?, ?, ?)",
-                (
-                    workflow.id,
-                    workflow.name,
-                    workflow.goal,
-                    workflow.status.value,
-                    _dump(workflow.context),
-                    workflow.created_at,
-                    workflow.updated_at,
-                ),
-            )
-            self._add_event(conn, workflow.id, None, "workflow.created", {"name": workflow.name})
-        return workflow
-
     def get_workflow(self, workflow_id: str) -> Workflow:
         with self.db.read() as conn:
             return _workflow(self._workflow_row(conn, workflow_id))
@@ -199,54 +170,6 @@ class StateStore:
         return [_stage(row) for row in rows]
 
     # ----------------------------------------------------------------- nodes
-    def create_nodes(self, workflow_id: str, specs: list[dict[str, Any]], stage_id: str | None = None) -> list[Node]:
-        if not specs:
-            raise ValidationError("at least one node is required")
-        now = utcnow()
-        created: list[Node] = []
-        with self.db.transaction() as conn:
-            self._workflow_row(conn, workflow_id)
-            for spec in specs:
-                node_id = spec.get("id") or new_id("node")
-                node = Node(
-                    id=node_id,
-                    workflow_id=workflow_id,
-                    stage_id=spec.get("stage_id", stage_id),
-                    name=spec.get("name") or node_id,
-                    status=NodeStatus.PENDING,
-                    dependencies=list(spec.get("dependencies") or []),
-                    execution_config=dict(spec.get("execution_config") or {}),
-                    retry_policy=dict(spec.get("retry_policy") or {}),
-                    input=dict(spec.get("input") or {}),
-                    required=bool(spec.get("required", True)),
-                    idempotency_key=spec.get("idempotency_key"),
-                    created_at=now,
-                    updated_at=now,
-                )
-                conn.execute(
-                    "INSERT INTO workflow_nodes(id, workflow_id, stage_id, name, status, dependencies,"
-                    " execution_config, retry_policy, input, required, idempotency_key, created_at, updated_at)"
-                    " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    (
-                        node.id,
-                        node.workflow_id,
-                        node.stage_id,
-                        node.name,
-                        node.status.value,
-                        _dump(node.dependencies),
-                        _dump(node.execution_config),
-                        _dump(node.retry_policy),
-                        _dump(node.input),
-                        int(node.required),
-                        node.idempotency_key,
-                        node.created_at,
-                        node.updated_at,
-                    ),
-                )
-                created.append(node)
-            self._add_event(conn, workflow_id, None, "nodes.created", {"node_ids": [n.id for n in created]})
-        return created
-
     def get_node(self, node_id: str) -> Node:
         with self.db.read() as conn:
             return _node(self._node_row(conn, node_id))
@@ -264,52 +187,6 @@ class StateStore:
                     (workflow_id,),
                 ).fetchall()
         return [_node(row) for row in rows]
-
-    def update_node_status(
-        self,
-        node_id: str,
-        target: NodeStatus | str,
-        reason: str = "",
-        *,
-        error: str | None = None,
-        output: dict[str, Any] | None = None,
-        event_type: str = "node.status_changed",
-        actor: str = "core",
-    ) -> Node:
-        target = NodeStatus(target)
-        with self.db.transaction() as conn:
-            row = self._node_row(conn, node_id)
-            current = NodeStatus(row["status"])
-            if current is target:
-                return _node(row)
-            ensure_transition("node", current, target)
-            now = utcnow()
-            started_at = row["started_at"]
-            if started_at is None and target is NodeStatus.RUNNING:
-                started_at = now
-            finished_at = now if is_node_terminal(target) else row["finished_at"]
-            conn.execute(
-                "UPDATE workflow_nodes SET status = ?, updated_at = ?, started_at = ?, finished_at = ?,"
-                " error = ?, output = ? WHERE id = ?",
-                (
-                    target.value,
-                    now,
-                    started_at,
-                    finished_at,
-                    error,
-                    _dump(output) if output is not None else row["output"],
-                    node_id,
-                ),
-            )
-            self._add_event(
-                conn,
-                row["workflow_id"],
-                node_id,
-                event_type,
-                {"from": current.value, "to": target.value, "reason": reason},
-                actor,
-            )
-            return _node(self._node_row(conn, node_id))
 
     def claim_node(self, node_id: str, actor: str = "core") -> Node | None:
         """Atomically move READY -> RUNNING. None means it was already claimed."""

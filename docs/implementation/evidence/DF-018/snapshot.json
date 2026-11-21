@@ -1,0 +1,230 @@
+{
+  "id": "psnap-73e8e9135215",
+  "version": 1,
+  "content_hash": "e21918a9ca079ab687d4cfb2e1c332c2ba5e22f7a3cd4c84cceb755ff7fcb52b",
+  "plan": {
+    "acceptance_criteria": [
+      {
+        "path": "calculator.py",
+        "type": "artifact_exists"
+      },
+      {
+        "path": "calculator.py",
+        "type": "artifact_contains",
+        "value": "def add("
+      },
+      {
+        "path": "calculator.py",
+        "type": "artifact_contains",
+        "value": "def subtract("
+      },
+      {
+        "path": "tests/test_calculator.py",
+        "type": "artifact_exists"
+      },
+      {
+        "path": "tests/test_calculator.py",
+        "type": "artifact_contains",
+        "value": "def test_add"
+      },
+      {
+        "path": "tests/test_calculator.py",
+        "type": "artifact_contains",
+        "value": "def test_subtract"
+      },
+      {
+        "command": "python -m pytest tests -q",
+        "equals": 0,
+        "type": "exit_code"
+      }
+    ],
+    "assumptions": [
+      "pytest is installed in the execution environment (README states pytest is used for tests)",
+      "Python 3.x is the runtime and available as python on PATH",
+      "Running python -m pytest from the repository root puts the root on sys.path, so tests can import calculator without a conftest.py or package install",
+      "Ordinary arithmetic semantics are expected: add returns a + b, subtract returns a - b"
+    ],
+    "clarification": {
+      "required": [],
+      "resolved": []
+    },
+    "decisions": [
+      {
+        "choice": "Single flat module calculator.py at the repository root, tests in tests/test_calculator.py",
+        "level": "L1",
+        "reason": "The repo is a minimal single-module project with only README.md; a flat layout is the smallest structure that matches it.",
+        "subject": "Module placement"
+      },
+      {
+        "choice": "Run tests as python -m pytest tests -q from the repository root",
+        "level": "L1",
+        "reason": "python -m pytest adds the current directory to sys.path, so calculator imports resolve without adding conftest.py, packaging, or PYTHONPATH changes.",
+        "subject": "Test invocation"
+      },
+      {
+        "choice": "Plain pytest test functions using assert, covering positive, negative, and zero cases",
+        "level": "L2",
+        "reason": "Idiomatic pytest with no fixtures or dependencies; callable directly as free functions per the required API.",
+        "subject": "Test style"
+      },
+      {
+        "choice": "def add(a, b) and def subtract(a, b) returning a + b and a - b, with no validation or type coercion",
+        "level": "L2",
+        "reason": "The objective specifies these names and two-argument signatures; extra validation is unrequested scope.",
+        "subject": "Function signatures"
+      }
+    ],
+    "delivery_requirements": [
+      "Only calculator.py and tests/test_calculator.py are created or modified.",
+      "No new dependencies and no packaging or configuration files.",
+      "The full pytest suite passes from the repository root."
+    ],
+    "metadata": {
+      "created_at": "2026-11-21T00:00:00Z",
+      "created_by": "planner"
+    },
+    "nodes": [
+      {
+        "acceptance_criteria": [
+          {
+            "path": "calculator.py",
+            "type": "artifact_exists"
+          },
+          {
+            "path": "calculator.py",
+            "type": "artifact_contains",
+            "value": "def add("
+          },
+          {
+            "path": "calculator.py",
+            "type": "artifact_contains",
+            "value": "def subtract("
+          }
+        ],
+        "agent": {
+          "adapter": "claude-code",
+          "role": "python-developer"
+        },
+        "dependencies": [],
+        "description": "Create calculator.py at the repository root defining add(a, b) returning a + b and subtract(a, b) returning a - b. No other files change.",
+        "execution_config": {
+          "prompt": "In the repository root, create calculator.py containing exactly two public functions: add(a, b) returning a + b, and subtract(a, b) returning a - b. Keep it dependency-free and do not modify any existing file."
+        },
+        "expected_outputs": [
+          "calculator.py"
+        ],
+        "id": "implement_calculator",
+        "inputs": {
+          "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-244\\test_real_planning_investigati0\\workspace"
+        },
+        "name": "Implement calculator module",
+        "retry_policy": {
+          "max_retries": 2
+        },
+        "type": "agent"
+      },
+      {
+        "acceptance_criteria": [
+          {
+            "path": "tests/test_calculator.py",
+            "type": "artifact_exists"
+          },
+          {
+            "path": "tests/test_calculator.py",
+            "type": "artifact_contains",
+            "value": "def test_add"
+          },
+          {
+            "path": "tests/test_calculator.py",
+            "type": "artifact_contains",
+            "value": "def test_subtract"
+          }
+        ],
+        "agent": {
+          "adapter": "claude-code",
+          "role": "python-developer"
+        },
+        "dependencies": [
+          "implement_calculator"
+        ],
+        "description": "Create tests/test_calculator.py importing add and subtract from calculator and testing each with plain pytest test functions and assert statements.",
+        "execution_config": {
+          "prompt": "Create tests/test_calculator.py. Import add and subtract from calculator at the repository root. Write plain pytest test functions (test_add, test_subtract) using assert, covering positive numbers, negative numbers, and zero. Do not modify calculator.py or any other file."
+        },
+        "expected_outputs": [
+          "tests/test_calculator.py"
+        ],
+        "id": "add_pytest_tests",
+        "inputs": {
+          "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-244\\test_real_planning_investigati0\\workspace"
+        },
+        "name": "Add pytest tests",
+        "retry_policy": {
+          "max_retries": 2
+        },
+        "type": "agent"
+      },
+      {
+        "acceptance_criteria": [
+          {
+            "command": "python -m pytest tests -q",
+            "equals": 0,
+            "type": "exit_code"
+          }
+        ],
+        "agent": {
+          "adapter": "claude-code",
+          "role": "verifier"
+        },
+        "dependencies": [
+          "add_pytest_tests"
+        ],
+        "description": "Execute python -m pytest tests -q from the repository root and confirm the suite exits successfully.",
+        "execution_config": {
+          "prompt": "From the repository root run `python -m pytest tests -q`. If it fails, report the failure output; do not modify files outside calculator.py and tests/test_calculator.py."
+        },
+        "expected_outputs": [],
+        "id": "run_pytest",
+        "inputs": {
+          "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-244\\test_real_planning_investigati0\\workspace"
+        },
+        "name": "Run pytest suite",
+        "retry_policy": {
+          "max_retries": 2
+        },
+        "type": "agent"
+      }
+    ],
+    "objective": "Create calculator.py exposing add(a, b) and subtract(a, b), plus tests/test_calculator.py with pytest tests, keeping the change minimal and touching no other files.",
+    "project_context": {
+      "conventions": "Minimal Python project as described in README.md; pytest for tests; no external dependencies.",
+      "existing_directories": [],
+      "existing_files": [
+        "README.md"
+      ],
+      "git_branch": "master",
+      "git_status": "?? README.md",
+      "language": "Python",
+      "test_runner": "pytest",
+      "workdir": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\pytest-of-Administrator\\pytest-244\\test_real_planning_investigati0\\workspace"
+    },
+    "risks": [
+      "pytest may not be installed in the execution environment; installing it is out of scope, so the test node would fail until it is available.",
+      "Import resolution assumes tests run from the repository root; running from inside tests/ would break the import of calculator.",
+      "Floating-point assertions can be brittle; tests prefer integer operands to avoid precision issues."
+    ],
+    "scope": {
+      "excluded": [
+        "CLI entry points, packaging (setup.py/pyproject.toml), type stubs, CI configuration",
+        "Modifying README.md or any other existing file",
+        "Adding third-party dependencies"
+      ],
+      "included": [
+        "Create calculator.py at the repository root with add(a, b) and subtract(a, b)",
+        "Create tests/test_calculator.py with pytest tests covering add and subtract",
+        "Verify the tests pass with python -m pytest"
+      ]
+    },
+    "title": "Add calculator add/subtract module with pytest tests"
+  }
+}

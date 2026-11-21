@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import os
+import shlex
+import subprocess
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any
@@ -74,9 +77,15 @@ class DefaultVerifier(Verifier):
             passed = False
             detail = ""
             if kind == "exit_code":
-                expected = raw.get("equals", 0)
-                passed = exit_code == expected
-                detail = f"exit_code={exit_code}, expected={expected}"
+                expected = raw.get("equals", raw.get("expected", 0))
+                command = raw.get("command")
+                if command:
+                    passed, detail = self._run_command(
+                        str(command), expected, context or {}
+                    )
+                else:
+                    passed = exit_code == expected
+                    detail = f"agent exit_code={exit_code}, expected={expected}"
             elif kind == "output_contains":
                 needle = str(raw.get("value", ""))
                 passed = needle in output
@@ -122,6 +131,28 @@ class DefaultVerifier(Verifier):
             failed_conditions=failed,
             verified_at=utcnow(),
         )
+
+    def _run_command(
+        self, command: str, expected: int, context: dict[str, Any]
+    ) -> tuple[bool, str]:
+        base = Path(context.get("workdir") or ".")
+        try:
+            args = shlex.split(command, posix=os.name != "nt")
+            result = subprocess.run(
+                args,
+                cwd=base,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=float(context.get("command_timeout_seconds") or 300),
+                shell=False,
+            )
+        except (OSError, ValueError, subprocess.SubprocessError) as exc:
+            return False, f"command {command!r} failed to run: {exc}"
+        passed = result.returncode == expected
+        output = ((result.stdout or "") + (result.stderr or "")).strip()[-1000:]
+        return passed, f"command {command!r} exit={result.returncode}, expected={expected}; {output}"
 
 
 class CompletionVerifier:

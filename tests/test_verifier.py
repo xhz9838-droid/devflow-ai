@@ -92,6 +92,22 @@ def test_artifact_contains_checks_file_content(tmp_path):
     assert not DefaultVerifier().verify(_workflow(), failing, _result(), {"workdir": str(tmp_path)}).passed
 
 
+def test_exit_code_command_is_executed_in_workdir(tmp_path):
+    (tmp_path / "check.py").write_text("raise SystemExit(0)", encoding="utf-8")
+    node = _node(
+        config={
+            "acceptance": [
+                {"type": "exit_code", "command": "python check.py", "equals": 0}
+            ]
+        }
+    )
+    report = DefaultVerifier().verify(
+        _workflow(), node, _result(exit_code=99), {"workdir": str(tmp_path)}
+    )
+    assert report.passed
+    assert "exit=0" in report.evidence[0]["detail"]
+
+
 def test_default_verifier_rejects_invalid_condition():
     node = _node(config={"acceptance": [{"type": "telepathy"}]})
     report = DefaultVerifier().verify(_workflow(), node, _result())

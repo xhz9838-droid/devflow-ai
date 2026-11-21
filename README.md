@@ -5,11 +5,12 @@ DevFlow AI
 
 ## 当前状态
 
-P0.5 已完成：在 P0 核心引擎之上增加了真实 Claude Code 执行、Agent 进程生命周期、SQLite 单 Engine 租约、WCP 真实交接、运行中动态人工决策和多进程故障恢复，并通过真实 E2E。
+P0.5 已完成真实 Agent 可靠性验证；DF-018 已增加 Planning Layer 与 Plan / Execute 双阶段工作流：调研 → 决策策略 → 结构化 Plan → 不可变 Snapshot → 现有 Workflow Core 执行 → 受控 Plan Change。
 
 - 架构：[docs/architecture/P0-ARCHITECTURE.md](docs/architecture/P0-ARCHITECTURE.md)
-- 决策：[docs/decisions/ADR-001-P0-CORE.md](docs/decisions/ADR-001-P0-CORE.md)
-- P0 报告：[docs/implementation/P0-REPORT.md](docs/implementation/P0-REPORT.md)
+- Planning Layer：[docs/architecture/DF-018-PLANNING-ARCHITECTURE.md](docs/architecture/DF-018-PLANNING-ARCHITECTURE.md)
+- 决策：[docs/decisions/ADR-001-P0-CORE.md](docs/decisions/ADR-001-P0-CORE.md)、[ADR-DF-018](docs/decisions/ADR-DF-018-PLAN-EXECUTE.md)、[Decision Policy](docs/decisions/ADR-DF-018-DECISION-POLICY.md)
+- 实施报告：[docs/implementation/DF-018-IMPLEMENTATION-REPORT.md](docs/implementation/DF-018-IMPLEMENTATION-REPORT.md)
 - P0.5 验收：[docs/implementation/P0.5-ACCEPTANCE-REPORT.md](docs/implementation/P0.5-ACCEPTANCE-REPORT.md)
 - 分阶段报告：[docs/implementation/](docs/implementation/)
 - 基线盘点：[docs/baseline/](docs/baseline/)
@@ -26,6 +27,20 @@ python -m devflow --db devflow.db status <workflow-id>
 python -m devflow --db devflow.db inspect <workflow-id>
 python -m devflow --db devflow.db recover
 ```
+
+Planning Layer：
+
+```bash
+python -m devflow --workdir . plan create "给 calculator.py 增加 add/subtract 和 pytest 测试"
+python -m devflow plan show <plan-id>
+python -m devflow plan clarify <plan-id>
+python -m devflow plan answer <plan-id> <clarification-id> "按推荐方案"
+python -m devflow plan validate <plan-id>
+python -m devflow plan confirm <plan-id>
+python -m devflow workflow start --plan <plan-id>
+```
+
+`plan answer` 默认自动重规划；Plan 确认后 Snapshot 不可修改，执行期变化通过 Plan Change Request 处理。
 
 `start` 通过 Claude Code Adapter 调用本机 `claude` CLI。需要在临时/受控目录中允许文件编辑时，可显式传入：
 
@@ -78,9 +93,16 @@ devflow/
 ├── continuation.py     WCP
 ├── recovery.py         中断恢复
 ├── hitl.py             人工决策
-├── agent_protocol.py   运行中决策请求协议
+├── agent_protocol.py   运行中决策/计划变更请求协议
 ├── lease.py            单 Engine 租约
 ├── platform_proc.py    跨平台进程身份/终止
 ├── cli.py              控制入口
+├── planning/           Planning Layer
+│   ├── policy.py       L0-L3 Decision Policy
+│   ├── validator.py    Plan Schema/DAG/验收
+│   ├── store.py        Plan 持久化
+│   ├── planner.py      Planner 接口 + ClaudeCodePlanner
+│   ├── manager.py      Plan 编排
+│   └── changes.py      Plan Change Request
 └── agents/             Agent Adapter + Claude Code 实现
 ```

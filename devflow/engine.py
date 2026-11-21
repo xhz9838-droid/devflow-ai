@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import sqlite3
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict
@@ -14,9 +15,16 @@ from .agents.base import AgentAdapter, AgentResult
 from .agents.manager import AgentExecutionManager
 from .agent_protocol import (
     archive_decision_request,
+    archive_plan_change_request,
     decision_request_path,
+    plan_change_request_path,
     read_decision_request,
+    read_plan_change_request,
 )
+from .planning.changes import PlanChangeManager
+from .planning.models import PlanStatus
+from .planning.store import PlanStore
+from .planning.validator import to_workflow_nodes
 from .config import DevFlowConfig
 from .continuation import CheckpointManager
 from .db import Database
@@ -72,6 +80,8 @@ class WorkflowEngine:
         self.lease = EngineLease(
             self.store, ttl_seconds=config.engine_lease_seconds
         )
+        self.plans = PlanStore(self.db)
+        self.plan_changes = PlanChangeManager(self.plans, self.store, self.decisions)
 
     # ------------------------------------------------------------ lifecycle
     def create_workflow(
@@ -81,14 +91,79 @@ class WorkflowEngine:
         nodes: list[dict[str, Any]],
         *,
         context: dict[str, Any] | None = None,
+        plan_id: str | None = None,
+        plan_snapshot_id: str | None = None,
+        plan_version: int | None = None,
     ) -> Workflow:
         if not nodes:
             raise ValidationError("workflow needs at least one node")
         self.scheduler.validate(nodes)
-        workflow = self.store.create_workflow(name, goal, context)
-        stage = self.store.create_stage(workflow.id, "main", 0)
-        self.store.create_nodes(workflow.id, nodes, stage_id=stage.id)
-        return self.store.get_workflow(workflow.id)
+        return self.store.create_workflow_with_nodes(
+            name,
+            goal,
+            nodes,
+            context,
+            plan_id=plan_id,
+            plan_snapshot_id=plan_snapshot_id,
+            plan_version=plan_version,
+        )
+
+    def create_workflow_from_plan(
+        self, plan_id: str, *, context: dict[str, Any] | None = None
+    ) -> Workflow:
+        plan = self.plans.get_plan(plan_id)
+        if plan.workflow_id:
+            return self.store.get_workflow(plan.workflow_id)
+        if plan.status not in (PlanStatus.CONFIRMED, PlanStatus.EXECUTION_READY):
+            raise ValidationError(
+                f"plan {plan_id} is {plan.status.value}; confirm it before execution"
+            )
+        snapshot = self.plans.get_snapshot(plan_id)
+        if snapshot is None:
+            raise ValidationError(f"plan {plan_id} has no snapshot")
+        existing = self.store.find_workflow_by_snapshot(snapshot.id)
+        if existing is not None:
+            self.plans.bind_workflow(plan_id, existing.id)
+            return existing
+        nodes = to_workflow_nodes(
+            snapshot.plan_json, default_timeout=self.config.agent_timeout
+        )
+        try:
+            workflow = self.create_workflow(
+                plan.title,
+                plan.objective,
+                nodes,
+                context={
+                    "plan_id": plan.id,
+                    "plan_snapshot_id": snapshot.id,
+                    "plan_version": snapshot.version,
+                    **(context or {}),
+                },
+                plan_id=plan.id,
+                plan_snapshot_id=snapshot.id,
+                plan_version=snapshot.version,
+            )
+        except sqlite3.IntegrityError:
+            # Another process bound this snapshot concurrently.
+            existing = self.store.find_workflow_by_snapshot(snapshot.id)
+            if existing is None:
+                raise
+            self.plans.bind_workflow(plan.id, existing.id)
+            return existing
+        try:
+            self.plans.bind_workflow(plan.id, workflow.id)
+        except Exception:
+            existing = self.store.find_workflow_by_snapshot(snapshot.id)
+            if existing is not None:
+                return existing
+            raise
+        return workflow
+
+    def start_workflow_from_plan(
+        self, plan_id: str, *, context: dict[str, Any] | None = None
+    ) -> Workflow:
+        workflow = self.create_workflow_from_plan(plan_id, context=context)
+        return self.start(workflow.id)
 
     def start(self, workflow_id: str) -> Workflow:
         with self.lease:
@@ -160,6 +235,10 @@ class WorkflowEngine:
                 return workflow
 
             self.decisions.expire_overdue(workflow_id)
+            workflow = self.store.get_workflow(workflow_id)
+            if workflow.plan_id:
+                self.plan_changes.apply_approved(workflow_id)
+                workflow = self.store.get_workflow(workflow_id)
             if self.store.list_nodes(workflow_id, NodeStatus.RUNNING):
                 outcome = self.recovery.recover_workflow(workflow_id)
                 workflow = self.store.get_workflow(workflow_id)
@@ -394,6 +473,63 @@ class WorkflowEngine:
             return
 
         try:
+            change_data = read_plan_change_request(self.config.workdir, node_id)
+            change_error = None
+        except ValidationError as exc:
+            change_data = None
+            change_error = str(exc)
+        if change_data is not None:
+            try:
+                change = self.plan_changes.handle_request(
+                    workflow_id, node_id, change_data
+                )
+                archive_plan_change_request(self.config.workdir, node_id)
+                self.store.append_event(
+                    workflow_id,
+                    "plan.change_processed",
+                    {
+                        "change_request_id": change.id,
+                        "risk_level": change.risk_level.value,
+                        "status": change.status.value,
+                    },
+                    node_id=node_id,
+                )
+            except Exception as exc:
+                if run.status is AgentRunStatus.INTERRUPTED:
+                    self.store.append_event(
+                        workflow_id,
+                        "plan.change_invalid",
+                        {"error": f"{type(exc).__name__}: {exc}"},
+                        node_id=node_id,
+                    )
+                else:
+                    self.store.update_node_status(
+                        node_id,
+                        NodeStatus.FAILED,
+                        "plan change request failed",
+                        error=f"{type(exc).__name__}: {exc}",
+                        event_type="node.failed",
+                    )
+                    return
+        if change_error:
+            if run.status is AgentRunStatus.INTERRUPTED:
+                self.store.append_event(
+                    workflow_id,
+                    "plan.change_invalid",
+                    {"error": change_error},
+                    node_id=node_id,
+                )
+            else:
+                self.store.update_node_status(
+                    node_id,
+                    NodeStatus.FAILED,
+                    "invalid plan change request",
+                    error=change_error,
+                    event_type="node.failed",
+                )
+                return
+
+        try:
             request_spec = read_decision_request(self.config.workdir, node_id)
             request_error = None
         except ValidationError as exc:
@@ -582,6 +718,13 @@ class WorkflowEngine:
             "question (required), decision_type, options (list of {id, label}), "
             "reason, context, recommended, risk. Then stop. The engine will persist "
             "the decision and resume this node with a new Agent Run after it is resolved.\n\n"
+            "Plan change protocol:\n"
+            f"If the confirmed plan is materially wrong, write a JSON file to "
+            f"{plan_change_request_path(self.config.workdir, node.id)} with fields: "
+            "title, reason, impact, risk_level (LOW or MAJOR), proposed_changes "
+            "(add_nodes, update_nodes, remove_nodes, affected_nodes). Then stop the "
+            "current attempt. The engine records the request; MAJOR changes wait for "
+            "human approval. Do not edit the confirmed plan directly.\n\n"
             "Continuation context (authoritative state is persisted in SQLite):\n"
             f"{context_json}\n\n"
             "Execute this node and report the result. Do not declare the workflow "
@@ -612,6 +755,11 @@ class WorkflowEngine:
             "decisions": [asdict(d) for d in self.store.list_decisions(workflow_id)],
             "retries": [asdict(r) for r in self.store.list_retries(workflow_id)],
             "orphans": [asdict(r) for r in self.recovery.find_orphans(workflow_id)],
+            "plan_changes": (
+                [asdict(c) for c in self.plans.list_change_requests(workflow.plan_id)]
+                if workflow.plan_id
+                else []
+            ),
             "checkpoints": [asdict(c) for c in self.store.list_checkpoints(workflow_id)],
             "events": [asdict(e) for e in self.store.list_events(workflow_id, event_limit)],
         }
